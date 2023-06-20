@@ -1,0 +1,28 @@
+{
+  "name": "sero_cronos",
+  "version": "1.0.0",
+  "description": "Aplicacion cuya finalidad es actualizar datos de la db principal del sistema SERO, a una db complementaria. A través de  una interfaz de usuario para una mejor visualización y actualización de los datos.",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon index.js"
+  },
+  "keywords": [
+    "sero",
+    "sero cronos",
+    "migracion de datos",
+    "actualizacion de datos"
+  ],
+  "author": "David Demetrio López Paz",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "ejs": "^3.1.9",
+    "express": "^4.18.2",
+    "express-session": "^1.17.3",
+    "express-validator": "^7.0.1",
+    "nodemon": "^2.0.22"
+  }
+}
