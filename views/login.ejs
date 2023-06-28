@@ -1,9 +1,45 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <%- include() %>
+    <%- include('templates/head', { title: 'Login' }) %>
 </head>
-<body>
-    <h1>THIS IS THE LOGIN :):)</h1>
+<body style="background-image: url(img/fondo_login.jpeg); background-repeat: no-repeat; background-position: center; background-size: cover; height: 100%;">
+    <div class="container">
+        <div style="
+            background-color: rgb(37 64 97);
+            border-bottom: 8px solid #17e85d;
+            position: fixed;
+            top: 0;
+            right: 0;
+            left: 0;
+            z-index: 1030;
+            height: 4rem;"
+        ></div>    
+
+        <div class="card" style="position: relative; top: 10rem; left: 51rem; max-width: fit-content;">
+            <div class="card-body">
+                <form id="form">
+                    <h4 class="text-center">LOGIN</h4>
+                    <div class="row">
+                        <div class="column">
+                            <label for="user-name"></label>
+                            <input type="text" class="form-control" placeholder="Ingresa un usuario" aria-label="user-name">
+                        </div>
+                        <div class="column">
+                            <label for="password"></label>
+                            <input type="password" class="form-control">
+                        </div>
+                    </div>
+                    <div class="d-flex justify-content-center mt-4">
+                        <a class="btn btn-success" href="#" role="button">Ingresar</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+        
+        <div style="background-color: rgb(37 64 97); position: fixed; right: 0; bottom: 0; left: 0; z-index: 1030; height: 4rem;"></div>
+    </div>
+
+    <%- include('templates/footer') %>
 </body>
 </html>
