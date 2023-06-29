@@ -3,42 +3,55 @@
 <head>
     <%- include('templates/head', { title: 'Login' }) %>
 </head>
-<body style="background-image: url(img/fondo_login.jpeg); background-repeat: no-repeat; background-position: center; background-size: cover; height: 100%;">
-    <div class="container">
-        <div style="
-            background-color: rgb(37 64 97);
-            border-bottom: 8px solid #17e85d;
-            position: fixed;
-            top: 0;
-            right: 0;
-            left: 0;
-            z-index: 1030;
-            height: 4rem;"
-        ></div>    
+<body style="background-image: url(img/fondo_login.jpeg); background-repeat: no-repeat; background-position: center; background-size: cover; height: 100%; overflow: hidden;">
+    <div style="
+        background-color: rgb(37 64 97);
+        border-bottom: 8px solid #17e85d;
+        position: fixed;
+        top: 0;
+        right: 0;
+        left: 0;
+        z-index: 1;
+        height: 4rem;"
+    ></div> 
 
-        <div class="card" style="position: relative; top: 10rem; left: 51rem; max-width: fit-content;">
-            <div class="card-body">
-                <form id="form">
-                    <h4 class="text-center">LOGIN</h4>
-                    <div class="row">
-                        <div class="column">
-                            <label for="user-name"></label>
-                            <input type="text" class="form-control" placeholder="Ingresa un usuario" aria-label="user-name">
-                        </div>
-                        <div class="column">
-                            <label for="password"></label>
-                            <input type="password" class="form-control">
-                        </div>
+    <div class="container" style="margin-top: 13rem;">
+        <div class="row">
+            <div class="col"></div>
+            <div class="col">
+                <div class="card" style="width: fit-content; margin: 0 auto;">
+                    <div class="card-body">
+                        <form id="form">
+                            <h4 class="text-center fw-bold mb-4" style="color: rgb(37 64 97);">LOGIN</h4>
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="form-group">
+                                        <div class="form-floating mb-3">
+                                            <input type="text" class="form-control" id="user-name" placeholder="Ingresa un Usuario">
+                                            <label for="user-name" style="color: #c9bdbd;">Ingresa un Usuario</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="form-group">
+                                        <div class="form-floating mb-3">
+                                            <input type="password" class="form-control" id="user-password" placeholder="Ingresa una Contraseña">
+                                            <label for="user-password" style="color: #c9bdbd;">Ingresa una Contraseña</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="d-flex justify-content-center mt-3">
+                                <a class="btn" href="#" role="button" style="background-color: #2FD968; color: #fff; font-weight: 600;">Ingresar</a>
+                            </div>
+                        </form>
                     </div>
-                    <div class="d-flex justify-content-center mt-4">
-                        <a class="btn btn-success" href="#" role="button">Ingresar</a>
-                    </div>
-                </form>
+                </div>
             </div>
         </div>
-        
-        <div style="background-color: rgb(37 64 97); position: fixed; right: 0; bottom: 0; left: 0; z-index: 1030; height: 4rem;"></div>
     </div>
+
+    <div style="background-color: rgb(37 64 97); position: fixed; right: 0; bottom: 0; left: 0; z-index: 1; height: 4rem;"></div>
 
     <%- include('templates/footer') %>
 </body>

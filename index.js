@@ -1,7 +1,8 @@
 import express from "express";
 import cors from "cors";
-import {} from "dotenv/config";
+// import {} from "dotenv/config";
 import session from "express-session";
+import sequelize from "./config/db.js";
 
 const app = express();
 
@@ -23,12 +24,25 @@ app.use(express.static("public"));
 app.set("view engine", "ejs");
 app.set("views", "./views");
 
+// Conexión a DB
+sequelize.authenticate()
+    .then(() => {
+        console.log("Base de datos conectada");
+    })
+    .catch(error => {
+        console.log(error);
+    });
+
+app.get("/", (req, res) => {
+    if (req.session.logged) {
+        res.redirect("/");
+        return;
+    } 
+    res.redirect("/login")
+});
+
 app.get("/login", (req, res, next) => {
-    // if (req.session.loged) {
-        // res.redirect("/");
-    // } else {
-        res.render("login", { base_url: process.env.BASE_URL });
-    // }
+    res.render("login", { base_url: process.env.BASE_URL });
 });
 
 const port = process.env.PORT || 3000;
