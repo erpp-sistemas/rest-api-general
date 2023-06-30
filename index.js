@@ -1,8 +1,10 @@
 import express from "express";
-import cors from "cors";
-// import {} from "dotenv/config";
 import session from "express-session";
 import sequelize from "./config/db.js";
+import cors from "cors";
+
+// Routers API
+import router_api_auth from "./routes/api_auth.js";
 
 const app = express();
 
@@ -35,15 +37,18 @@ sequelize.authenticate()
 
 app.get("/", (req, res) => {
     if (req.session.logged) {
-        res.redirect("/");
+        res.render("index");
         return;
     } 
     res.redirect("/login")
 });
 
-app.get("/login", (req, res, next) => {
+app.get("/login", (req, res) => {
     res.render("login", { base_url: process.env.BASE_URL });
 });
+
+// Rutas del api
+app.use("/api/auth", router_api_auth);
 
 const port = process.env.PORT || 3000;
 
