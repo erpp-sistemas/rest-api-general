@@ -1,7 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <%- include('templates/head', { title: 'Login' }) %>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="<%= base_url %>css/normalize.css">
+    <link
+        rel="stylesheet"
+        href="<%= base_url %>css/bootstrap.min.css"
+        integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM"
+        crossorigin="anonymous"
+    >
+    <link rel="stylesheet" href="<%= base_url %>css/login.css">
 </head>
 <body style="
     background-image: url(img/fondo_login.jpeg);
@@ -85,7 +95,7 @@
 
     <div style="background-color: rgb(37 64 97); position: fixed; right: 0; bottom: 0; left: 0; z-index: 1; height: 4rem;"></div>
 
-    <%- include('templates/footer') %>
+    <%- include('templates/fotter') %>
     <script src="<%= base_url %>js/login.js"></script>
 </body>
 </html>

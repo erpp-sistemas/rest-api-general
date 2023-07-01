@@ -3,6 +3,8 @@ import session from "express-session";
 import sequelize from "./config/db.js";
 import cors from "cors";
 
+// Rutas de la vista
+import router_grupo_usuario from "./routes/grupo_usuario.js";
 // Routers API
 import router_api_auth from "./routes/api_auth.js";
 
@@ -37,15 +39,18 @@ sequelize.authenticate()
 
 app.get("/", (req, res) => {
     if (req.session.logged) {
-        res.render("index");
+        res.render("index", { base_url: process.env.BASE_URL });
         return;
     } 
-    res.redirect("/login")
+    res.redirect("/login");
 });
 
 app.get("/login", (req, res) => {
     res.render("login", { base_url: process.env.BASE_URL });
 });
+
+// Rutas de vistas
+app.use("/grupo_usuario", router_grupo_usuario);
 
 // Rutas del api
 app.use("/api/auth", router_api_auth);
