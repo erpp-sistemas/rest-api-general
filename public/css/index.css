@@ -5,7 +5,6 @@ html {
 * {
     margin: 0;
     padding: 0;
-    font-family: "Poppins", sans-serif;
 }
 
 *,
@@ -24,6 +23,37 @@ html {
 }
 
 /* Utilities */
+/* input::placeholder {
+    opacity: 0.8 !important;
+} */
+
+.text-blue-sys {
+    color: var(--blue-m);
+}
+
+/* tooltips */
+.tooltip-inner {
+    background-color: rgb(37,64,97) !important;
+}
+
+.bs-tooltip-auto[data-popper-placement^=right] .tooltip-arrow::before, .bs-tooltip-end .tooltip-arrow::before {
+    border-right-color: rgb(37,64,97) !important;
+}
+
+/* Tables */
+.table-sm>:not(caption)>*>* {
+    padding: 0.25rem 1.5rem !important;
+}
+
+/* buttons */
+.button-principal {
+    background-color: #2fd968 !important;
+    color: #fff !important;
+}
+
+.button-principal:hover {
+    background-color: #2bc45e !important;
+}
 
 /* Página de Inicio y  Sidebar_principal */
 .sidebar {

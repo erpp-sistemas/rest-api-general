@@ -1,11 +1,163 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <%- include('../templates/head', { title: 'Grupo de usuarios' }) %>
 </head>
 <body>
-    <h1>This is the view User group</h1>
+    <%- include('../templates/header') %> <%-
+    include('../templates/sidebar_principal') %>
+    <section class="home-section">
+        <div class="home-content mb-4">
+            <div class="d-flex align-items-center justify-content-center menu-sidebar">
+                <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="35"
+                    height="35"
+                    viewBox="0 0 24 24"
+                >
+                    <path fill="#254061" d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
+                </svg>
+            </div>
+            <span class="text">Grupo de usuarios</span>
+        </div>
+
+        <div class="container">
+            <div class="table-responsive">
+                <table class="table table-sm table-striped table-hover">
+                    <div class="text-end" style="padding: 1rem 0">
+                        <a href="#" class="btn button-principal btn-sm" role="button" data-bs-toggle="modal" data-bs-target="#modal-grupo-usuario">
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="22"
+                                height="22"
+                                viewBox="0 0 24 24"
+                            >
+                                <path fill="white" d="M11 19v-6H5v-2h6V5h2v6h6v2h-6v6h-2Z" />
+                            </svg>
+                            Nuevo grupo usuario
+                        </a>
+                    </div>
+
+                    <thead class="table-light">
+                        <tr>
+                            <th scope="col">Grupo de usuario</th>
+                            <th scope="col">Total usuarios</th>
+                            <th scope="col">Status</th>
+                            <th scope="col">Acciones</th>
+                        </tr>
+                    </thead>
+
+                    <tbody class="table-group-divider">
+                        <% grupos_usuario.forEach(grupo_usuario => { %>
+                            <tr>
+                                <td><%= grupo_usuario.grupo_usuario_nombre %></td>
+                                <td><%= grupo_usuario.total_usuarios %></td>
+                                <td><%= grupo_usuario.grupo_usuario_status %></td>
+                                <td>
+                                    <a
+                                        href="#"
+                                        class="d-inline-block text-blue-sys"
+                                        data-bs-toggle="tooltip"
+                                        data-bs-placement="right"
+                                        data-bs-title="Editar"
+                                    >
+                                        <svg
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            width="22"
+                                            height="22"
+                                            viewBox="0 0 24 24"
+                                        >
+                                            <path
+                                                fill="currentColor"
+                                                d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84
+                                                1.83l3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25Z"
+                                            />
+                                        </svg>
+                                    </a>
+                                    <a
+                                        href="#"
+                                        class="d-inline-block text-blue-sys"
+                                        data-bs-toggle="tooltip"
+                                        data-bs-placement="right"
+                                        data-bs-title="Eliminar"
+                                    >
+                                        <svg
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            width="22"
+                                            height="22"
+                                            viewBox="0 0 24 24"
+                                        >
+                                            <path
+                                                fill="currentColor"
+                                                d="M12 4c-4.419 0-8 3.582-8 8s3.581 8 8 8s8-3.582 8-8s-3.581-8-8-8zm3.707
+                                                10.293a.999.999 0 1 1-1.414 1.414L12 13.414l-2.293 2.293a.997.997 0 0 1-1.414
+                                                0a.999.999 0 0 1 0-1.414L10.586 12L8.293 9.707a.999.999 0 1 1 1.414-1.414L12
+                                                10.586l2.293-2.293a.999.999 0 1 1 1.414 1.414L13.414 12l2.293 2.293z"
+                                            />
+                                        </svg>
+                                    </a>
+                                </td>
+                            </tr>
+                        <% }) %>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- Modal user group -->
+    <div class="modal fade" id="modal-grupo-usuario" tabindex="-1" aria-labelledby="modal-grupo-usuario-label" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5 text-blue-sys" id="modal-grupo-usuario-label">Nuevo grupo usuario</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="input-group">
+                        <span class="input-group-text" id="grupo-usuario-nombre">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 256 256">
+                                <path
+                                    fill="#254061"
+                                    d="M164.38 181.1a52 52 0 1 0-72.76 0a75.89 75.89 0 0 0-30 28.89a12 12 0 0 0 20.78 12a53 53 0 0 1 91.22
+                                    0a12 12 0 1 0 20.78-12a75.89 75.89 0 0 0-30.02-28.89ZM100 144a28 28 0 1 1 28 28a28 28 0 0 1-28-28Zm147.21
+                                    9.59a12 12 0 0 1-16.81-2.39c-8.33-11.09-19.85-19.59-29.33-21.64a12 12 0 0 1-1.82-22.91a20 20 0 1 0-24.78-28.3a12
+                                    12 0 1 1-21-11.6a44 44 0 1 1 73.28 48.35a92.18 92.18 0 0 1 22.85 21.69a12 12 0 0 1-2.39 16.8Zm-192.28-24c-9.48
+                                    2.05-21 10.55-29.33 21.65a12 12 0 0 1-19.19-14.45a92.37 92.37 0 0 1 22.85-21.69a44 44 0 1 1 73.28-48.35a12 12 0
+                                    1 1-21 11.6a20 20 0 1 0-24.78 28.3a12 12 0 0 1-1.82 22.91Z
+                                ">
+                                </path>
+                            </svg>
+                        </span>
+                        <input
+                            id="input-grupo-usuario-nombre"
+                            type="text"
+                            class="form-control"
+                            placeholder="Nombre grupo usuario"
+                            aria-label="grupo-usuario-nombre"
+                            aria-describedby="grupo-usuario-nombre"
+                        >
+                        <div class="invalid-feedback"></div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <a href="#" role="button" class="btn button-principal btn-sm" id="btn-guardar-grupo-usuario">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24">
+                            <path
+                                fill="white"
+                                d="M5 21h14a2 2 0 0 0 2-2V8a1 1 0 0 0-.29-.71l-4-4A1 1 0 0 0 16 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2zm10-2H9v-5h6zM13
+                                7h-2V5h2zM5 5h2v4h8V5h.59L19 8.41V19h-2v-5a2 2 0 0 0-2-2H9a2 2 0 0 0-2 2v5H5z"
+                            />
+                        </svg>
+                        Guardar cambios
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <%- include('../templates/fotter') %>
+    <%- include('../templates/fotter_2') %>
+    <script src="<%= base_url %>js/grupo_usuario.js" type="module"></script>
 </body>
 </html>

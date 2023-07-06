@@ -7,6 +7,7 @@ import cors from "cors";
 import router_grupo_usuario from "./routes/grupo_usuario.js";
 // Routers API
 import router_api_auth from "./routes/api_auth.js";
+import router_api_grupo_usuario from "./routes/api_grupo_usuario.js";
 
 const app = express();
 
@@ -54,6 +55,7 @@ app.use("/grupo_usuario", router_grupo_usuario);
 
 // Rutas del api
 app.use("/api/auth", router_api_auth);
+app.use("/api/grupo_usuario", router_api_grupo_usuario);
 
 const port = process.env.PORT || 3000;
 
