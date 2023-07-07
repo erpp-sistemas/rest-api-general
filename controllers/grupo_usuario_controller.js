@@ -1,3 +1,4 @@
+import { validationResult } from 'express-validator';
 // Helpers
 import { obtener_hora_local } from "../helpers/fechas.js";
 // Modelos
@@ -41,6 +42,47 @@ export const guardar_nuevo_grupo_usuario = async (req, res, next) => {
         }
 
         res.status(201).send({ msg: 'Petición realizada con éxito' });
+    } catch (error) {
+        console.log(error);
+        res.status(400).send(error);
+        next();
+    }
+}
+
+export const editar_grupo_usuario = async (req, res, next) => {
+    try {
+        // Validaciones
+        const [errores_validacion] = validationResult(req).array();
+        if (errores_validacion) {
+            return res.status(400).send({ error: errores_validacion });
+        }
+
+        const { body } = req; 
+        const fecha = obtener_hora_local();
+        // Editar grupo usuario
+        await Grupo_usuario.update({
+            grupo_usuario_nombre: body.nombre_grupo_usuario,
+            grupo_usuario_fecha_modificacion: fecha
+        }, { where: { grupo_usuario_id: body.grupo_usuario_id } });
+
+        res.status(200).send({ msg: 'Petición realizada con éxito' });
+    } catch (error) {
+        console.log(error);
+        res.status(400).send(error);
+        next();
+    }
+}
+
+export const eliminar_grupo_usuario = async (req, res, next) => {
+    try {
+        // Validaciones
+        /* const [errores_validacion] = validationResult(req).array();
+        if (errores_validacion) {
+            return res.status(400).send({ error: errores_validacion });
+        } */
+
+        const { body } = req; 
+        console.log("body ------------------->", body);
     } catch (error) {
         console.log(error);
         res.status(400).send(error);

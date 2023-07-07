@@ -13,7 +13,7 @@ export const Grupo_usuario = sequelize.define('grupo_usuario', {
     },
     grupo_usuario_fecha_creacion: {
         type: DataTypes.STRING                  /* Desde el modelo se especifica como STRING, pero al momento de ser agregado a la DB, 
-                                                se guarda como DATETIME (así viene especificado desde MSSQL).
+                                                se guarda como DATETIME.
                                                 Para MSSQL no se puede especificar type: DataTypes.DATE, manda error. Por eso
                                                 se escribe en STRING */
     },

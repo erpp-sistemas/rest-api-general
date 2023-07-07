@@ -23,10 +23,6 @@ html {
 }
 
 /* Utilities */
-/* input::placeholder {
-    opacity: 0.8 !important;
-} */
-
 .text-blue-sys {
     color: var(--blue-m);
 }
@@ -53,6 +49,15 @@ html {
 
 .button-principal:hover {
     background-color: #2bc45e !important;
+}
+
+.button-principal-blue {
+    background-color: rgb(37,64,97) !important;
+    color: #fff !important;
+}
+
+.button-principal-blue:hover {
+    background-color: rgb(25, 43, 68) !important;
 }
 
 /* Página de Inicio y  Sidebar_principal */

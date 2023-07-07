@@ -71,9 +71,7 @@ const login = async () => {
         }
         const response = await fetch(`${base_url}api/auth`, {
             method: 'POST',
-            headers: {
-                "Content-Type": 'application/x-www-form-urlencoded'
-            },
+            headers: { "Content-Type": 'application/x-www-form-urlencoded' },
             body: new URLSearchParams(data_form)
         });
 

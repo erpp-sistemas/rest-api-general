@@ -1,7 +1,7 @@
 {
   "name": "sero_cronos",
   "version": "1.0.0",
-  "description": "Aplicacion cuya finalidad es actualizar datos de la db principal del sistema SERO, a una db complementaria.A través de  una interfaz de usuario para una mejor manipulación de los datos.",
+  "description": "Aplicacion cuya finalidad es actualizar datos de la db principal del sistema SERO, a una db complementaria. A través de  una interfaz de usuario para una mejor manipulación de los datos.",
   "type": "module",
   "main": "index.js",
   "scripts": {

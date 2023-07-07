@@ -3,7 +3,7 @@ const sidebar_btn = document.querySelector(".menu-sidebar");
 const sidebar = document.querySelector(".sidebar");
 
 /* Activar todos los tooltip del sistema usando Bootstrap */
-const tooltip_trigger_list = document.querySelectorAll('[data-bs-toggle="tooltip"]');
+const tooltip_trigger_list = document.querySelectorAll('[data-toggle="tooltip"]');
 const tooltip_list = [...tooltip_trigger_list].map(tooltip_trigger_el => new bootstrap.Tooltip(tooltip_trigger_el));
 
 const sidebar_fn = () => {
@@ -11,7 +11,7 @@ const sidebar_fn = () => {
     arrow.onclick = e => {
       const arrow_parent = e.target.closest(".arrow").parentElement.parentElement;
       arrow_parent.classList.toggle("show_menu");
-    }
+    } 
   });
 }
 
