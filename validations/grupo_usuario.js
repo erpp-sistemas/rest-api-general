@@ -17,4 +17,8 @@ export const validacion_existe_grupo_usuario = [
                 throw new Error('El grupo de usuario ya existe en el sistema. Intente con otro nombre.');
             }
         })
-]; 
+];
+
+export const validar_grupo_usuario_id = [
+    check('grupo_usuario_id', 'El grupo_usuario_id es requerido').notEmpty()
+];

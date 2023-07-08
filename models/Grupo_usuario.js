@@ -42,8 +42,10 @@ export const lista_grupo_usuarios = async () => {
                 ON grupo_usuario.grupo_usuario_id = usuario.grupo_usuario_id
             WHERE
                 grupo_usuario.grupo_usuario_status = 'A' AND
-                usuario.usuario_status = 'A' OR
-                usuario.usuario_status IS NULL
+                (
+                    usuario.usuario_status = 'A' OR
+                    usuario.usuario_status IS NULL
+                )
             GROUP BY
                 grupo_usuario.grupo_usuario_id,
                 grupo_usuario.grupo_usuario_fecha_creacion,

@@ -1,5 +1,5 @@
 import { mensaje_advertencia, mensaje_exito } from "./functions/mensajes.js";
-import { evento_cerrar_modal } from "./functions/ventana_modal.js";
+import { evento_cerrar_modal_formulario } from "./functions/ventana_modal.js";
 
 const btn_guardar_grupo_usuario = document.querySelector('#btn-guardar-grupo-usuario');
 const btn_nuevo_grupo_usuario = document.querySelector('a[data-bs-target="#modal-grupo-usuario"]');
@@ -86,11 +86,29 @@ const editar_grupo_usuario = async () => {
     }
 }
 
+/**
+ * @author David Demetrio López Paz
+ * Fecha creación: 05 de Julio de 2023
+ * Descripción:
+ *      Se utiliza la misma ventana modal que para editar usuario,
+ *      solo que el titulo del modal se sustituye por "Nuevo grupo usuario"
+ *      y el input tiene un value inicial vacío.
+ * @params ninguno
+*/
 const modal_nuevo_grupo_usuario = () => {
     titulo_modal_grupo_usuario.textContent = 'Nuevo grupo usuario';
     btn_guardar_grupo_usuario.dataset.fnExecute = "guardar_nuevo_grupo_usuario";
 }
 
+/**
+ * @author David Demetrio López Paz
+ * Fecha creación: 05 de Julio de 2023
+ * Descripción:
+ *      Se utiliza la misma ventana modal que para Nuevo grupo usuario,
+ *      solo que el titulo del modal se sustituye por "Editar grupo usuario"
+ *      y el input tiene un value inicial que corresponde al grupo usuario a editar
+ * @params ninguno
+*/
 const modal_editar_grupo_usuario = e => {
     titulo_modal_grupo_usuario.textContent = 'Editar grupo usuario';
     btn_guardar_grupo_usuario.dataset.fnExecute = "editar_grupo_usuario";
@@ -103,24 +121,10 @@ const modal_editar_grupo_usuario = e => {
     input_grupo_usuario.value = tag_tr_grupo_usuario.textContent.trim(); 
 }
 
-const eliminar_grupo_usuario = async e => {
+const eliminar_grupo_usuario = async data => {
     try {
-        const data_confirm = {
-            title: '¿Estás seguro de eliminar el grupo de usuario?',
-            confirm_button_text: 'Sí, eliminar',
-            cancel_button_text:'Cancelar'
-        };
-
-        // Se lanza un mensaje de alerta para confirmar la eliminación del grupo de usuario
-        const result_confirm = await mensaje_advertencia(data_confirm);
-        if (!result_confirm) return;
-        
-        const data = {
-            grupo_usuario_id: e.target.closest('tr').firstElementChild.getAttribute('grupo-usuario-id')
-        };
-
         const response = await fetch(`${base_url}api/grupo_usuario/eliminar_grupo_usuario`, {
-            method: 'DELETE',
+            method: 'PUT',
             headers: {
                 "Content-Type": 'application/x-www-form-urlencoded',
                 "auth-token": token, 
@@ -128,9 +132,41 @@ const eliminar_grupo_usuario = async e => {
             body: new URLSearchParams(data)
         });
         const result = await response.json();
+        return result;
     } catch (error) {
         console.log(error);
     }
+}
+
+const alerta_eliminar_grupo_usuario = e => {
+    const td_grupo_usuario = e.target.closest('tr').firstElementChild;
+
+    const data_confirm = {
+        text: `¿Estás seguro de eliminar el grupo de usuario ${td_grupo_usuario.textContent.trim()}?`,
+        confirm_button_text: 'Sí, eliminar',
+        cancel_button_text:'Cancelar'
+    };
+
+    mensaje_advertencia(data_confirm)
+        .then(result => {
+            // Se obtiene el boton del mensaje de alerta, se obtine de esta manera
+            // ya que se hace usando promise
+            const { msg_alerta } = result;
+            msg_alerta.querySelector('.boton-confirmacion').onclick = async () => {
+                try {
+                    const data = {
+                        grupo_usuario_id: td_grupo_usuario.getAttribute('grupo-usuario-id')
+                    };
+                    let result = await eliminar_grupo_usuario(data);
+                    if (result.error) return;
+                    result = { ...result, url: '/grupo_usuario' };
+                    msg_alerta.style.display = "none";
+                    mensaje_exito(result);
+                } catch (error) {
+                    console.log(error);
+                }
+            }
+        });   
 }
 
 const cargar_funciones_principales = () => {
@@ -147,13 +183,13 @@ const cargar_funciones_principales = () => {
     });
 
     btns_eliminar_grupos_usuario.forEach(btn_eliminar_grupo_usuario => {
-        btn_eliminar_grupo_usuario.addEventListener("click", eliminar_grupo_usuario);
+        btn_eliminar_grupo_usuario.addEventListener("click", alerta_eliminar_grupo_usuario);
     });
 }
 
 const fn_ejecutar = { guardar_nuevo_grupo_usuario, editar_grupo_usuario };
 
-evento_cerrar_modal();
+evento_cerrar_modal_formulario();
 
 window.addEventListener('DOMContentLoaded', cargar_funciones_principales);
 btn_guardar_grupo_usuario.addEventListener("click", () => {

@@ -42,7 +42,6 @@
                         <tr>
                             <th scope="col">Grupo de usuario</th>
                             <th scope="col">Total usuarios</th>
-                            <th scope="col">Status</th>
                             <th scope="col">Acciones</th>
                         </tr>
                     </thead>
@@ -54,7 +53,6 @@
                                     <%= grupo_usuario.grupo_usuario_nombre %>
                                 </td>
                                 <td><%= grupo_usuario.total_usuarios %></td>
-                                <td><%= grupo_usuario.grupo_usuario_status %></td>
                                 <td>
                                     <a
                                         href="#"
@@ -110,15 +108,27 @@
     </section>
 
     <!-- Modal user group -->
-    <div class="modal fade" id="modal-grupo-usuario" tabindex="-1" aria-labelledby="modal-grupo-usuario-label" aria-hidden="true">
+    <div class="modal modal-form fade" id="modal-grupo-usuario" tabindex="-1" aria-labelledby="modal-grupo-usuario-label" aria-hidden="true">
         <div class="modal-dialog">
             <form>
                 <div class="modal-content">
-                    <div class="modal-header">
-                        <h1 class="modal-title fs-5 text-blue-sys" id="modal-grupo-usuario-label"></h1>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <div class="modal-header bg-blue-sys text-white" style="border-bottom: none !important;">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 256 256">
+                            <path
+                                fill="white"
+                                d="M164.38 181.1a52 52 0 1 0-72.76 0a75.89 75.89 0 0 0-30 28.89a12 12 0 0 0 20.78 12a53 53 0 0 1
+                                91.22 0a12 12 0 1 0 20.78-12a75.89 75.89 0 0 0-30.02-28.89ZM100 144a28 28 0 1 1 28 28a28 28 0 0
+                                1-28-28Zm147.21 9.59a12 12 0 0 1-16.81-2.39c-8.33-11.09-19.85-19.59-29.33-21.64a12 12 0 0
+                                1-1.82-22.91a20 20 0 1 0-24.78-28.3a12 12 0 1 1-21-11.6a44 44 0 1 1 73.28 48.35a92.18 92.18
+                                0 0 1 22.85 21.69a12 12 0 0 1-2.39 16.8Zm-192.28-24c-9.48 2.05-21 10.55-29.33 21.65a12 12 0
+                                0 1-19.19-14.45a92.37 92.37 0 0 1 22.85-21.69a44 44 0 1 1 73.28-48.35a12 12 0 1 1-21 11.6a20
+                                20 0 1 0-24.78 28.3a12 12 0 0 1-1.82 22.91Z"
+                            />
+                        </svg>
+                        <h5 class="modal-title ms-2" id="modal-grupo-usuario-label"></h5>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    <div class="modal-body">
+                    <div class="modal-body bg-blue-sys">
                         <input id="input-grupo-usuario-id" type="hidden">
                         <div id="input-grupo-usuario" class="input-group">
                             <span class="input-group-text" id="grupo-usuario-nombre">
@@ -146,7 +156,7 @@
                             <div class="invalid-feedback"></div>
                         </div>
                     </div>
-                    <div class="modal-footer">
+                    <div class="modal-footer bg-blue-sys" style="padding: 0.5rem 1rem; border-top: none !important;">
                         <a href="#" role="button" class="btn button-principal btn-sm" id="btn-guardar-grupo-usuario">
                             <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24">
                                 <path

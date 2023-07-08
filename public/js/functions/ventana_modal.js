@@ -1,6 +1,6 @@
-export const evento_cerrar_modal = () => {
-    const ventanas_modales = document.querySelectorAll('.modal');
-    ventanas_modales.forEach(modal => {
+export const evento_cerrar_modal_formulario = () => {
+    const ventanas_modales_formulario = document.querySelectorAll('.modal-form');
+    ventanas_modales_formulario.forEach(modal => {
         // Detecta cuando una ventana modal es cerrada
         modal.addEventListener('hidden.bs.modal', () => {
             /**

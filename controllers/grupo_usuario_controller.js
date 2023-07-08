@@ -23,7 +23,7 @@ export const guardar_nuevo_grupo_usuario = async (req, res, next) => {
 
         // Crea el nuevo grupo de usuario, solo si no se encuentra registrado en la DB
         const [, crear_grupo_usuario] = await Grupo_usuario.findOrCreate({
-            where: { grupo_usuario_nombre: body.nombre_grupo_usuario },
+            where: { grupo_usuario_nombre: body.nombre_grupo_usuario, grupo_usuario_status: 'A' },
             defaults: {
                 grupo_usuario_nombre: body.nombre_grupo_usuario,
                 grupo_usuario_fecha_creacion: fecha,
@@ -41,7 +41,7 @@ export const guardar_nuevo_grupo_usuario = async (req, res, next) => {
             return;
         }
 
-        res.status(201).send({ msg: 'Petición realizada con éxito' });
+        res.status(201).send({ msg: '¡Nuevo grupo de usuario!' });
     } catch (error) {
         console.log(error);
         res.status(400).send(error);
@@ -65,7 +65,7 @@ export const editar_grupo_usuario = async (req, res, next) => {
             grupo_usuario_fecha_modificacion: fecha
         }, { where: { grupo_usuario_id: body.grupo_usuario_id } });
 
-        res.status(200).send({ msg: 'Petición realizada con éxito' });
+        res.status(200).send({ msg: '¡Cambios guardados!' });
     } catch (error) {
         console.log(error);
         res.status(400).send(error);
@@ -76,13 +76,20 @@ export const editar_grupo_usuario = async (req, res, next) => {
 export const eliminar_grupo_usuario = async (req, res, next) => {
     try {
         // Validaciones
-        /* const [errores_validacion] = validationResult(req).array();
+        const [errores_validacion] = validationResult(req).array();
         if (errores_validacion) {
             return res.status(400).send({ error: errores_validacion });
-        } */
+        }
 
-        const { body } = req; 
-        console.log("body ------------------->", body);
+        const { body } = req;
+        const fecha = obtener_hora_local();
+        // Deshabilitar grupo usuario
+        await Grupo_usuario.update({
+            grupo_usuario_fecha_modificacion: fecha,
+            grupo_usuario_status: 'I'
+        }, { where: { grupo_usuario_id: body.grupo_usuario_id } });
+
+        res.status(200).send({ msg: '¡Eliminado!' });
     } catch (error) {
         console.log(error);
         res.status(400).send(error);

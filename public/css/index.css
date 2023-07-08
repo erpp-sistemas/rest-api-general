@@ -27,6 +27,10 @@ html {
     color: var(--blue-m);
 }
 
+.bg-blue-sys {
+    background-color: var(--blue-m);
+}
+
 /* tooltips */
 .tooltip-inner {
     background-color: rgb(37,64,97) !important;
