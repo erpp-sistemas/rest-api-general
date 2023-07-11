@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include('../templates/head', { title: 'Usuarios' }) %>
+</head>
+<body>
+    <%- include('../templates/header') %>
+    <%- include('../templates/sidebar_principal') %>
+    <section class="home-section">
+        <%- include('../templates/navbar', { home_content_name: 'Usuarios' }) %>
+        <div class="container mt-3">
+            <div class="table-responsive">
+                <table class="table table-sm table-striped table-hover">
+                    <div class="text-end" style="padding: 1rem 0">
+                        <a
+                            href="#"
+                            class="btn button-principal btn-sm"
+                            role="button"
+                            data-bs-toggle="modal"
+                            data-bs-target="#modal-usuario"
+                        >
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="22"
+                                height="22"
+                                viewBox="0 0 24 24"
+                            >
+                                <path fill="white" d="M11 19v-6H5v-2h6V5h2v6h6v2h-6v6h-2Z" />
+                            </svg>
+                            Nuevo usuario
+                        </a>
+                    </div>
+
+                    <thead class="table-light">
+                        <tr>
+                            <th scope="col">Usuario</th>
+                            <th scope="col">Nombre</th>
+                            <th scope="col">Cargo</th>
+                            <th scope="col">E-mail</th>
+                            <th scope="col">Dirección</th>
+                            <th scope="col">Grupo usuario</th>
+                            <th scope="col">Acciones</th>
+                        </tr>
+                    </thead>
+
+                    <tbody class="table-group-divider">
+                        <% usuarios.forEach(usuario => { %>
+                            <tr>
+                                <td><%= usuario.usuario_nombre_usuario %></td>
+                                <td><%= usuario.nombre_completo %></td>
+                            </tr>
+                        <% }) %>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <%- include('../templates/fotter') %>
+    <%- include('../templates/fotter_2') %>
+</body>
+</html>

@@ -5,6 +5,8 @@ import cors from "cors";
 
 // Rutas de la vista
 import router_grupo_usuario from "./routes/grupo_usuario.js";
+import router_usuarios from "./routes/usuarios.js";
+
 // Routers API
 import router_api_auth from "./routes/api_auth.js";
 import router_api_grupo_usuario from "./routes/api_grupo_usuario.js";
@@ -52,6 +54,7 @@ app.get("/login", (req, res) => {
 
 // Rutas de vistas
 app.use("/grupo_usuario", router_grupo_usuario);
+app.use("/usuarios", router_usuarios);
 
 // Rutas del api
 app.use("/api/auth", router_api_auth);

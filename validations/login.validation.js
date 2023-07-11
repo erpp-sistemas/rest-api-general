@@ -12,7 +12,6 @@ export const login_validation = [
                     usuario_status: "A"
                 }
             });
-
             if (!usuario) {
                 throw new Error('El usuario no está registrado en el sistema. Intente con otro.');
             }

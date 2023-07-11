@@ -1,5 +1,6 @@
 import { DataTypes } from "sequelize";
 import sequelize from "../config/db.js";
+import { Grupo_usuario } from "./Grupo_usuario.js";
 
 export const Usuario = sequelize.define('usuario', {
     usuario_id: {
@@ -15,6 +16,9 @@ export const Usuario = sequelize.define('usuario', {
         type: DataTypes.STRING
     },
     usuario_apellidos: {
+        type: DataTypes.STRING        
+    },
+    usuario_cargo: {
         type: DataTypes.STRING        
     },
     usuario_direccion: {
@@ -43,3 +47,21 @@ export const Usuario = sequelize.define('usuario', {
     timestamps: false,
     freezeTableName: true
 });
+
+// Relaciones
+Usuario.belongsTo(Grupo_usuario, { foreignKey: 'grupo_usuario_id' });
+
+export const lista_usuarios_activos = async () => {
+    try {
+        const [usuarios, metadata] = await sequelize.query(`  
+            SELECT
+                *,
+                CONCAT_WS(' ', usuario.usuario_nombre, usuario.usuario_apellidos) AS nombre_completo
+            FROM usuario
+            WHERE usuario.usuario_status = 'A';
+        `);
+        return usuarios;
+    } catch (error) {
+        console.log(error);
+    }
+}

@@ -27,6 +27,14 @@ html {
     color: var(--blue-m);
 }
 
+.cr-pointer {
+    cursor: pointer;
+}
+
+.arrow-rotate {
+    transform: rotate(90deg);
+}
+
 .bg-blue-sys {
     background-color: var(--blue-m);
 }
@@ -62,6 +70,11 @@ html {
 
 .button-principal-blue:hover {
     background-color: rgb(25, 43, 68) !important;
+}
+
+/* Navbar */
+.arrow-profile {
+    transition: all 0.3s ease;
 }
 
 /* Página de Inicio y  Sidebar_principal */
@@ -178,13 +191,13 @@ html {
     display: none;
 }
 
-.sidebar .nav-links li a {
+.sidebar .nav-links li a, .menu-profile li a {
     display: flex;
     align-items: center;
     text-decoration: none;
 }
 
-.sidebar .nav-links li a .link_name {
+.sidebar .nav-links li a .link_name, .menu-profile li a {
     font-size: 18px;
     font-weight: 400;
     color: var(--blue-m);
@@ -263,41 +276,41 @@ html {
     transform: translateY(-50%);
 }
 
-.sidebar .profile-details {
+/* .sidebar */ .profile-details {
     position: fixed;
-    bottom: 0;
-    width: 260px;
+    right: 0.7rem;
+    /* width: 260px; */
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    background: #f3f1f6;
-    padding: 12px 0;
+    /* justify-content: space-between; */
+    /* background: #f3f1f6; */
+    /* padding: 12px 0; */
     transition: all 0.5s ease;
 }
 
-.sidebar.close .profile-details {
+/* .sidebar.close .profile-details {
     background: none;
-}
+} */
 
-.sidebar.close .profile-details {
+/* .sidebar.close .profile-details {
     width: 78px;
-}
+} */
 
-.sidebar .profile-details .profile-content {
+.home-content .profile-details .profile-content {
     display: flex;
     align-items: center;
 }
 
-.sidebar .profile-details img {
+.home-content .profile-details img {
     height: 52px;
     width: 52px;
     object-fit: cover;
-    border-radius: 16px;
+    border-radius: 2rem;
     margin: 0 14px 0 12px;
     background: #1d1b31;
 }
 
-.sidebar .profile-details .profile_name,
+/* .sidebar */ .profile-details .profile_name,
 .sidebar .profile-details .job {
     color: var(--blue-m);
     font-size: 18px;
@@ -306,15 +319,15 @@ html {
     transition: all 5s ease;
 }
 
-.sidebar.close .profile-details i,
+/* .sidebar.close .profile-details i,
 .sidebar.close .profile-details .profile_name,
 .sidebar.close .profile-details .job {
     display: none;
-}
+} */
 
-.sidebar .profile-details .job {
+/* .sidebar .profile-details .job {
     font-size: 12px;
-}
+} */
 
 .home-section {
     position: relative;

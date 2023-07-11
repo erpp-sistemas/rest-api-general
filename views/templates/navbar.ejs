@@ -1,0 +1,48 @@
+<div class="home-content">
+    <div class="d-flex align-items-center justify-content-center menu-sidebar">
+        <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" viewBox="0 0 24 24">
+            <path fill="#254061" d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
+        </svg>
+    </div>
+    <span class="text"><%= home_content_name %></span>
+    <div class="profile-details">
+        <div class="profile-content">
+            <img src="http://placebeard.it/250/250" alt="profileImg">
+        </div>
+        <div class="name-job">
+            <div class="profile_name"></div>
+            <div class="usuario-cargo"></div>
+        </div>
+        <div class="cr-pointer ms-2 arrow-profile">
+            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24">
+                <path fill="none" stroke="#254061" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m10 17l5-5m0 0l-5-5"/>
+            </svg>
+        </div>
+    </div>
+    <div class="position-fixed drop-down" style="right: 10.8rem; top: 4rem;">
+        <ul class="dropdown-menu menu-profile">
+            <li>
+                <a class="dropdown-item d-flex align-items-center fs-6" href="#">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24">
+                        <path fill="#254061" d="
+                                M15.71 12.71a6 6 0 1 0-7.42 0a10 10 0 0 0-6.22 8.18a1 1 0 0 0 2 .22a8 8 0 0 1 15.9 0a1 1 0 0 0 1 .89h.11a1 1
+                                0 0 0 .88-1.1a10 10 0 0 0-6.25-8.19ZM12 12a4 4 0 1 1 4-4a4 4 0 0 1-4 4Z
+                            "></path>
+                    </svg>
+                    <span class="ms-2">Perfil</span>
+                </a>
+            </li>
+            <li><hr class="dropdown-divider"></li>
+            <li id="logout">
+                <a class="dropdown-item d-flex align-items-center fs-6" href="#">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24">
+                        <g fill="none" stroke="#254061" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+                            <path d="M10 8V6a2 2 0 0 1 2-2h7a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2h-7a2 2 0 0 1-2-2v-2"/>
+                            <path d="M15 12H3l3-3m0 6l-3-3"/>
+                        </g></svg>
+                    <span class="ms-2">Cerrar sesión</span>
+                </a>
+            </li>
+       </ul>    
+    </div>
+</div>

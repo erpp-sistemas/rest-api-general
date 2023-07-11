@@ -13,7 +13,6 @@ export const login = async (req, res, next) => {
 
         const { body } = req;
         const usuario = await Usuario.findOne({ where: { usuario_nombre_usuario: body.usuario_nombre} });
-
         // Generar JWT
         // El token expira en 1 día
         const jsonwebtoken = jwt.sign(
@@ -24,7 +23,6 @@ export const login = async (req, res, next) => {
             process.env.TOKEN_SECRET,
             { expiresIn: '86400s' }
         );
-       
         // Iniciar sesión de usuario
         req.session.logged = true;
         req.session.usuario_id = usuario.usuario_id;
@@ -35,11 +33,24 @@ export const login = async (req, res, next) => {
             usuario: usuario.usuario_nombre_usuario,
             usuario_nombre: usuario.usuario_nombre,
             usuario_apellidos: usuario.usuario_apellidos,
+            usuario_cargo: usuario.usuario_cargo,
             grupo_usuario_id: usuario.grupo_usuario_id,
             token: jsonwebtoken
         };
 
         res.status(200).header('auth-token', jsonwebtoken).json({ data: data });
+    } catch (error) {
+        console.log(error);
+        res.status(400).send(error);
+        next();
+    }
+}
+
+export const logout = async (req, res, next) => {
+    try {
+        // const { body } = req;
+        req.session.destroy();
+        res.status(200).send({ msg: 'Sesión cerrada con éxito' });
     } catch (error) {
         console.log(error);
         res.status(400).send(error);

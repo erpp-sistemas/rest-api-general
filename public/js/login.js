@@ -54,6 +54,7 @@ const insertar_datos_localStorage = result => {
     local_storage.setItem("usuario", data.usuario);
     local_storage.setItem("usuario_nombre", data.usuario_nombre);
     local_storage.setItem("usuario_apellidos", data.usuario_apellidos);
+    local_storage.setItem("usuario_cargo", data.usuario_cargo);
 
     // Renderisar a la vista principal
     window.location.href = "/";
