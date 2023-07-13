@@ -5,11 +5,9 @@ import { Usuario, get_datos_usuario, lista_usuarios_activos } from "../models/Us
 
 export const vista_usuarios = async (req, res, next) => {
     try {
-        // const usuarios = await lista_usuarios_activos();
         const cat_grupos_usuario = await Grupo_usuario.findAll({ where: { grupo_usuario_status: 'A' } });
         const data = {
             base_url: process.env.BASE_URL,
-            // usuarios: usuarios,
             cat_grupos_usuario: cat_grupos_usuario
         };
         res.render("usuarios/usuarios", data);
@@ -23,39 +21,71 @@ export const vista_usuarios = async (req, res, next) => {
 export const get_registros_usuarios = async (req, res, next) => {
     try {
         const { body } = req;
-        // console.log("body ---------------------->", body);
-
-        const total_usuarios = await Usuario.count({ where: { usuario_status: 'A' } });
+        const pagina_actual = parseInt(body.pagina);
+    
+        /**
+         * @const paginas_a_mostrar almacena el número de páginas
+         * que se debe visualizar en la paginación.
+        */
+        const paginas_a_mostrar = 3;
+        /**
+            * @const pasos_retroceder almacena el número de pasos a retroceder
+            * para obtener el límite inferior de la paginación.
+        */
+        const pasos_retroceder = 2;
         const registros_por_pagina = 8;
+        const total_usuarios = await Usuario.count({ where: { usuario_status: 'A' } });
         const total_paginas = Math.ceil(parseFloat(total_usuarios) / registros_por_pagina);
-        // console.log("total_paginas ---------------------->", total_paginas);
+       
+        const indice_pagina = (pagina_actual * registros_por_pagina) - registros_por_pagina;
 
-        const data_paginacion = {
-            pagina_actual: parseInt(body.pagina),
-            registros_por_pagina: registros_por_pagina
-        };
-
+        const data_paginacion = { indice_pagina, registros_por_pagina };
         const usuarios = await lista_usuarios_activos(data_paginacion);
-        // por cada pagina abrá un total de 8
 
+        /**
+         * Obtener límite inferior y superior
+        */
+        let limite_superior = pagina_actual;
+        let limite_inferior = 0;
+        
+        while ( limite_superior % paginas_a_mostrar != 0 ) { limite_superior ++ };
 
-        // suponer total usuarios 1000 (1000 / 8)  ----> 38 páginas math.ceil
-                            // 1-38
-                            // 1-5 6-10 11-15 16-20 20-25, ...
-                            // ir mostrando de 5 en 5 paginas
-                                    // limite inferior y limite superior
-                                        // inicial mente es 1 y 5   limit inf pagina incicial
-                                        // cuatro pasos más para llegar al cinco
-                                                // 3 4 5 6 7
-        // inicial mente limite inferior es 1
+        limite_inferior = parseFloat(limite_superior) - pasos_retroceder;
+        limite_superior = total_paginas < limite_superior ? total_paginas : limite_superior;
 
-        // pagina
-        // total a mostrar 8
-        // limite inferior
-        // limite superior
+        // Construir la paginación
+        const btn_previous = pagina_actual != 1
+            ? '<li class="page-item"><a class="page-link" href="#!" aria-label="previous"><span aria-hidden="true">&laquo;</span></a></li>'
+            : '<li class="page-item d-none"><a class="page-link" href="#!" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>'
+        ;
+
+        const btn_next = pagina_actual != total_paginas
+            ? '<li class="page-item"><a class="page-link" href="#!" aria-label="next"><span aria-hidden="true">&raquo;</span></a></li>'
+            : '<li class="page-item d-none"><a class="page-link" href="#!" aria-label="Next"><span aria-hidden="true">&raquo;</span></a></li>'
+        ;
+        
+        let paginas = [];
+        for (let pagina = limite_inferior; pagina <= limite_superior; pagina++) {
+            if (pagina == pagina_actual) {
+                paginas = [
+                    ...paginas,
+                    `<li class="page-item"><a class="page-link button-principal-blue" href="#!" data-pagina="${pagina}">${pagina}</a></li>`
+                ];
+                continue;
+            }
+            
+            paginas = [
+                ...paginas,
+                `<li class="page-item"><a class="page-link" href="#!" data-pagina="${pagina}">${pagina}</a></li>`
+            ];
+        }
 
         const data = {
-            usuarios: usuarios
+            usuarios,
+            pagina_actual,
+            btn_previous,
+            btn_next,
+            paginas
         };
 
         res.status(200).send(data);
@@ -69,6 +99,7 @@ export const get_registros_usuarios = async (req, res, next) => {
 export const nuevo_usuario = async (req, res, next) => {
     try {
         const { body } = req;
+
         // Validar si el nombre de usuario ya existe en la DB
         const user = await Usuario.findOne({ where: { usuario_nombre_usuario: body.usuario_nombre_usuario, usuario_status: 'A' } });
         if (user) {

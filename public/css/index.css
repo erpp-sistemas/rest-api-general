@@ -278,7 +278,7 @@ html {
 
 /* .sidebar */ .profile-details {
     position: absolute;
-    right: 0.7rem;
+    right: 1.5rem;
     /* width: 260px; */
     display: flex;
     align-items: center;

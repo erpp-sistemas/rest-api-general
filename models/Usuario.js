@@ -79,14 +79,26 @@ export const lista_usuarios_activos = async data => {
     try {
         const [usuarios, metadata] = await sequelize.query(`  
             SELECT
-                *,
-                CONCAT_WS(' ', usuario.usuario_nombre, usuario.usuario_apellidos) AS nombre_completo
+                grupo_usuario.grupo_usuario_fecha_creacion,
+                grupo_usuario.grupo_usuario_fecha_modificacion,
+                grupo_usuario.grupo_usuario_id,
+                grupo_usuario.grupo_usuario_nombre,
+                CONCAT_WS(' ', usuario.usuario_nombre, usuario.usuario_apellidos) AS nombre_completo,
+                usuario.usuario_apellidos,
+                IIF(usuario.usuario_cargo IS NOT NULL, usuario.usuario_cargo, '') AS usuario_cargo,
+                IIF(usuario.usuario_direccion IS NOT NULL, usuario.usuario_direccion, '') AS usuario_direccion,
+                IIF(usuario.usuario_email IS NOT NULL, usuario.usuario_email, '') AS usuario_email,
+                usuario.usuario_fecha_creacion,
+                usuario.usuario_fecha_modificacion,
+                usuario.usuario_id,
+                usuario.usuario_nombre,
+                usuario.usuario_nombre_usuario
             FROM usuario
             JOIN grupo_usuario
                 ON grupo_usuario.grupo_usuario_id = usuario.grupo_usuario_id
             WHERE usuario.usuario_status = 'A'
             ORDER BY usuario.usuario_fecha_creacion DESC
-			OFFSET ${data.pagina_actual - 1} ROWS FETCH NEXT ${data.registros_por_pagina} ROWS ONLY;
+			OFFSET ${data.indice_pagina} ROWS FETCH NEXT ${data.registros_por_pagina} ROWS ONLY;
         `);
         return usuarios;
     } catch (error) {

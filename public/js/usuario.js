@@ -4,11 +4,12 @@ import { evento_cerrar_modal_formulario } from "./functions/ventana_modal.js";
 const btn_guardar_usuario = document.querySelector('#btn-guardar-usuario');
 const btn_nuevo_usuario = document.querySelector('a[data-bs-target="#modal-usuario"]');
 const titulo_modal_usuario = document.querySelector('#modal-usuario-label');
-const btns_editar_usuarios = document.querySelectorAll('.editar-usuario');
-const btns_eliminar_usuario = document.querySelectorAll('.eliminar-usuario');
 
 const input_usuario_id = document.querySelector('#input-usuario-id');
 const inputs_form = document.querySelectorAll('.input-validar');
+
+const tbody_usuarios = document.querySelector('.tbody-usuarios');
+const paginacion_html = document.querySelector('.pagination'); 
 
 const regex_email = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
 let obj_usuario = {
@@ -127,9 +128,31 @@ const alerta_eliminar_usuario = e => {
         });   
 }
 
+const construir_paginacion = data => {
+    const { btn_previous, btn_next, paginas } = data;
+    
+    paginacion_html.insertAdjacentHTML('beforeend', btn_previous);
+    paginacion_html.insertAdjacentHTML('beforeend', paginas.join(''));
+    paginacion_html.insertAdjacentHTML('beforeend', btn_next);
+
+    document.querySelectorAll('.page-item').forEach(pagina_html => {
+        pagina_html.onclick = () => cambiar_de_pagina(pagina_html); 
+    });
+
+    const btns_editar_usuarios = document.querySelectorAll('.editar-usuario');
+    const btns_eliminar_usuario = document.querySelectorAll('.eliminar-usuario');
+
+    btns_editar_usuarios.forEach(btn_editar_usuario => { btn_editar_usuario.onclick = modal_editar_usuario });
+    btns_eliminar_usuario.forEach(btn_eliminar_usuario => { btn_eliminar_usuario.onclick = alerta_eliminar_usuario });
+}
+
 const mostrar_registros_usuarios = async data => {
     try {
-        console.log("INSERT ROWS USERS");
+        // Resetear paginación
+        while (paginacion_html.firstChild) {
+            paginacion_html.firstChild.remove();
+        }
+
         const response = await fetch(`${base_url}api/usuario/registros_usuarios`, {
             method: 'POST',
             headers: {
@@ -139,29 +162,109 @@ const mostrar_registros_usuarios = async data => {
             body: new URLSearchParams(data)
         });
         const result = await response.json();
+        const { usuarios } = result;
+
+        const tags_tr_usuarios = usuarios.map(usuario => {
+            const tr_table_html = `
+                <tr>
+                    <td usuario-id="${usuario.usuario_id}">${usuario.usuario_nombre_usuario}</td>
+                    <td>${usuario.nombre_completo}</td>
+                    <td>${usuario.usuario_cargo}</td>
+                    <td>${usuario.usuario_email}</td>
+                    <td>${usuario.usuario_direccion}</td>
+                    <td>${usuario.grupo_usuario_nombre}</td>
+                    <td>
+                        <a
+                            href="#"
+                            class="d-inline-block text-blue-sys editar-usuario"
+                            data-bs-toggle="modal"
+                            data-toggle="tooltip"
+                            data-bs-target="#modal-usuario"
+                            data-bs-placement="right"
+                            data-bs-title="Editar"
+                        >
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="22"
+                                height="22"
+                                viewBox="0 0 24 24"
+                            >
+                                <path
+                                    fill="currentColor"
+                                    d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84
+                                    1.83l3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25Z"
+                                />
+                            </svg>
+                        </a>
+                        <a
+                            href="#"
+                            class="d-inline-block text-blue-sys eliminar-usuario"
+                            data-toggle="tooltip"
+                            data-bs-placement="right"
+                            data-bs-title="Eliminar"
+                        >
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="22"
+                                height="22"
+                                viewBox="0 0 24 24"
+                            >
+                                <path
+                                    fill="currentColor"
+                                    d="M12 4c-4.419 0-8 3.582-8 8s3.581 8 8 8s8-3.582 8-8s-3.581-8-8-8zm3.707
+                                    10.293a.999.999 0 1 1-1.414 1.414L12 13.414l-2.293 2.293a.997.997 0 0 1-1.414
+                                    0a.999.999 0 0 1 0-1.414L10.586 12L8.293 9.707a.999.999 0 1 1 1.414-1.414L12
+                                    10.586l2.293-2.293a.999.999 0 1 1 1.414 1.414L13.414 12l2.293 2.293z"
+                                />
+                            </svg>
+                        </a>
+                    </td>
+                </tr>
+            `;
+            return tr_table_html;
+        });
+
+        tbody_usuarios.innerHTML = tags_tr_usuarios.join('');
+        construir_paginacion(result);
     } catch (error) {
         console.log(error);
     }
 }
 
-const cargar_funciones_principales = () => {
-    // Obtener las propiedades del último registro de la tabla Grupos de usuario
-    // const propiedades_tag_tr = document.querySelector('.table-group-divider').lastElementChild.getBoundingClientRect();
-    /**
-     * Permite hacer scroll automático hasta donde
-     * está el último registro de la tabla de grupos de usuario.
-    */
-    // window.scrollTo(0, propiedades_tag_tr.y);
+const cambiar_de_pagina = async pagina_html => {
+    try {
+        let pagina_a_mostrar = 1;
+        const pagina_tag_a = pagina_html.querySelector('.page-link');
+        
+        // Se almacena el número de la pagina a la que se da click
+        if (!pagina_tag_a.getAttribute('aria-label')) {
+            pagina_a_mostrar = pagina_tag_a.dataset.pagina;
+        }
+        
+        // Se almacena el número de la pagina cuando se da click en el btn de avanzar página
+        const pagina_actual = document.querySelector('.page-link.button-principal-blue').dataset.pagina;
+        
+        if (pagina_tag_a.getAttribute('aria-label') == 'next') {
+            pagina_a_mostrar = parseInt(pagina_actual) + 1;
+        }
+        
+        // Se almacena el número de la pagina cuando se da click en el btn de retroceder página
+        if (pagina_tag_a.getAttribute('aria-label') == 'previous') {
+            pagina_a_mostrar = parseInt(pagina_actual) - 1;
+        }
 
-    mostrar_registros_usuarios({ pagina: 1 }); 
+        await mostrar_registros_usuarios({ pagina: pagina_a_mostrar });
+    } catch (error) {
+        console.log(error);
+    }
+}
 
-    /* btns_editar_usuarios.forEach(btn_editar_usuario => {
-        btn_editar_usuario.addEventListener("click", modal_editar_usuario);
-    }); */
-
-    /* btns_eliminar_usuario.forEach(btn_eliminar_usuario => {
-        btn_eliminar_usuario.addEventListener("click", alerta_eliminar_usuario);
-    }); */
+const cargar_funciones_principales = async () => {
+    try {
+        await mostrar_registros_usuarios({ pagina: 1 }); 
+    } catch (error) {
+        console.log(error);
+    }
 }
 
 
@@ -190,13 +293,13 @@ const validar_formulario = () => {
     });
 
     for (const input_form of inputs_form) {
-        if (input_form.value.trim() === '') {
+        if (input_form.value.trim() === '' && (input_form.name == 'usuario_nombre' || input_form.name == 'usuario_apellidos' || input_form.name == 'usuario_nombre_usuario' || input_form.name == 'grupo_usuario_id' || input_form.name == 'usuario_password')) {
             input_form.nextElementSibling.style.display = 'block';
             input_form.nextElementSibling.textContent = 'El campo es requerido';
             return false;
         }
 
-        if (input_form.type === 'email' && !regex_email.test(input_form.value.trim())) {
+        if (input_form.type === 'email' && input_form.value.trim() !== '' && !regex_email.test(input_form.value.trim())) {
             input_form.nextElementSibling.style.display = 'block';
             input_form.nextElementSibling.textContent = 'Ingresa un e-mail válido';
             return false;
@@ -205,7 +308,7 @@ const validar_formulario = () => {
         const password = document.querySelector('.input-password');
         const password_validate = document.querySelector('.input-password-validate');
 
-        if (password.value !== password_validate.value) {
+        if (password.value != password_validate.value) {
             password.nextElementSibling.style.display = 'block';
             password.nextElementSibling.textContent = 'Las contraseñas no son iguales';
             return false;
