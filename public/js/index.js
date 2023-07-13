@@ -8,17 +8,40 @@ const logout = document.querySelector('#logout');
 const tooltip_trigger_list = document.querySelectorAll('[data-toggle="tooltip"]');
 const tooltip_list = [...tooltip_trigger_list].map(tooltip_trigger_el => new bootstrap.Tooltip(tooltip_trigger_el));
 
-const sidebar_fn = () => {
-  arrows.forEach(arrow => {
-    arrow.onclick = e => {
-      const arrow_parent = e.target.closest(".arrow").parentElement.parentElement;
-      arrow_parent.classList.toggle("show_menu");
-    } 
-  });
+const actualizar_datos_usuario = async () => {
+  try {
+    const data = { usuario_id: local_storage.getItem('usuario_id') };
+    const response = await fetch(`${base_url}api/usuario/obtener_datos_usuario`, {
+      method: 'POST',
+      headers: {
+          "Content-Type": 'application/x-www-form-urlencoded',
+          "auth-token": token, 
+      }, 
+      body: new URLSearchParams(data)
+    });
+    const result = await response.json();
 
-  // Mostrar los datos del usuario
-  document.querySelector('.profile_name').textContent = local_storage.getItem('usuario'); 
-  document.querySelector('.usuario-cargo').textContent = local_storage.getItem('usuario_cargo');
+    // Mostrar los datos del usuario
+    document.querySelector('.profile_name').textContent = result.usuario[0].usuario_nombre_usuario; 
+    document.querySelector('.usuario-cargo').textContent = result.usuario[0].usuario_cargo;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+const sidebar_fn = async () => {
+  try {
+    arrows.forEach(arrow => {
+      arrow.onclick = e => {
+        const arrow_parent = e.target.closest(".arrow").parentElement.parentElement;
+        arrow_parent.classList.toggle("show_menu");
+      } 
+    });
+  
+    await actualizar_datos_usuario();
+  } catch (error) {
+    console.log(error);
+  }
 }
 
 const cerrar_sesion = async () => {

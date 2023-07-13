@@ -277,7 +277,7 @@ html {
 }
 
 /* .sidebar */ .profile-details {
-    position: fixed;
+    position: absolute;
     right: 0.7rem;
     /* width: 260px; */
     display: flex;

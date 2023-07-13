@@ -9,7 +9,9 @@ export const evento_cerrar_modal_formulario = () => {
             */
             modal.querySelector('form').reset();
             // Eliminar los mensajes de error
-            modal.querySelector('.invalid-feedback').style.display = 'none';
+            modal.querySelectorAll('.invalid-feedback').forEach(msg => {
+                msg.style.display = 'none';
+            });
         });
     });
 }

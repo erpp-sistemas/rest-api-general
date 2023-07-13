@@ -16,7 +16,7 @@ export const login_validation = [
                 throw new Error('El usuario no está registrado en el sistema. Intente con otro.');
             }
             
-            const mismas_passwords = await bcrypt.compare(body.usuario_password, usuario.usuario_password_crypt);
+            const mismas_passwords = await bcrypt.compare(body.usuario_password, usuario.usuario_password);
             if (!mismas_passwords) {
                 throw new Error('La contraseña es incorrecta.');
             }
