@@ -22,6 +22,11 @@ html {
     --blue-m: rgb(37,64,97);
 }
 
+img {
+    max-width: 100%;
+    display: block;
+}
+
 /* Utilities */
 .text-blue-sys {
     color: var(--blue-m);

@@ -28,30 +28,20 @@ export const Grupo_usuario = sequelize.define('grupo_usuario', {
     freezeTableName: true
 });
 
-export const lista_grupo_usuarios = async () => {
+export const lista_grupo_usuarios_total_usuarios = async () => {
     try {
         const [grupo_usuarios, metadata] = await sequelize.query(`
             SELECT
                 grupo_usuario.grupo_usuario_id,
                 grupo_usuario.grupo_usuario_fecha_creacion,
                 grupo_usuario.grupo_usuario_nombre,
-                COUNT(usuario.usuario_id) AS total_usuarios,
-                IIF(grupo_usuario.grupo_usuario_status = 'A', 'Activo', 'Inactivo') AS grupo_usuario_status
+                IIF(grupo_usuario.grupo_usuario_status = 'A', 'Activo', 'Inactivo') AS grupo_usuario_status,
+                usuario.usuario_status
             FROM grupo_usuario
             LEFT JOIN usuario
                 ON grupo_usuario.grupo_usuario_id = usuario.grupo_usuario_id
-            WHERE
-                grupo_usuario.grupo_usuario_status = 'A' AND
-                (
-                    usuario.usuario_status = 'A' OR
-                    usuario.usuario_status IS NULL
-                )
-            GROUP BY
-                grupo_usuario.grupo_usuario_id,
-                grupo_usuario.grupo_usuario_fecha_creacion,
-                grupo_usuario.grupo_usuario_nombre,
-                grupo_usuario.grupo_usuario_status
-            ORDER BY grupo_usuario.grupo_usuario_fecha_creacion;
+            WHERE grupo_usuario.grupo_usuario_status = 'A'
+            ORDER BY grupo_usuario.grupo_usuario_fecha_creacion
         `);
         return grupo_usuarios;
     } catch (error) {

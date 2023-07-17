@@ -52,40 +52,13 @@ export const get_registros_usuarios = async (req, res, next) => {
 
         limite_inferior = parseFloat(limite_superior) - pasos_retroceder;
         limite_superior = total_paginas < limite_superior ? total_paginas : limite_superior;
-
-        // Construir la paginación
-        const btn_previous = pagina_actual != 1
-            ? '<li class="page-item"><a class="page-link" href="#!" aria-label="previous"><span aria-hidden="true">&laquo;</span></a></li>'
-            : '<li class="page-item d-none"><a class="page-link" href="#!" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>'
-        ;
-
-        const btn_next = pagina_actual != total_paginas
-            ? '<li class="page-item"><a class="page-link" href="#!" aria-label="next"><span aria-hidden="true">&raquo;</span></a></li>'
-            : '<li class="page-item d-none"><a class="page-link" href="#!" aria-label="Next"><span aria-hidden="true">&raquo;</span></a></li>'
-        ;
         
-        let paginas = [];
-        for (let pagina = limite_inferior; pagina <= limite_superior; pagina++) {
-            if (pagina == pagina_actual) {
-                paginas = [
-                    ...paginas,
-                    `<li class="page-item"><a class="page-link button-principal-blue" href="#!" data-pagina="${pagina}">${pagina}</a></li>`
-                ];
-                continue;
-            }
-            
-            paginas = [
-                ...paginas,
-                `<li class="page-item"><a class="page-link" href="#!" data-pagina="${pagina}">${pagina}</a></li>`
-            ];
-        }
-
         const data = {
             usuarios,
             pagina_actual,
-            btn_previous,
-            btn_next,
-            paginas
+            total_paginas,
+            limite_inferior,
+            limite_superior
         };
 
         res.status(200).send(data);

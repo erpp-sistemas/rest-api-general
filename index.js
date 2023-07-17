@@ -3,6 +3,10 @@ import session from "express-session";
 import sequelize from "./config/db.js";
 import cors from "cors";
 
+// Validaciones
+import { session_validation } from "./validations/session_validation.js";
+import { permisos_validation } from "./validations/permisos_validation.js";
+
 // Rutas de la vista
 import router_grupo_usuario from "./routes/grupo_usuario.js";
 import router_usuarios from "./routes/usuarios.js";
@@ -41,11 +45,11 @@ sequelize.authenticate()
         console.log(error);
     });
 
-app.get("/", (req, res) => {
+app.get("/", session_validation, permisos_validation, (req, res) => {
     if (req.session.logged) {
         res.render("index", { base_url: process.env.BASE_URL });
         return;
-    } 
+    }
     res.redirect("/login");
 });
 
