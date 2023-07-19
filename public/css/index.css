@@ -36,6 +36,10 @@ img {
     cursor: pointer;
 }
 
+.cr-auto {
+    cursor: auto !important;
+}
+
 .arrow-rotate {
     transform: rotate(90deg);
 }
@@ -75,6 +79,15 @@ img {
 
 .button-principal-blue:hover {
     background-color: rgb(25, 43, 68) !important;
+}
+
+/* Accordion */
+.seccion-acoordion::after {
+    content: none;
+}
+
+.arrow-seccion-acordion {
+    transition: all 0.3s ease;
 }
 
 /* Navbar */

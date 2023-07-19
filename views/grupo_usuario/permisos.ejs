@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include('../templates/head', { title: 'Permisos' }) %>
+</head>
+<body>
+    <%- include('../templates/header') %>
+    <%- include('../templates/sidebar_principal') %>
+
+    <section class="home-section">
+        <%- include('../templates/navbar', { home_content_name: 'Permisos' }) %>
+
+        <div class="container mt-3 px-4 pb-3">
+            <div class="row">
+                <div class="col-4">
+                    <label for="basic-url" class="form-label fw-semibold">Grupo usuario</label>
+                    <div class="input-group mb-3">
+                        <label class="input-group-text">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 256 256">
+                                <path fill="#254061" d="M164.38 181.1a52 52 0 1 0-72.76 0a75.89 75.89 0 0 0-30 28.89a12 12 0 0 0 20.78 12a53
+                                    53 0 0 1 91.22 0a12 12 0 1 0 20.78-12a75.89 75.89 0 0 0-30.02-28.89ZM100 144a28 28 0 1 1
+                                    28 28a28 28 0 0 1-28-28Zm147.21 9.59a12 12 0 0 1-16.81-2.39c-8.33-11.09-19.85-19.59-29.33-21.64a12
+                                    12 0 0 1-1.82-22.91a20 20 0 1 0-24.78-28.3a12 12 0 1 1-21-11.6a44 44 0 1 1 73.28 48.35a92.18 92.18
+                                    0 0 1 22.85 21.69a12 12 0 0 1-2.39 16.8Zm-192.28-24c-9.48 2.05-21 10.55-29.33 21.65a12 12 0 0 1-19.19-14.45a92.37
+                                    92.37 0 0 1 22.85-21.69a44 44 0 1 1 73.28-48.35a12 12 0 1 1-21 11.6a20 20 0 1 0-24.78 28.3a12 12 0 0 1-1.82 22.91Z"
+                                ></path>
+                            </svg>
+                        </label>
+                        <select class="form-select" id="grupo-usuario">
+                            <option disabled>Selecciona un grupo usuario</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <h5 class="mt-3">Permisos vistas</h5>
+
+            <div class="accordion accordion-flush" id="secciones-vista">
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <a href="#!" class="accordion-button collapsed seccion-acoordion cr-auto" type="button">
+                            <div class="form-check">
+                                <input class="form-check-input cr-pointer" type="checkbox">
+                                <label class="form-check-label" for="cb-vista">Inicio</label>
+                            </div>
+                        </a>
+                    </h2>
+                </div>
+
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <a href="#!" class="accordion-button seccion-acoordion collapsed justify-content-between cr-auto" type="button">
+                            <div class="form-check">
+                                <input class="form-check-input cr-pointer" type="checkbox">
+                                <label class="form-check-label" for="cd-vista">Grupos usuario</label>
+                            </div>
+                            <div
+                                class="arrow-seccion-acordion cr-pointer"
+                                style="padding-bottom: 0.2rem;"
+                                data-bs-toggle="collapse"
+                                data-bs-target="#flush-collapseTwo"
+                                aria-expanded="false"
+                                aria-controls="flush-collapseTwo"
+                            >
+                                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24">
+                                    <path
+                                        fill="none"
+                                        stroke="#254061"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        stroke-width="2"
+                                        d="m10 17l5-5m0 0l-5-5"
+                                    ></path>
+                                </svg>
+                            </div>
+                        </a>
+                    </h2>
+                    <div id="flush-collapseTwo" class="accordion-collapse collapse" data-bs-parent="#secciones-vista">
+                        <div class="accordion-body px-5">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox">
+                                <label class="form-check-label" for="cd-subvista">Lista grupos de usuario</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox">
+                                <label class="form-check-label" for="label-subvista">Permisos</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <a href="#!" class="accordion-button collapsed seccion-acoordion cr-auto" type="button">
+                            <div class="form-check">
+                                <input class="form-check-input cr-pointer" type="checkbox">
+                                <label class="form-check-label" for="cb-vista">Usuarios</label>
+                            </div>
+                        </a>
+                    </h2>
+                </div>
+
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <a href="#!" class="accordion-button seccion-acoordion collapsed justify-content-between cr-auto" type="button">
+                            <div class="form-check">
+                                <input class="form-check-input cr-pointer" type="checkbox">
+                                <label class="form-check-label" for="cd-vista">Funciones</label>
+                            </div>
+                            <div
+                                class="arrow-seccion-acordion cr-pointer"
+                                style="padding-bottom: 0.2rem;"
+                                data-bs-toggle="collapse"
+                                data-bs-target="#flush-collapseTwo-2"
+                                aria-expanded="false"
+                                aria-controls="flush-collapseTwo-2"
+                            >
+                                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24">
+                                    <path
+                                        fill="none"
+                                        stroke="#254061"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        stroke-width="2"
+                                        d="m10 17l5-5m0 0l-5-5"
+                                    ></path>
+                                </svg>
+                            </div>
+                        </a>
+                    </h2>
+                    <div id="flush-collapseTwo-2" class="accordion-collapse collapse" data-bs-parent="#secciones-vista">
+                        <div class="accordion-body px-5">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox">
+                                <label class="form-check-label" for="cd-subvista">Interno</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox">
+                                <label class="form-check-label" for="label-subvista">Cliente</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <a href="#!" class="accordion-button collapsed seccion-acoordion cr-auto" type="button">
+                            <div class="form-check">
+                                <input class="form-check-input cr-pointer" type="checkbox">
+                                <label class="form-check-label" for="cb-vista">Configuración</label>
+                            </div>
+                        </a>
+                    </h2>
+                </div>
+            </div>
+
+            <h5 class="mt-3">Permisos acciones</h5>
+            
+            <div class="table-responsive">
+                <table class="table table-sm table-hover table-bordered align-middle">
+                    <thead class="text-center">
+                        <tr>
+                            <th scope="col" rowspan="2">
+                                <div>Permiso</div>
+                            </th>
+                            <th scope="col" colspan="3">Acciones</th>
+                        </tr>
+                        <tr>
+                            <th>Crear</th>
+                            <th>Editar</th>
+                            <th>Eliminar</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th scope="row">Grupos usuario</th>
+                            <td>
+                                <div class="form-check d-flex justify-content-center">
+                                    <input class="form-check-input" type="checkbox">
+                                </div>
+                            </td>
+                            <td>
+                                <div class="form-check d-flex justify-content-center">
+                                    <input class="form-check-input" type="checkbox">
+                                </div>
+                            </td>
+                            <td>
+                                <div class="form-check d-flex justify-content-center">
+                                    <input class="form-check-input" type="checkbox">
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Usuarios</th>
+                            <td>
+                                <div class="form-check d-flex justify-content-center">
+                                    <input class="form-check-input" type="checkbox">
+                                </div>
+                            </td>
+                            <td>
+                                <div class="form-check d-flex justify-content-center">
+                                    <input class="form-check-input" type="checkbox">
+                                </div>
+                            </td>
+                            <td>
+                                <div class="form-check d-flex justify-content-center">
+                                    <input class="form-check-input" type="checkbox">
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <%- include('../templates/fotter') %>
+    <%- include('../templates/fotter_2') %>
+    <script src="<%= base_url %>js/permisos.js" type="module"></script>
+</body>
+</html>

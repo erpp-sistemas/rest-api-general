@@ -1,6 +1,7 @@
 const sidebar_btn = document.querySelector(".menu-sidebar");
 const sidebar = document.querySelector(".sidebar");
 const flecha_desplegar_menu = document.querySelector('.arrow-profile');
+const arrows_section_acoordion = document.querySelectorAll('.arrow-seccion-acordion');
 const logout = document.querySelector('#logout');
 
 /* Activar todos los tooltip del sistema usando Bootstrap */
@@ -108,6 +109,13 @@ const cerrar_sesion = async () => {
     console.log(error);
   }
 } 
+
+arrows_section_acoordion.forEach(arrow_section => {
+  arrow_section.addEventListener('click', () => {
+    arrow_section.classList.toggle('arrow-rotate');
+    arrow_section.closest('.accordion-button').classList.toggle('collapsed');
+  });
+});
 
 flecha_desplegar_menu.addEventListener("click", () => {
   flecha_desplegar_menu.classList.toggle('arrow-rotate');

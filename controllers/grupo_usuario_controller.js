@@ -37,6 +37,37 @@ export const vista_grupo_usuario = async (req, res, next) => {
     }
 }
 
+export const vista_permisos_grupo_usuario = async (req, res, next) => {
+    try {
+        const data = {
+            base_url: process.env.BASE_URL
+        };
+
+        res.render("grupo_usuario/permisos", data);
+    } catch (error) {
+        console.log(error);
+        res.status(400).send(error);
+        next();
+    }
+}
+
+export const permisos_by_grupo_usuario = async (req, res, next) => {
+    try {
+        const { session } = req;
+        const cat_grupo_usuario = await Grupo_usuario.findAll({ where: { grupo_usuario_status: 'A' } });
+        const data = {
+            cat_grupo_usuario,
+            grupo_usuario_id: session.grupo_usuario_id
+        };
+
+        res.status(200).send(data);
+    } catch (error) {
+        console.log(error);
+        res.status(400).send(error);
+        next();
+    }
+}
+
 export const guardar_nuevo_grupo_usuario = async (req, res, next) => {
     try {
         const { body } = req; 
