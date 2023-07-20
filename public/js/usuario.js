@@ -190,7 +190,7 @@ const mostrar_registros_usuarios = async data => {
             body: new URLSearchParams(data)
         });
         const result = await response.json();
-        const { usuarios } = result;
+        const { usuarios, permisos_acciones } = result;       
 
         const tags_tr_usuarios = usuarios.map(usuario => {
             const tr_table_html = `
@@ -204,7 +204,7 @@ const mostrar_registros_usuarios = async data => {
                     <td>
                         <a
                             href="#"
-                            class="d-inline-block text-blue-sys editar-usuario"
+                            class="d-inline-block text-blue-sys editar-usuario ${permisos_acciones['editar'] ?? 'd-none'}"
                             data-bs-toggle="modal"
                             data-toggle="tooltip"
                             data-bs-target="#modal-usuario"
@@ -226,7 +226,7 @@ const mostrar_registros_usuarios = async data => {
                         </a>
                         <a
                             href="#"
-                            class="d-inline-block text-blue-sys eliminar-usuario"
+                            class="d-inline-block text-blue-sys eliminar-usuario ${permisos_acciones['eliminar'] ?? 'd-none'}"
                             data-toggle="tooltip"
                             data-bs-placement="right"
                             data-bs-title="Eliminar"
@@ -289,7 +289,7 @@ const cambiar_de_pagina = async pagina_html => {
 
 const cargar_funciones_principales = async () => {
     try {
-        await mostrar_registros_usuarios({ pagina: 1 }); 
+        await mostrar_registros_usuarios({ pagina: 1 });
     } catch (error) {
         console.log(error);
     }

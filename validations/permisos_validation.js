@@ -1,7 +1,7 @@
 import { get_permisos_modulos } from "../models/permiso_modulo.js";
 import { get_permisos_submodulos } from "../models/permiso_submodulo.js";
 
-export const permisos_validation = async (req, res, next) => {
+export const permisos_validacion_vistas = async (req, res, next) => {
     try {
         const { session, originalUrl } = req;
 

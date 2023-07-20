@@ -49,7 +49,8 @@ export const get_permisos_modulos = async data => {
             where: {
                 grupo_usuario_id: data.grupo_usuario_id,
                 permiso_modulo_status: 'A'
-            }
+            },
+            order:[['modulo_id']]
         });
 
         return permisos_modulos;

@@ -4,6 +4,10 @@ import jwt from 'jsonwebtoken';
 import { Usuario, get_datos_usuario } from '../models/Usuario.js';
 import { get_permisos_modulos } from '../models/permiso_modulo.js';
 import { get_permisos_submodulos } from '../models/permiso_submodulo.js';
+import {
+    permisos_acciones_by_grupo_usuario,
+    permisos_vistas_by_grupo_usuario
+} from '../helpers/permisos.js';
 
 export const login = async (req, res, next) => {
     try {
@@ -71,32 +75,32 @@ export const get_datos_sidebar = async (req, res, next) => {
          * del sidebar
         */
         const data_permisos = { grupo_usuario_id: usuario[0].grupo_usuario_id };
-        const permisos_modulos = await get_permisos_modulos(data_permisos);
-        const permisos_submodulos = await get_permisos_submodulos(data_permisos);
         
-        // Armar sidebar seccionado por permisos            
-        let secciones_sidebar = [];
-        
-        /**
-         * Cada uno de los modulos a los que tiene permiso accesar el usuario,
-         * se insertan en @const secciones_sidebar
-        */
-        permisos_modulos.forEach(permiso_modulo => {
-            const { modulo } = permiso_modulo;
-            modulo.dataValues.submodulos = [];
-            secciones_sidebar = [...secciones_sidebar, modulo.dataValues];
-        });
-
-        permisos_submodulos.forEach(permiso_submodulo => {
-            const { submodulo } = permiso_submodulo;
-            // Se filtra el módulo al que pertenece el submodulo
-            const modulo = secciones_sidebar.find(modulo => modulo.modulo_id == submodulo.modulo_id);
-            // Dicho modulo encontrado, se obtiene la propiedad submodulos,
-            // para agregar los submodulos a los q pertenecen a dicho modulo 
-            modulo.submodulos = [...modulo.submodulos, submodulo];
-        });
+        const secciones_sidebar = await permisos_vistas_by_grupo_usuario(data_permisos);
 
         const data = { usuario, secciones_sidebar };
+
+        res.status(200).send(data);
+    } catch (error) {
+        console.log(error);
+        res.status(400).send(error);
+        next();
+    }
+}
+
+export const get_permisos_acciones = async (req, res, next) => {
+    try {
+        const { session } = req;
+        const data_use = {
+            cat_entidad_id: 2,
+            grupo_usuario_id: session.grupo_usuario_id
+        };
+
+        const permisos_acciones = await permisos_acciones_by_grupo_usuario(data_use);
+
+        const data = {
+            permisos_acciones: permisos_acciones
+        };
 
         res.status(200).send(data);
     } catch (error) {

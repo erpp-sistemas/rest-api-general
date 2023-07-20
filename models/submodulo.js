@@ -28,3 +28,15 @@ export const Submodulo = sequelize.define('submodulo', {
     timestamps: false,
     freezeTableName: true
 });
+
+export const get_subvistas = async () => {
+    try {
+        const subvistas = await Submodulo.findAll({
+            where: { submodulo_status: 'A' },
+            order: [['submodulo_id']]
+        });
+        return subvistas;
+    } catch (error) {
+        console.log(error);
+    }
+}

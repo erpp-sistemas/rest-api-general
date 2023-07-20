@@ -15,7 +15,7 @@
                     <div class="text-end" style="padding: 1rem 0">
                         <a
                             href="#"
-                            class="btn button-principal btn-sm"
+                            class="btn button-principal btn-sm <%= permisos_acciones['crear'] ?? 'd-none' %>"
                             role="button"
                             data-bs-toggle="modal"
                             data-bs-target="#modal-grupo-usuario"
@@ -50,7 +50,12 @@
                                 <td>
                                     <a
                                         href="#"
-                                        class="d-inline-block text-blue-sys editar-grupo-usuario"
+                                        class="
+                                            d-inline-block
+                                            text-blue-sys
+                                            editar-grupo-usuario
+                                            <%= permisos_acciones['editar'] ?? 'd-none' %>
+                                        "
                                         data-bs-toggle="modal"
                                         data-toggle="tooltip"
                                         data-bs-target="#modal-grupo-usuario"
@@ -72,7 +77,12 @@
                                     </a>
                                     <a
                                         href="#"
-                                        class="d-inline-block text-blue-sys eliminar-grupo-usuario"
+                                        class="
+                                            d-inline-block
+                                            text-blue-sys
+                                            eliminar-grupo-usuario
+                                            <%= permisos_acciones['eliminar'] ?? 'd-none' %>
+                                        "
                                         data-toggle="tooltip"
                                         data-bs-placement="right"
                                         data-bs-title="Eliminar"

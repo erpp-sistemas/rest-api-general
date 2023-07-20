@@ -49,7 +49,8 @@ export const get_permisos_submodulos = async data => {
             where: {
                 grupo_usuario_id: data.grupo_usuario_id,
                 permiso_submodulo_status: 'A'
-            }
+            },
+            order: [['submodulo_id']]
         });
 
         return permisos_submodulos;

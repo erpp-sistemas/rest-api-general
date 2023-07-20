@@ -2,25 +2,33 @@ import bcrypt from 'bcrypt';
 import { obtener_hora_local } from "../helpers/fechas.js";
 import { Grupo_usuario } from "../models/Grupo_usuario.js";
 import { Usuario, get_datos_usuario, lista_usuarios_activos } from "../models/Usuario.js";
+import { permisos_acciones_by_grupo_usuario } from '../helpers/permisos.js';
 
 export const vista_usuarios = async (req, res, next) => {
     try {
+        const { session } = req;
         const cat_grupos_usuario = await Grupo_usuario.findAll({ where: { grupo_usuario_status: 'A' } });
+        const data_use = {
+            cat_entidad_id: 2,
+            grupo_usuario_id: session.grupo_usuario_id
+        };
+
+        const permisos_acciones = await permisos_acciones_by_grupo_usuario(data_use);
         const data = {
             base_url: process.env.BASE_URL,
-            cat_grupos_usuario: cat_grupos_usuario
+            cat_grupos_usuario: cat_grupos_usuario,
+            permisos_acciones: permisos_acciones
         };
         res.render("usuarios/usuarios", data);
     } catch (error) {
         console.log(error);
         res.status(400).send(error);
-        next();
     }
 }
 
 export const get_registros_usuarios = async (req, res, next) => {
     try {
-        const { body } = req;
+        const { body, session } = req;
         const pagina_actual = parseInt(body.pagina);
     
         /**
@@ -53,12 +61,20 @@ export const get_registros_usuarios = async (req, res, next) => {
         limite_inferior = parseFloat(limite_superior) - pasos_retroceder;
         limite_superior = total_paginas < limite_superior ? total_paginas : limite_superior;
         
+        const data_use = {
+            cat_entidad_id: 2,
+            grupo_usuario_id: session.grupo_usuario_id
+        };
+
+        const permisos_acciones = await permisos_acciones_by_grupo_usuario(data_use);
+
         const data = {
             usuarios,
             pagina_actual,
             total_paginas,
             limite_inferior,
-            limite_superior
+            limite_superior,
+            permisos_acciones
         };
 
         res.status(200).send(data);

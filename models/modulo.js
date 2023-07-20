@@ -24,3 +24,15 @@ export const Modulo = sequelize.define('modulo', {
     timestamps: false,
     freezeTableName: true
 });
+
+export const get_vistas = async () => {
+    try {
+        const vistas = await Modulo.findAll({
+            where: { modulo_status: 'A' },
+            order: [['modulo_id']]
+        });
+        return vistas;
+    } catch (error) {
+        console.log(error);
+    }
+}
