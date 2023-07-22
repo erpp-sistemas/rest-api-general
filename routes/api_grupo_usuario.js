@@ -2,6 +2,7 @@ import express from "express";
 import { verify_token } from "../validations/verify_token.js";
 import {
     editar_grupo_usuario,
+    editar_permiso_vistas,
     eliminar_grupo_usuario,
     guardar_nuevo_grupo_usuario,
     permisos_by_grupo_usuario
@@ -15,5 +16,6 @@ router_api_grupo_usuario.put("/editar_grupo_usuario", verify_token, validacion_e
 router_api_grupo_usuario.put("/eliminar_grupo_usuario", verify_token, validar_grupo_usuario_id, eliminar_grupo_usuario);
 
 router_api_grupo_usuario.post("/permisos_by_grupo_usuario", verify_token, permisos_by_grupo_usuario);
+router_api_grupo_usuario.put("/editar_permiso_vistas", verify_token, editar_permiso_vistas);
 
 export default router_api_grupo_usuario;

@@ -4,7 +4,7 @@ import { obtener_hora_local } from "../helpers/fechas.js";
 // Modelos
 import { Grupo_usuario, lista_grupo_usuarios_total_usuarios } from "../models/Grupo_usuario.js";
 import { permisos_acciones_by_grupo_usuario } from '../helpers/permisos.js';
-import { get_vistas } from '../models/modulo.js';
+import { Modulo, get_vistas } from '../models/modulo.js';
 import { get_permisos_modulos } from '../models/permiso_modulo.js';
 import { get_subvistas } from '../models/submodulo.js';
 import { get_permisos_submodulos } from '../models/permiso_submodulo.js';
@@ -79,14 +79,14 @@ export const vista_permisos_grupo_usuario = async (req, res, next) => {
 
 export const permisos_by_grupo_usuario = async (req, res, next) => {
     try {
-        const { session } = req;
+        const { body } = req;
         const cat_grupo_usuario = await Grupo_usuario.findAll({
             where: { grupo_usuario_status: 'A' },
             order: [['grupo_usuario_id']]
         });
 
         const data_grupo_usuario = {
-            grupo_usuario_id: session.grupo_usuario_id
+            grupo_usuario_id: body.grupo_usuario_id
         };
 
         const vistas = await get_vistas(); 
@@ -143,7 +143,7 @@ export const permisos_by_grupo_usuario = async (req, res, next) => {
 
         const permisos_accion_entidad = await Permiso_accion_entidad.findAll({
             where: {
-                grupo_usuario_id: session.grupo_usuario_id,
+                grupo_usuario_id: body.grupo_usuario_id,
                 permiso_accion_entidad_status: 'A'
             },
             order: [['cat_entidad_id'], ['cat_accion_id']]
@@ -173,7 +173,7 @@ export const permisos_by_grupo_usuario = async (req, res, next) => {
 
         const data = {
             cat_grupo_usuario,
-            grupo_usuario_id: session.grupo_usuario_id,
+            grupo_usuario_id: body.grupo_usuario_id,
             vistas: vistas_permiso,
             permisos_acciones: permisos_acciones
         };
@@ -260,6 +260,27 @@ export const eliminar_grupo_usuario = async (req, res, next) => {
         }, { where: { grupo_usuario_id: body.grupo_usuario_id } });
 
         res.status(200).send({ msg: '¡Eliminado!' });
+    } catch (error) {
+        console.log(error);
+        res.status(400).send(error);
+        next();
+    }
+}
+
+export const editar_permiso_vistas = async (req, res, next) => {
+    try {
+        const { body } = req;
+        const permisos_vistas = JSON.parse(body.permisos_vistas);
+        
+        for (const vista of permisos_vistas) {
+            const { submodulos } = vista;
+            // const existe_permiso_vista =
+            // const create_vista_orfound = await
+            /* const { modulo } = await Modulo.findAll({
+                where: {  }
+            }); */
+            console.log(submodulos);
+        };
     } catch (error) {
         console.log(error);
         res.status(400).send(error);

@@ -3,6 +3,8 @@ import { eventos_acordion } from "./functions/acordion.js";
 const select_grupo_usuario = document.querySelector('#grupo-usuario');
 const acordion_html = document.querySelector('#secciones-vista');
 const tbody_accion_entidad = document.querySelector('#tbody-accion-entidad');
+const btn_guardar_permisos_vistas = document.querySelector('#guardar-permisos-vistas');
+const btn_guardar_permisos_acciones = document.querySelector('#guardar-permisos-acciones');
 
 const mostrar_permisos_vistas = data => {
     const { vistas } = data;
@@ -13,7 +15,14 @@ const mostrar_permisos_vistas = data => {
         const subvistas_cb_html = submodulos.map(submodulo => {
             return `
                 <div class="form-check">
-                    <input class="form-check-input" type="checkbox" ${submodulo.checked}>
+                    <input
+                        class="form-check-input cb-check-v cb-hijo-${vista.modulo_id} cr-pointer"
+                        type="checkbox"
+                        value="${submodulo.submodulo_id}"
+                        ${submodulo.checked}
+                        data-fn="control_cb_hijo"
+                        data-id-cb-parent="${vista.modulo_id}"
+                    >
                     <label class="form-check-label">${submodulo.submodulo_nombre}</label>
                 </div>
             `;
@@ -25,7 +34,13 @@ const mostrar_permisos_vistas = data => {
                     <h2 class="accordion-header">
                         <a href="#!" class="accordion-button collapsed seccion-acoordion cr-auto" type="button">
                             <div class="form-check">
-                                <input class="form-check-input cr-pointer" value="${vista.modulo_id}" type="checkbox" ${vista.checked}>
+                                <input
+                                    class="form-check-input cr-pointer cb-master"
+                                    value="${vista.modulo_id}"
+                                    type="checkbox"
+                                    ${vista.checked}
+                                    data-fn="control_cb_maestro"
+                                >
                                 <label class="form-check-label" for="cb-vista">${vista.modulo_nombre}</label>
                             </div>
                         </a>
@@ -37,7 +52,13 @@ const mostrar_permisos_vistas = data => {
                     <h2 class="accordion-header">
                         <a href="#!" class="accordion-button seccion-acoordion collapsed justify-content-between cr-auto" type="button">
                             <div class="form-check">
-                                <input class="form-check-input cr-pointer" value="${vista.modulo_id}" type="checkbox" ${vista.checked}>
+                                <input
+                                    class="form-check-input cr-pointer cb-check-v cb-master cb-master-${vista.modulo_id}"
+                                    value="${vista.modulo_id}"
+                                    type="checkbox"
+                                    ${vista.checked}
+                                    data-fn="control_cb_maestro"
+                                >
                                 <label class="form-check-label" for="cd-vista">${vista.modulo_nombre}</label>
                             </div>
                             <div
@@ -103,18 +124,63 @@ const mostrar_permisos_acciones = data => {
     tbody_accion_entidad.innerHTML = trs_entidad_html.join('');
 }
 
-const mostrar_permisos_grupo_usuario = async () => {
+const control_cb_maestro = e => {
+    const cb_hijos = document.querySelectorAll(`.cb-hijo-${e.target.value}`);
+    if (!e.target.checked) {
+        for (const cb_hijo of cb_hijos) {
+            cb_hijo.checked = false;
+        }
+        return;
+    }
+    for (const cb_hijo of cb_hijos) {
+        cb_hijo.checked = true;
+    }
+}
+
+const control_cb_hijo = e => {
+    const id_cb_master = e.target.dataset.idCbParent;
+
+    const cb_hijos_html_list = document.querySelectorAll(`.cb-hijo-${id_cb_master}`);
+    
+    // Convertir un htmlList en un array para poder iterarlo
+    const cb_hijos_array = [...cb_hijos_html_list];
+    const all_cb_unchecked = cb_hijos_array.every(cb => !cb.checked);
+
+    const cb_master = document.querySelector(`.cb-master-${id_cb_master}`);
+
+    if (all_cb_unchecked) {
+        cb_master.checked = false;
+    } else {
+        cb_master.checked = true;
+    }
+}
+
+const funciones_cb_permisos_vistas = { control_cb_maestro, control_cb_hijo };
+
+const eventos_cb_permisos_vistas = () => {
+    document.querySelectorAll('.cb-check-v').forEach(cb => {
+        cb.onclick = e => { funciones_cb_permisos_vistas[e.target.dataset.fn](e) }; 
+    });
+}
+
+const mostrar_permisos_grupo_usuario = async data => {
     try {
         const response = await fetch(`${base_url}api/grupo_usuario/permisos_by_grupo_usuario`, {
             method: 'POST',
             headers: {
                 "Content-Type": 'application/x-www-form-urlencoded',
                 "auth-token": token, 
-            }
+            },
+            body: new URLSearchParams(data)
         });
         const result = await response.json();
 
         const { cat_grupo_usuario, grupo_usuario_id } = result;
+
+        // Resetear selector de grupo usuario
+        while (select_grupo_usuario.lastElementChild.value != '') {
+            select_grupo_usuario.removeChild(select_grupo_usuario.lastElementChild);
+        }
 
         // Agregar al selector los grupo usuario
         const option_html = cat_grupo_usuario.map(grupo_usuario => {
@@ -127,10 +193,70 @@ const mostrar_permisos_grupo_usuario = async () => {
         select_grupo_usuario.insertAdjacentHTML('beforeend', option_html.join(''));
         mostrar_permisos_vistas(result);
         eventos_acordion();
+        eventos_cb_permisos_vistas();
         mostrar_permisos_acciones(result);
     } catch (error) {
         console.log(error);
     }
 }
 
-window.addEventListener('DOMContentLoaded', mostrar_permisos_grupo_usuario);
+const guardar_permisos_vistas = async () => {
+    try {
+        // Construir objeto para guardar los permisos de grupo usuario
+        const vistas = document.querySelectorAll('.cb-master');
+        
+        let permisos_vistas = [];
+    
+        for (const vista of vistas) {
+            if (!vista.checked) continue;
+            
+            let obj_permiso_vista = {
+                modulo_id: vista.value
+            };
+    
+            const submodulos_array = [...document.querySelectorAll(`.cb-hijo-${vista.value}`)];
+            
+            let submodulos = [];
+            for (const subvista of submodulos_array) {
+                if (!subvista.checked) continue;
+                submodulos = [...submodulos, { submodulo_id: subvista.value }];
+            }
+    
+            obj_permiso_vista = {...obj_permiso_vista, submodulos};
+            permisos_vistas = [...permisos_vistas, obj_permiso_vista];
+        }
+    
+        const data = {
+            grupo_usuario_id: select_grupo_usuario.value,
+            permisos_vistas: JSON.stringify(permisos_vistas)
+        }
+
+        const response = await fetch(`${base_url}api/grupo_usuario/editar_permiso_vistas`, {
+            method: 'PUT',
+            headers: {
+                "Content-Type": 'application/x-www-form-urlencoded',
+                "auth-token": token, 
+            }, 
+            body: new URLSearchParams(data)
+        });
+        const result = await response.json();
+        console.log(result);
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+const guardar_permisos_acciones = () => {
+    console.log("Guardar permisos acciones");
+}
+
+btn_guardar_permisos_vistas.addEventListener('click', guardar_permisos_vistas);
+btn_guardar_permisos_acciones.addEventListener('click', guardar_permisos_acciones)
+
+select_grupo_usuario.addEventListener('change', e => {
+    mostrar_permisos_grupo_usuario({ grupo_usuario_id: e.target.value });
+});
+
+window.addEventListener('DOMContentLoaded', () => {
+    mostrar_permisos_grupo_usuario({ grupo_usuario_id: local_storage.getItem('grupo_usuario_id') });
+});
