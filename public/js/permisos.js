@@ -1,4 +1,5 @@
 import { eventos_acordion } from "./functions/acordion.js";
+import { mensaje_exito } from "./functions/mensajes.js";
 
 const select_grupo_usuario = document.querySelector('#grupo-usuario');
 const acordion_html = document.querySelector('#secciones-vista');
@@ -206,29 +207,27 @@ const guardar_permisos_vistas = async () => {
         const vistas = document.querySelectorAll('.cb-master');
         
         let permisos_vistas = [];
+        let permisos_subvistas = [];
     
         for (const vista of vistas) {
             if (!vista.checked) continue;
             
-            let obj_permiso_vista = {
-                modulo_id: vista.value
-            };
+            let obj_permiso_vista = { modulo_id: vista.value };
     
             const submodulos_array = [...document.querySelectorAll(`.cb-hijo-${vista.value}`)];
             
-            let submodulos = [];
             for (const subvista of submodulos_array) {
                 if (!subvista.checked) continue;
-                submodulos = [...submodulos, { submodulo_id: subvista.value }];
-            }
-    
-            obj_permiso_vista = {...obj_permiso_vista, submodulos};
+                permisos_subvistas = [...permisos_subvistas, { submodulo_id: subvista.value }];
+            };
+
             permisos_vistas = [...permisos_vistas, obj_permiso_vista];
         }
     
         const data = {
             grupo_usuario_id: select_grupo_usuario.value,
-            permisos_vistas: JSON.stringify(permisos_vistas)
+            permisos_vistas: JSON.stringify(permisos_vistas),
+            permisos_subvistas: JSON.stringify(permisos_subvistas)
         }
 
         const response = await fetch(`${base_url}api/grupo_usuario/editar_permiso_vistas`, {
@@ -240,7 +239,8 @@ const guardar_permisos_vistas = async () => {
             body: new URLSearchParams(data)
         });
         const result = await response.json();
-        console.log(result);
+        const data_mensaje = { msg: result.msg, url: '/grupo_usuario/permisos' };
+        mensaje_exito(data_mensaje);
     } catch (error) {
         console.log(error);
     }

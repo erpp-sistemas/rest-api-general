@@ -5,9 +5,9 @@ import { obtener_hora_local } from "../helpers/fechas.js";
 import { Grupo_usuario, lista_grupo_usuarios_total_usuarios } from "../models/Grupo_usuario.js";
 import { permisos_acciones_by_grupo_usuario } from '../helpers/permisos.js';
 import { Modulo, get_vistas } from '../models/modulo.js';
-import { get_permisos_modulos } from '../models/permiso_modulo.js';
+import { Permiso_modulo, get_permisos_modulos } from '../models/permiso_modulo.js';
 import { get_subvistas } from '../models/submodulo.js';
-import { get_permisos_submodulos } from '../models/permiso_submodulo.js';
+import { Permiso_submodulo, get_permisos_submodulos } from '../models/permiso_submodulo.js';
 import { Cat_entidad } from '../models/cat_entidad.js';
 import { Cat_accion } from '../models/cat_accion.js';
 import { Permiso_accion_entidad } from '../models/permiso_accion_entidad.js';
@@ -270,17 +270,100 @@ export const eliminar_grupo_usuario = async (req, res, next) => {
 export const editar_permiso_vistas = async (req, res, next) => {
     try {
         const { body } = req;
-        const permisos_vistas = JSON.parse(body.permisos_vistas);
-        
-        for (const vista of permisos_vistas) {
-            const { submodulos } = vista;
-            // const existe_permiso_vista =
-            // const create_vista_orfound = await
-            /* const { modulo } = await Modulo.findAll({
-                where: {  }
-            }); */
-            console.log(submodulos);
-        };
+
+        const permisos_vistas_edit = JSON.parse(body.permisos_vistas);
+        const permisos_subvistas_edit = JSON.parse(body.permisos_subvistas);
+
+        const all_permisos_vistas_activas = await Permiso_modulo.findAll({
+            where: {
+                grupo_usuario_id: body.grupo_usuario_id,
+                permiso_modulo_status: 'A'
+            }
+        });
+
+        const all_permisos_subvistas_activas = await Permiso_submodulo.findAll({
+            where: {
+                grupo_usuario_id: body.grupo_usuario_id,
+                permiso_submodulo_status: 'A'
+            }
+        });
+
+        /**
+         * Eliminar o desactivar los permisos a vistas
+        */
+        for (const permiso_vista of all_permisos_vistas_activas) {
+            const esta_vista = permisos_vistas_edit.some(permiso_vista_edit => permiso_vista_edit.modulo_id == permiso_vista.modulo_id);
+            /**
+             * De las vistas que si estén, ir eliminándolas del array @permisos_vistas_edit
+             * para que este quede solo con los elementos que hay que agregar a la tabla permisos_vistas
+            */
+            if (esta_vista) {
+                const indice_encontrado = permisos_vistas_edit
+                    .findIndex(permiso_vista_encontrado => permiso_vista_encontrado.modulo_id == permiso_vista.modulo_id);
+                // Eliminar del array @permisos_vistas_edit el @indice_encontrado
+                permisos_vistas_edit.splice(indice_encontrado, 1);
+            } else {
+                // Desactivar vista
+                await Permiso_modulo.update({
+                    permiso_modulo_status: 'I'
+                }, { where: { grupo_usuario_id: body.grupo_usuario_id, modulo_id: permiso_vista.modulo_id } });
+            }
+        }
+       
+        /**
+         * Eliminar o desactivar los permisos a subvistas
+        */
+        for (const permiso_subvista of all_permisos_subvistas_activas) {
+            const esta_subvista = permisos_subvistas_edit.some(permiso_subvista_edit => permiso_subvista_edit.submodulo_id == permiso_subvista.submodulo_id);
+
+            if (esta_subvista) {
+                const indice_encontrado = permisos_subvistas_edit
+                    .findIndex(permiso_subvista_encontrado => permiso_subvista_encontrado.submodulo_id == permiso_subvista.submodulo_id);
+                // Eliminar del array @permisos_subvistas_edit el @indice_encontrado
+                permisos_subvistas_edit.splice(indice_encontrado, 1);
+            } else {
+                // Desactivar subvista
+                await Permiso_submodulo.update({
+                    permiso_submodulo_status: 'I'
+                }, { where: { grupo_usuario_id: body.grupo_usuario_id, submodulo_id: permiso_subvista.submodulo_id } });
+            }
+        }
+
+        // Crear los nuevos permisos a vistas
+        for (const permiso_vista of permisos_vistas_edit) {
+            const [permiso_modulo, crear] = await Permiso_modulo.findOrCreate({
+                where: { grupo_usuario_id: body.grupo_usuario_id, modulo_id: permiso_vista.modulo_id },
+                defaults: {
+                    modulo_id: permiso_vista.modulo_id,
+                    grupo_usuario_id: body.grupo_usuario_id,
+                    permiso_modulo_status: 'A'
+                }
+            });
+
+            if (!permiso_modulo) continue;
+            await Permiso_modulo.update({
+                permiso_modulo_status: 'A'
+            }, { where: { grupo_usuario_id: body.grupo_usuario_id, modulo_id: permiso_modulo.modulo_id } });
+        }
+
+        // Crear los nuevos permisos a subvistas
+        for (const permiso_subvista of permisos_subvistas_edit) {
+            const [permiso_submodulo, crear] = await Permiso_submodulo.findOrCreate({
+                where: { grupo_usuario_id: body.grupo_usuario_id, submodulo_id: permiso_subvista.submodulo_id },
+                defaults: {
+                    submodulo_id: permiso_subvista.submodulo_id,
+                    grupo_usuario_id: body.grupo_usuario_id,
+                    permiso_submodulo_status: 'A'
+                }
+            });
+
+            if (!permiso_submodulo) continue;
+            await Permiso_submodulo.update({
+                permiso_submodulo_status: 'A'
+            }, { where: { grupo_usuario_id: body.grupo_usuario_id, submodulo_id: permiso_submodulo.submodulo_id } });
+        }
+
+        res.status(200).send({ msg: '¡Cambios guardados!' });
     } catch (error) {
         console.log(error);
         res.status(400).send(error);
