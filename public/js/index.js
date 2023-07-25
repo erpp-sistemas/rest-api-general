@@ -73,6 +73,14 @@ const obtener_datos_usuario = async () => {
     document.querySelector('.profile_name').textContent = usuario[0].usuario_nombre_usuario; 
     document.querySelector('.usuario-cargo').textContent = usuario[0].usuario_cargo;
 
+    const img_profile = usuario[0].usuario_url_img_perfil
+      ? `
+        <img src="${base_url}${usuario[0].usuario_url_img_perfil}" alt="profileImg">
+      `
+      : `
+        <img src="${base_url}img/user_default.svg" alt="profileImg" style="height: 40px; width: 40px;">
+      `;
+    document.querySelector('.profile-content').innerHTML = img_profile;
     construir_sidebar(secciones_sidebar);
   } catch (error) {
     console.log(error);

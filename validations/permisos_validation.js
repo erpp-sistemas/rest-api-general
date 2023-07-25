@@ -28,7 +28,9 @@ export const permisos_validacion_vistas = async (req, res, next) => {
             next();
             return;
         }
-        res.render("index", { base_url: process.env.BASE_URL });
+
+        req.session.destroy();
+        res.redirect("/login");
     } catch (error) {
         console.log(error);
     }

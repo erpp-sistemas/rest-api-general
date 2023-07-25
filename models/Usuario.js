@@ -30,6 +30,9 @@ export const Usuario = sequelize.define('usuario', {
     usuario_password: {
         type: DataTypes.STRING
     },
+    usuario_url_img_perfil: {
+        type: DataTypes.STRING
+    },
     grupo_usuario_id: {
         type: DataTypes.INTEGER,
         references: {
@@ -65,6 +68,7 @@ export const get_datos_usuario = async data => {
                 usuario.usuario_cargo,
                 usuario.usuario_direccion,
                 usuario.usuario_email,
+                usuario.usuario_url_img_perfil,
                 usuario.grupo_usuario_id
             FROM usuario
             WHERE usuario.usuario_id = ${data.usuario_id};

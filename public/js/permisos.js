@@ -277,8 +277,10 @@ const guardar_permisos_acciones = async () => {
             },
             body: new URLSearchParams(data)
         });
+        
         const result = await response.json();
-        mensaje_exito(result.msg);
+        const data_mensaje = { msg: result.msg, url: '/grupo_usuario/permisos' };
+        mensaje_exito(data_mensaje);
     } catch (error) {
         console.log(error);
     }
