@@ -106,7 +106,7 @@ const mostrar_permisos_acciones = data => {
             return `
                 <td>
                     <div class="form-check d-flex justify-content-center">
-                        <input class="form-check-input" value="${accion.cat_accion_id}" type="checkbox" ${accion.checked}>
+                        <input class="form-check-input cb-accion" value="${accion.cat_accion_id}" type="checkbox" ${accion.checked}>
                     </div>
                 </td>
             `;
@@ -246,8 +246,43 @@ const guardar_permisos_vistas = async () => {
     }
 }
 
-const guardar_permisos_acciones = () => {
-    console.log("Guardar permisos acciones");
+const guardar_permisos_acciones = async () => {
+    try {
+        const cb_acciones = document.querySelectorAll('.cb-accion');
+    
+        // Se construye arreglo de permisos accion-entidad
+        let permisos_accion_entidad = [];
+    
+        for (const cb_accion of cb_acciones) {
+            if (!cb_accion.checked) continue;
+            const cat_entidad_id = cb_accion.closest('tr').dataset.catEntidadId;
+    
+            const accion_entidad_obj = {
+                cat_entidad_id: cat_entidad_id,
+                cat_accion_id: cb_accion.value
+            };
+    
+            permisos_accion_entidad.push(accion_entidad_obj);
+        }
+
+        const data = {
+            grupo_usuario_id: select_grupo_usuario.value,
+            permisos_accion_entidad: JSON.stringify(permisos_accion_entidad)
+        };
+
+        const response = await fetch(`${base_url}api/grupo_usuario/editar_permiso_accion_entidad`, {
+            method: 'PUT',
+            headers: {
+                "Content-Type": 'application/x-www-form-urlencoded',
+                "auth-token": token, 
+            },
+            body: new URLSearchParams(data)
+        });
+        const result = await response.json();
+        console.log(result);
+    } catch (error) {
+        console.log(error);
+    }
 }
 
 btn_guardar_permisos_vistas.addEventListener('click', guardar_permisos_vistas);

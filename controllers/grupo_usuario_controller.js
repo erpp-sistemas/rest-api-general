@@ -370,3 +370,73 @@ export const editar_permiso_vistas = async (req, res, next) => {
         next();
     }
 }
+
+export const editar_permiso_accion_entidad = async (req, res, next) => {
+    try {
+        const { body } = req;
+        const permisos_accion_entidad = JSON.parse(body.permisos_accion_entidad);
+
+        const permisos_acciones_grupo_usuario = await Permiso_accion_entidad.findAll({
+            where: {
+                grupo_usuario_id: body.grupo_usuario_id,
+                permiso_accion_entidad_status: 'A'
+            }
+        }); 
+
+        for (const permiso_accion_entidad_encontrado of permisos_acciones_grupo_usuario) {
+            const esta_permiso_accion_entidad = permisos_accion_entidad
+                .some(permiso_accion_entidad => permiso_accion_entidad.cat_accion_id == permiso_accion_entidad_encontrado.cat_accion_id && permiso_accion_entidad.cat_entidad_id == permiso_accion_entidad_encontrado.cat_entidad_id); 
+            
+            if (esta_permiso_accion_entidad) {
+                const indice_encontrado = permisos_accion_entidad
+                    .findIndex(permiso_accion_entidad_e => permiso_accion_entidad_e.cat_accion_id == permiso_accion_entidad_encontrado.cat_accion_id && permiso_accion_entidad_e.cat_entidad_id == permiso_accion_entidad_encontrado.cat_entidad_id)   
+                permisos_accion_entidad.splice(indice_encontrado, 1);
+            } else {
+                // Desactivar permiso
+                await Permiso_accion_entidad.update({
+                    permiso_accion_entidad_status: 'I'
+                }, {
+                    where: {
+                        grupo_usuario_id: body.grupo_usuario_id,
+                        cat_accion_id: permiso_accion_entidad_encontrado.cat_accion_id,
+                        cat_entidad_id: permiso_accion_entidad_encontrado.cat_entidad_id
+                    }
+                });
+            }
+        }
+
+        for (const permiso_accion_entidad_e of permisos_accion_entidad) {
+            const [permiso_accion_entidad, crear] = await Permiso_accion_entidad.findOrCreate({
+                where: {
+                    grupo_usuario_id: body.grupo_usuario_id,
+                    cat_accion_id: permiso_accion_entidad_e.cat_accion_id,
+                    cat_entidad_id: permiso_accion_entidad_e.cat_entidad_id
+                },
+                defaults: {
+                    cat_accion_id: permiso_accion_entidad_e.cat_accion_id,
+                    cat_entidad_id: permiso_accion_entidad_e.cat_entidad_id,
+                    grupo_usuario_id: body.grupo_usuario_id,
+                    permiso_accion_entidad_status: 'A'
+                }
+            });
+
+            if (!permiso_accion_entidad) continue;
+            
+            await Permiso_accion_entidad.update({
+                permiso_accion_entidad_status: 'A'
+            }, {
+                where: {
+                    cat_accion_id: permiso_accion_entidad_e.cat_accion_id,
+                    cat_entidad_id: permiso_accion_entidad_e.cat_entidad_id,
+                    grupo_usuario_id: body.grupo_usuario_id
+                }
+            });
+        }
+
+        res.status(200).send({ msg: '¡Cambios guardados!' });
+    } catch (error) {
+        console.log(error);
+        res.status(400).send(error);
+        next();
+    }
+}
