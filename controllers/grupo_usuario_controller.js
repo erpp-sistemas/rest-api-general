@@ -80,6 +80,7 @@ export const vista_permisos_grupo_usuario = async (req, res, next) => {
 export const permisos_by_grupo_usuario = async (req, res, next) => {
     try {
         const { body } = req;
+
         const cat_grupo_usuario = await Grupo_usuario.findAll({
             where: { grupo_usuario_status: 'A' },
             order: [['grupo_usuario_id']]
@@ -131,7 +132,7 @@ export const permisos_by_grupo_usuario = async (req, res, next) => {
         /** 
          * Permisos acciones entidades
         */
-        const cat_entidades = await Cat_entidad.findAll({
+        const cat_entidades_found = await Cat_entidad.findAll({
             where: { cat_entidad_status: 'A' },
             order: [['cat_entidad_id']]
         });
@@ -149,33 +150,45 @@ export const permisos_by_grupo_usuario = async (req, res, next) => {
             order: [['cat_entidad_id'], ['cat_accion_id']]
         });
 
-        const permisos_acciones = cat_entidades.map(cat_entidad => {
-            let acciones = [];
-            // Iterar sobre cada accion de cada cat_entidad
-            for (const cat_accion of cat_acciones) {
-                const permiso_accion_entidad = permisos_accion_entidad
-                    .filter(
-                        permiso_accion_entidad =>
-                        permiso_accion_entidad.cat_entidad_id == cat_entidad.cat_entidad_id && cat_accion.cat_accion_id == permiso_accion_entidad.cat_accion_id
-                    )
-                ;
-
-                if (permiso_accion_entidad.length > 0) {
-                    cat_accion.dataValues.checked = 'checked';
-                } else {
-                    cat_accion.dataValues.checked = '';
-                }
-                acciones.push(cat_accion);
-            }
-            cat_entidad.dataValues.acciones = acciones;
+        const cat_entidades = cat_entidades_found.map(cat_entidad => {
+            cat_entidad.dataValues.acciones = []
             return cat_entidad;
         });
+
+        for (const cat_entidad of cat_entidades) {
+            for (const cat_accion of cat_acciones) {
+                const permiso_accion_entidad = permisos_accion_entidad
+                    .filter(permiso_accion_entidad =>
+                        permiso_accion_entidad.cat_entidad_id == cat_entidad.cat_entidad_id && permiso_accion_entidad.cat_accion_id == cat_accion.cat_accion_id);
+
+                if (permiso_accion_entidad.length > 0) {
+                    const obj = {
+                        cat_accion_id: cat_accion.cat_accion_id,
+                        cat_accion_nombre: cat_accion.cat_accion_nombre,
+                        cat_accion_status: cat_accion.cat_accion_status,
+                        checked: 'checked'
+                    };
+
+                    const index = cat_entidades.findIndex(cat_entidad_e => cat_entidad_e.cat_entidad_id == cat_entidad.cat_entidad_id);
+                    cat_entidades[index].dataValues.acciones.push(obj);
+                } else {
+                    const obj = {
+                        cat_accion_id: cat_accion.cat_accion_id,
+                        cat_accion_nombre: cat_accion.cat_accion_nombre,
+                        cat_accion_status: cat_accion.cat_accion_status,
+                        checked: ''
+                    };
+                    const index = cat_entidades.findIndex(cat_entidad_e => cat_entidad_e.cat_entidad_id == cat_entidad.cat_entidad_id);
+                    cat_entidades[index].dataValues.acciones.push(obj);
+                }
+            }            
+        }
 
         const data = {
             cat_grupo_usuario,
             grupo_usuario_id: body.grupo_usuario_id,
             vistas: vistas_permiso,
-            permisos_acciones: permisos_acciones
+            permisos_acciones: cat_entidades
         };
 
         res.status(200).send(data);

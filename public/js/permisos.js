@@ -175,7 +175,6 @@ const mostrar_permisos_grupo_usuario = async data => {
             body: new URLSearchParams(data)
         });
         const result = await response.json();
-
         const { cat_grupo_usuario, grupo_usuario_id } = result;
 
         // Resetear selector de grupo usuario
@@ -279,7 +278,7 @@ const guardar_permisos_acciones = async () => {
             body: new URLSearchParams(data)
         });
         const result = await response.json();
-        console.log(result);
+        mensaje_exito(result.msg);
     } catch (error) {
         console.log(error);
     }
