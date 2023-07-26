@@ -24,7 +24,7 @@ export const permisos_validacion_vistas = async (req, res, next) => {
             }
         });
 
-        if (acceso_a_modulo.length > 0 || acceso_a_submodulo.length > 0) {
+        if (acceso_a_modulo.length > 0 || acceso_a_submodulo.length > 0 || originalUrl == '/') {
             next();
             return;
         }

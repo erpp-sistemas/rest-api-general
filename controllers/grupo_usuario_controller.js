@@ -1,4 +1,5 @@
 import { validationResult } from 'express-validator';
+import { Op } from "sequelize";
 // Helpers
 import { obtener_hora_local } from "../helpers/fechas.js";
 // Modelos
@@ -288,6 +289,12 @@ export const editar_permiso_vistas = async (req, res, next) => {
         const permisos_subvistas_edit = JSON.parse(body.permisos_subvistas);
 
         const all_permisos_vistas_activas = await Permiso_modulo.findAll({
+            include: {
+                model: Modulo,
+                where: {
+                    modulo_nombre: { [Op.ne]: 'Inicio' }
+                }
+            },
             where: {
                 grupo_usuario_id: body.grupo_usuario_id,
                 permiso_modulo_status: 'A'

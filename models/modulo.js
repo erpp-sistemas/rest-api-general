@@ -1,5 +1,5 @@
 import sequelize from "../config/db.js";
-import { DataTypes } from "sequelize";
+import { DataTypes, Op } from "sequelize";
 
 export const Modulo = sequelize.define('modulo', {
     modulo_id: {
@@ -28,7 +28,10 @@ export const Modulo = sequelize.define('modulo', {
 export const get_vistas = async () => {
     try {
         const vistas = await Modulo.findAll({
-            where: { modulo_status: 'A' },
+            where: {
+                modulo_nombre: { [Op.ne]: 'Inicio' },
+                modulo_status: 'A'
+            },
             order: [['modulo_id']]
         });
         return vistas;
