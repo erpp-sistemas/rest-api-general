@@ -26,6 +26,7 @@
     "express-validator": "^7.0.1",
     "glob-parent": ">=5.1.2",
     "jsonwebtoken": "^9.0.0",
+    "moment": "^2.29.4",
     "nodemon": "^1.14.9",
     "pg": "^8.11.1",
     "pg-hstore": "^2.3.4",
