@@ -9,9 +9,7 @@ const sequelize = new Sequelize(process.env.DB_NAME, process.env.DB_USER, proces
         acquire: 30000,
         idle: 10000
     },
-    options: {
-        instanceName: 'SQLEXPRESS'
-    }
+    options: { instanceName: 'SQLEXPRESS' }
 });
 
 export default sequelize;

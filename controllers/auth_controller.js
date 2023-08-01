@@ -2,8 +2,6 @@ import { validationResult } from 'express-validator';
 import jwt from 'jsonwebtoken';
 // Modelos
 import { Usuario, get_datos_usuario } from '../models/Usuario.js';
-import { get_permisos_modulos } from '../models/permiso_modulo.js';
-import { get_permisos_submodulos } from '../models/permiso_submodulo.js';
 import {
     permisos_acciones_by_grupo_usuario,
     permisos_vistas_by_grupo_usuario

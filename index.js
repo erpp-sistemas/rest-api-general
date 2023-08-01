@@ -10,11 +10,13 @@ import { permisos_validacion_vistas } from "./validations/permisos_validation.js
 // Rutas de la vista
 import router_grupo_usuario from "./routes/grupo_usuario.js";
 import router_usuarios from "./routes/usuarios.js";
+import router_funciones from "./routes/funciones.js";
 
 // Routers API
 import router_api_auth from "./routes/api_auth.js";
 import router_api_grupo_usuario from "./routes/api_grupo_usuario.js";
 import router_api_usuario from "./routes/api_usuarios.js";
+import router_api_funciones from "./routes/api_funciones.js";
 
 const app = express();
 
@@ -60,11 +62,13 @@ app.get("/login", (req, res) => {
 // Rutas de vistas
 app.use("/grupo_usuario", router_grupo_usuario);
 app.use("/usuarios", router_usuarios);
+app.use("/funciones", router_funciones);
 
 // Rutas del api
 app.use("/api/auth", router_api_auth);
 app.use("/api/grupo_usuario", router_api_grupo_usuario);
 app.use("/api/usuario", router_api_usuario);
+app.use("/api/funciones", router_api_funciones);
 
 const port = process.env.PORT || 3000;
 

@@ -27,8 +27,10 @@
     "glob-parent": ">=5.1.2",
     "jsonwebtoken": "^9.0.0",
     "nodemon": "^1.14.9",
+    "pg": "^8.11.1",
+    "pg-hstore": "^2.3.4",
     "sequelize": "^6.32.1",
-    "tedious": "^16.1.0"
+    "tedious": "^16.4.0"
   },
   "devDependencies": {
     "@babel/cli": "^7.6.4",
