@@ -107,7 +107,7 @@ export const actualizar_adeudo_rezago = async (req, res, next) => {
         `);
 
         if (adeudos_rezago.length < 1) {
-            res.status(200).send({ msg_data_not_current: 'No hay datos por actualizar' });
+            res.status(200).send({ msg: 'No hay datos para actualizar' });
             // intentalo más tarde
             return;
         }

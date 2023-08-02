@@ -1,3 +1,5 @@
+import { mensaje_exito } from "./functions/mensajes.js";
+
 const btns_abrir_modales = document.querySelectorAll('.btn-open-modal');
 
 /**
@@ -50,6 +52,10 @@ const actualizar_adeudo_rezago = () => {
                 return;
             }
 
+            // Open loading
+            const loading = document.querySelector('.content-loading');
+            loading.classList.remove('d-none');
+            
             const response = await fetch(`${base_url}api/funciones/adeudo_rezago`, {
                 method: 'POST',
                 headers: {
@@ -59,7 +65,11 @@ const actualizar_adeudo_rezago = () => {
                 body: new URLSearchParams(data)
             });
             const result = await response.json();
-            console.log(result);
+            loading.classList.add('d-none');
+            // Se esconde ventana modal
+            document.querySelector('.modal-adeudo-rezago').style.display = 'none';
+            const data_mensaje = { msg: result.msg, url: '/funciones/interno' };
+            mensaje_exito(data_mensaje); 
         } catch (error) {
             console.log(error);
         }
@@ -98,11 +108,11 @@ const modal_adeudo_rezago = () => {
     /* if (document.querySelector('#btn-actualizar-adeudo-rezago')) {
         document.querySelector('#btn-actualizar-adeudo-rezago').remove();
     } */
-    if (document.querySelector('.modal-adeduo-rezago')) {
-        document.querySelector('.modal-adeduo-rezago').remove();
+    if (document.querySelector('.modal-adeudo-rezago')) {
+        document.querySelector('.modal-adeudo-rezago').remove();
     }
     const content_modal = document.createElement('DIV');
-    content_modal.classList.add('modal', 'modal-form', 'fade', 'modal-adeduo-rezago');
+    content_modal.classList.add('modal', 'modal-form', 'fade', 'modal-adeudo-rezago');
     content_modal.setAttribute('tabindex', -1);
     content_modal.setAttribute('aria-labelledby', 'modal-adeudo-rezago');
     content_modal.setAttribute('aria-hidden', true);

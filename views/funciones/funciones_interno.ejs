@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     <%- include('../templates/head', { title: 'Funciones' }) %>
+    <link rel="stylesheet" href="<%= base_url %>css/loading.css">
 </head>
 <body>
     <%- include('../templates/header') %>
@@ -42,6 +43,7 @@
         </div>
     </section>
 
+    <%- include('../templates/loading') %>
     <%- include('../templates/fotter') %>
     <%- include('../templates/fotter_2') %>
     <script src="<%= base_url %>js/funciones_interno.js" type="module"></script>
