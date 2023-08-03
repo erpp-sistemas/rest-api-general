@@ -17,13 +17,16 @@
     background-image: url(img/fondo_login.jpeg);
     background-repeat: no-repeat;
     background-position: center;
+    background-attachment: fixed;
     background-size: cover;
     height: 100%;
     overflow: auto;"
 >
     <%- include('templates/header') %>
 
-    <div style="
+    <div
+        class="bar-design-login"
+        style="
         background-color: rgb(37 64 97);
         border-bottom: 8px solid #17e85d;
         position: fixed;
@@ -36,7 +39,7 @@
 
     <div class="container" style="position: relative; top: 50%; transform: translateY(-50%); z-index: 2;">
         <div class="row">
-            <div class="col">
+            <div class="col-sm-12 col-md-6 sg-login">
                 <div class="position-relative text-center text-white">
                     <img src="<%= base_url %>img/logo_blanco_erpp.png" alt="logo_erpp" class="logo-erpp mb-2">
                     <h1 class="fw-bold">Bienvenido a CRONOS</h1>
@@ -46,7 +49,7 @@
                     </p>
                 </div>
             </div>
-            <div class="col">
+            <div class="col-sm-12 col-md-6 card-login">
                 <div class="card" style="max-width: 470.4px; margin: 0 auto;">
                     <div class="card-body">
                         <img src="<%= base_url %>img/logo_cronos_fondoclaro.png" alt="logo_cronos" class="logo-sys-login">
@@ -91,7 +94,7 @@
                                 <a
                                     id="btn-login"
                                     class="btn shadow"
-                                    href="#"
+                                    href="#!"
                                     role="button"
                                     style="background-color: #269355; color: #fff; font-weight: 600;"
                                 >Ingresar</a>
@@ -104,7 +107,18 @@
         </div>
     </div>
 
-    <div style="background-color: rgb(37 64 97); position: fixed; right: 0; bottom: 0; left: 0; z-index: 1; height: 4rem;"></div>
+    <div
+        class="bar-design-login"
+        style="
+            background-color: rgb(37 64 97);
+            position: fixed;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            z-index: 1;
+            height: 4rem;
+        "
+    ></div>
 
     <%- include('templates/fotter') %>
     <script src="<%= base_url %>js/login.js"></script>

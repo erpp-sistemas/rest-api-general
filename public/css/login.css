@@ -45,3 +45,51 @@ img {
     margin: auto;
     margin-top: 5.5rem;
 }
+
+@media screen and (max-width: 767.5px) {
+    body::before {
+        height: 52rem;
+    }
+    .bar-design-login {
+        display: none;
+    }
+    .container {
+        padding-top: 7rem;
+    }
+}
+
+@media screen and (max-width: 314.5px) {
+    body::before {
+        height: 56rem;
+    }
+    .container {
+        padding-top: 12rem;
+    }
+}
+
+@media screen and (min-width: 768px) and (max-height: 500px) {
+    body::before {
+        height: 43rem;
+    }
+    .container {
+        padding-top: 13rem;
+    }
+}
+
+@media screen and (max-width: 767.5px) and (max-height: 500px) {
+    body::before {
+        height: 56rem;
+    }
+    .container {
+        padding-top: 23rem;
+    }
+}
+
+@media screen and (max-width: 314.5px) and (max-height: 500px) {
+    body::before {
+        height: 60rem;
+    }
+    .container {
+        padding-top: 28rem;
+    }
+}
