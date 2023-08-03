@@ -43,9 +43,9 @@ const insertar_datos_localStorage = result => {
     }
     
     // Resetear mensajes de error
-    inputs_formulario.forEach(input_formulario => {
+    /* inputs_formulario.forEach(input_formulario => {
         input_formulario.style.display = "none";
-    });
+    }); */
 
     // Insertar datos en el localStorage
     local_storage.setItem("token", data.token);
@@ -70,6 +70,7 @@ const login = async () => {
             if (!esta_validado_inputs_form) return;
             data_form[input_formulario.name] = input_formulario.value;
         }
+
         const response = await fetch(`${base_url}api/auth`, {
             method: 'POST',
             headers: { "Content-Type": 'application/x-www-form-urlencoded' },

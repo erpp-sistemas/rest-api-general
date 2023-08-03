@@ -19,7 +19,7 @@
     background-position: center;
     background-size: cover;
     height: 100%;
-    overflow: hidden;"
+    overflow: auto;"
 >
     <%- include('templates/header') %>
 
@@ -34,14 +34,24 @@
         height: 4rem;"
     ></div> 
 
-    <div class="container mt-3" style="margin-top: 13rem !important;">
+    <div class="container" style="position: relative; top: 50%; transform: translateY(-50%); z-index: 2;">
         <div class="row">
-            <div class="col"></div>
+            <div class="col">
+                <div class="position-relative text-center text-white">
+                    <img src="<%= base_url %>img/logo_blanco_erpp.png" alt="logo_erpp" class="logo-erpp mb-2">
+                    <h1 class="fw-bold">Bienvenido a CRONOS</h1>
+                    <p class="fs-5">
+                        Aplicación de uso gerencial y administrativo para uso exclusivo del personal de
+                        <span class="fw-bold" style="color: #17e85d;">ERPP&#169; Corporativo</span>.
+                    </p>
+                </div>
+            </div>
             <div class="col">
                 <div class="card" style="max-width: 470.4px; margin: 0 auto;">
                     <div class="card-body">
+                        <img src="<%= base_url %>img/logo_cronos_fondoclaro.png" alt="logo_cronos" class="logo-sys-login">
                         <form id="form">
-                            <h4 class="text-center fw-bold mb-4" style="color: rgb(37 64 97);">LOGIN</h4>
+                            <h4 class="text-center my-4 fw-semibold" style="color: rgb(37 64 97);">LOGIN</h4>
                             <div class="row">
                                 <div class="col-12">
                                     <div class="form-group">
@@ -80,12 +90,13 @@
                             <div class="d-flex justify-content-center mt-3">
                                 <a
                                     id="btn-login"
-                                    class="btn"
+                                    class="btn shadow"
                                     href="#"
                                     role="button"
-                                    style="background-color: #2FD968; color: #fff; font-weight: 600;"
+                                    style="background-color: #269355; color: #fff; font-weight: 600;"
                                 >Ingresar</a>
                             </div>
+                            <p class="my-4 text-center text-body-tertiary">Copyright &#169; 2023 CRONOS</p>
                         </form>
                     </div>
                 </div>
