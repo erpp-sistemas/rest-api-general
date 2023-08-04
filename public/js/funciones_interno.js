@@ -1,3 +1,4 @@
+import { loading_hope } from "./functions/loading.js";
 import { mensaje_exito } from "./functions/mensajes.js";
 
 const btns_abrir_modales = document.querySelectorAll('.btn-open-modal');
@@ -55,6 +56,8 @@ const actualizar_adeudo_rezago = () => {
             // Open loading
             const loading = document.querySelector('.content-loading');
             loading.classList.remove('d-none');
+            // Va itercalando dinámicamente el mensaje de loading
+            const loagin_dynamic = setInterval(loading_hope, 10000);
             
             const response = await fetch(`${base_url}api/funciones/adeudo_rezago`, {
                 method: 'POST',
@@ -64,12 +67,15 @@ const actualizar_adeudo_rezago = () => {
                 },
                 body: new URLSearchParams(data)
             });
+
             const result = await response.json();
+            // Mataer el setTimeout del loading de espera
+            clearInterval(loagin_dynamic);
             loading.classList.add('d-none');
             // Se esconde ventana modal
             document.querySelector('.modal-adeudo-rezago').style.display = 'none';
             const data_mensaje = { msg: result.msg, url: '/funciones/interno' };
-            mensaje_exito(data_mensaje); 
+            mensaje_exito(data_mensaje);
         } catch (error) {
             console.log(error);
         }

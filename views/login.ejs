@@ -11,6 +11,7 @@
         integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM"
         crossorigin="anonymous"
     >
+    <link rel="stylesheet" href="<%= base_url %>css/animate.min.css">
     <link rel="stylesheet" href="<%= base_url %>css/login.css">
 </head>
 <body style="
@@ -40,7 +41,7 @@
     <div class="container" style="position: relative; top: 50%; transform: translateY(-50%); z-index: 2;">
         <div class="row">
             <div class="col-sm-12 col-md-6 sg-login">
-                <div class="position-relative text-center text-white">
+                <div class="position-relative text-center text-white animate__animated animate__bounceInDown">
                     <img src="<%= base_url %>img/logo_blanco_erpp.png" alt="logo_erpp" class="logo-erpp mb-2">
                     <h1 class="fw-bold">Bienvenido a CRONOS</h1>
                     <p class="fs-5">
@@ -50,7 +51,7 @@
                 </div>
             </div>
             <div class="col-sm-12 col-md-6 card-login">
-                <div class="card shadow-lg" style="max-width: 470.4px; margin: 0 auto;">
+                <div class="card shadow-lg animate__animated animate__bounceInRight" style="max-width: 470.4px; margin: 0 auto;">
                     <div class="card-body">
                         <img src="<%= base_url %>img/logo_cronos_fondoclaro.png" alt="logo_cronos" class="logo-sys-login">
                         <form id="form">

@@ -1,7 +1,12 @@
-<div class="home-content">
-    <div class="d-flex align-items-center justify-content-center menu-sidebar">
+<div class="home-content" style="background-color: rgb(37,64,97);">
+    <div
+        class="d-flex align-items-center justify-content-center menu-sidebar"
+        data-bs-toggle="offcanvas"
+        data-bs-target="#offcanvasidebar"
+        aria-controls="offcanvasidebar"
+    >
         <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" viewBox="0 0 24 24">
-            <path fill="#254061" d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
+            <path fill="none" stroke="white" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 17h14M5 12h14M5 7h14"/>
         </svg>
     </div>
     <span class="text"><%= home_content_name %></span>
@@ -9,11 +14,11 @@
         <div class="profile-content"></div>
         <div class="name-job">
             <div class="profile_name"></div>
-            <div class="usuario-cargo"></div>
+            <div class="usuario-cargo text-white"></div>
         </div>
         <div class="cr-pointer ms-2 arrow-profile">
             <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24">
-                <path fill="none" stroke="#254061" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m10 17l5-5m0 0l-5-5"/>
+                <path fill="none" stroke="white" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="m10 17l5-5m0 0l-5-5"/>
             </svg>
         </div>
     </div>

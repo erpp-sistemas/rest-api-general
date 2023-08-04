@@ -1,4 +1,3 @@
-const sidebar_btn = document.querySelector(".menu-sidebar");
 const sidebar = document.querySelector(".sidebar");
 const flecha_desplegar_menu = document.querySelector('.arrow-profile');
 const logout = document.querySelector('#logout');
@@ -12,7 +11,7 @@ const construir_sidebar = secciones_sidebar => {
     const { submodulos } = modulo;
 
     const tags_li_submodulos = submodulos.map(submodulo => {
-      return `<li><a href="${submodulo.submodulo_ruta_url}">${submodulo.submodulo_nombre}</a></li>`
+      return `<li><a href="${submodulo.submodulo_ruta_url}">${submodulo.submodulo_nombre}</a></li><hr class="dropdown-divider" style="border-top: 1px solid #ffffff75;">`
     });
 
     const tag_li = submodulos.length < 1
@@ -22,7 +21,7 @@ const construir_sidebar = secciones_sidebar => {
               <div class="d-flex align-items-center justify-content-center img-sidebar">
                 <img src="${base_url}${modulo.modulo_icon_url}">
               </div>
-              <span class="link_name">${modulo.modulo_nombre}</span>
+              <span class="link_name ms-3 text-white">${modulo.modulo_nombre}</span>
           </a>
         </li>
       `
@@ -33,9 +32,9 @@ const construir_sidebar = secciones_sidebar => {
               <div class="d-flex align-items-center justify-content-center img-sidebar">
                 <img src="${base_url}${modulo.modulo_icon_url}">
               </div>
-              <span class="link_name">${modulo.modulo_nombre}</span>
+              <span class="link_name ms-3 text-white">${modulo.modulo_nombre}</span>
             </a>
-            <i class="bx bxs-chevron-right arrow"></i>   
+            <i class="bx bxs-chevron-right arrow text-white"></i>   
           </div>
           <ul class="sub-menu">${tags_li_submodulos.join('')}</ul>
         </li>
@@ -115,15 +114,11 @@ const cerrar_sesion = async () => {
   } catch (error) {
     console.log(error);
   }
-} 
+}
 
 flecha_desplegar_menu.addEventListener("click", () => {
   flecha_desplegar_menu.classList.toggle('arrow-rotate');
   document.querySelector('.menu-profile').classList.toggle('show');
-});
-
-sidebar_btn.addEventListener("click", () => {
-  sidebar.classList.toggle("close");
 });
 
 logout.addEventListener('click', cerrar_sesion);

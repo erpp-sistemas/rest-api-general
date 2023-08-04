@@ -1,10 +1,13 @@
-<div class="sidebar">
-    <div class="logo-sys">
-        <div style="margin: 0.2rem 1rem 0 0.85rem;">
-            <img src="<%= base_url %>img/logo_img.svg" width="50" style="max-width: none;">
-        </div>
-        <span class="logo_name">SERO&nbsp;CRONOS</span>
+<div class="sidebar offcanvas offcanvas-start" tabindex="-1" id="offcanvasidebar" aria-labelledby="offcanvasidebarLabel">
+    <div class="offcanvas-header">
+        <h5 class="offcanvas-title" id="offcanvasidebarLabel">
+            <img src="<%= base_url %>img/isotipo_cronos.png" width="50" class="d-inline" style="max-width: none;">
+            <span class="fw-bold text-white">RONOS</span>
+        </h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
     </div>
-
-    <ul class="nav-links secciones-sidebar"></ul>
+    <hr class="dropdown-divider" style="margin: 0 1rem; border-top: 1px solid #ffffff75;">
+    <div class="offcanvas-body">
+        <ul class="nav-links secciones-sidebar"></ul>
+    </div>
 </div>
