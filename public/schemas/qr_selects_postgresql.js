@@ -6,7 +6,8 @@ export const structure_table = async data => {
             SELECT
                 *
             FROM INFORMATION_SCHEMA.COLUMNS
-            WHERE table_name = '${table_name}';
+            WHERE table_name = '${table_name}'
+            ORDER BY "ordinal_position";
         `);
         return table_fields;
     } catch (error) {

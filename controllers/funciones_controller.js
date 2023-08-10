@@ -395,7 +395,7 @@ const actualizar_carta_invitacion_naucalpan = async body => {
         // Campos de la tabla comercial en postgresql
         const fields_table_comercial = await structure_table(data_connection_postgresql);
 
-        // DESTRUCTURING DE LOS CAMPOS
+        // DESTRUCTURING DE LOS CAMPOS de las tabals de postgresql
         const [fecha_captura_table_domestico] = fields_table_domestico.filter(field => field.ordinal_position == 17);
         const [id_table_domestico] = fields_table_domestico.filter(field => field.ordinal_position == 1);
         const [fecha_captura_table_comercial] = fields_table_comercial.filter(field => field.ordinal_position == 17);
@@ -412,9 +412,10 @@ const actualizar_carta_invitacion_naucalpan = async body => {
         };                  
         const [max_data_table_domestico] = await max_data_about_table(data_connection_postgresql);
         const max_date_table_domestico = Date.parse(max_data_table_domestico.max_fecha_captura); 
-        let max_id_table_domestico = parseInt(max_data_table_domestico.max_id); 
-        console.log("max_date_table_domestico ------------------------->", max_data_table_domestico);
+        // let max_id_table_domestico = parseInt(max_data_table_domestico.max_id) + 1;
+        let max_id_table_domestico = 1;
 
+    
         data_connection_postgresql = {
             ...data_connection_postgresql,
             table_name: table_name_comercial,
@@ -423,150 +424,153 @@ const actualizar_carta_invitacion_naucalpan = async body => {
         };                  
         const [max_data_table_comercial] = await max_data_about_table(data_connection_postgresql);
         const max_date_table_comercial = Date.parse(max_data_table_comercial.max_fecha_captura); 
-        let max_id_table_comercial = parseInt(max_data_table_comercial.max_id); 
-        console.log("max_date_table_comercial ------------------------->", max_data_table_comercial);
+        // let max_id_table_comercial = parseInt(max_data_table_comercial.max_id) + 1;
+        let max_id_table_comercial = 1;
 
         const registros_carta_invitacion_domestico = registros_carta_invitacion.filter(registro => {
             const servicio_padron_comercial = registro.tipo_servicio_padron.toLowerCase().includes('comercial');
             const servicio_padron_equipamiento = registro.tipo_servicio_padron.toLowerCase().includes('equipamiento');
             const servicio_padron_industrial = registro.tipo_servicio_padron.toLowerCase().includes('industrial');
-            const fecha_captura_registro = Date.parse(registro[`${fecha_captura_table_domestico.column_name}`]);
+            // const fecha_captura_registro = Date.parse(registro[`${fecha_captura_table_domestico.column_name}`]);
 
             if (!servicio_padron_comercial && !servicio_padron_equipamiento && !servicio_padron_industrial) {
                 return registro;
             }
-        });
-        
+            /* if (fecha_captura_registro > max_date_table_domestico & !servicio_padron_comercial && !servicio_padron_equipamiento && !servicio_padron_industrial) {
+                return registro;
+            } */
+        }); 
+
+        // Datos a insertar en la tabla carta invitación comercial de postgresql
         const registros_carta_invitacion_comercial = registros_carta_invitacion.filter(registro => {
-            const fecha_captura_registro = Date.parse(registro[`${fecha_captura_table_comercial.column_name}`]);
+            // const fecha_captura_registro = Date.parse(registro[`${fecha_captura_table_comercial.column_name}`]);
             const servicio_padron_comercial = registro.tipo_servicio_padron.toLowerCase().includes('comercial');
             
-            if (fecha_captura_registro > max_date_table_domestico && servicio_padron_comercial) {
+            if (servicio_padron_comercial) {
                 return registro;
             }
+            /* if (fecha_captura_registro > max_date_table_comercial && servicio_padron_comercial) {
+                return registro;
+            } */
         });
+
+        let values_to_insert_domestico = [],
+            values_to_insert_comercial = [];
+
+        //Obtener los registros a insertar en la tabla de domestico de Naucalpan
+        for (const registro of registros_carta_invitacion_domestico) {
+            let row = [];
+
+            for (const field of fields_table_domestico) {
+                if (field.ordinal_position == 1) {
+                    row = [...row, max_id_table_domestico++];
+                    continue;
+                }
+
+                if (field.ordinal_position == 29) continue;
+
+                if (!registro[field.column_name]) {
+                    row = [...row, 'NULL'];
+                    continue;
+                }
+
+                if (field.ordinal_position == 21) {
+                    const fecha_corte_format = moment(registro[field.column_name]).add(1, 'day').format('YYYY-MM-DD 00:00:00');
+                    row = [...row, `'${fecha_corte_format}'`];
+                    continue;
+                }
+
+                if (typeof registro[field.column_name] === 'string') {
+                    row = [...row, `'${registro[field.column_name]}'`];
+                    continue;
+                }
+
+                row = [...row, registro[field.column_name]];
+            }
+
+            values_to_insert_domestico = [...values_to_insert_domestico, `(${row.join(',')})`];
+        }   
+
+        //Obtener los registros a insertar en la tabla de comercial de Naucalpan
+        for (const registro of registros_carta_invitacion_comercial) {
+            let row = [];
+            for (const field of fields_table_comercial) {
+                if (field.ordinal_position == 1) {
+                    row = [...row, max_id_table_comercial++];
+                    continue;
+                }
+
+                if (field.ordinal_position == 29) continue;
+
+                if (!registro[field.column_name]) {
+                    row = [...row, 'NULL'];
+                    continue;
+                }
+
+                if (field.ordinal_position == 21) {
+                    const fecha_corte_format = moment(registro[field.column_name]).add(1, 'day').format('YYYY-MM-DD 00:00:00');
+                    row = [...row, `'${fecha_corte_format}'`];
+                    continue;
+                }
+
+                if (typeof registro[field.column_name] === 'string') {
+                    row = [...row, `'${registro[field.column_name]}'`];
+                    continue;
+                }
+                
+                row = [...row, registro[`${field.column_name}`]];
+            }
+
+            values_to_insert_comercial = [...values_to_insert_comercial, `(${row.join(',')})`];
+        }
 
         /**
-         * Para Izcalli, agrupar los registros
-         * por doméstico (media, popular, habitacional),
-         * comercial e industrial
+         * Ingresar @values_to_insert_domestico y @values_to_insert_comercial
+         * a sus tablas correspondientes en postgresql 
         */
-        /* let values_to_insert_domestico = [],
-            values_to_insert_comercial = [],
-            values_to_insert_industrial = [];
-
-        const fecha_captura_max_domestico = Date.parse(max_data_table_domestico[0][0].max_fechacaptura);
-        const fecha_captura_max_comercial = Date.parse(max_data_table_comercial[0][0].max_fechacaptura);
-        const fecha_captura_max_industrial = max_data_table_industrial ? Date.parse(max_data_table_industrial[0][0].max_fechacaptura) : undefined;
-
-        const carta_invitacion_domestico = registros_carta_invitacion.filter(registro_carta_invitacion => {
-            const fecha_captura_registro = Date.parse(registro_carta_invitacion.fechaCaptura);
-
-            const tipo_servicio_padron = registro_carta_invitacion.tipo_servicio_padron.toLowerCase();
-            
-            const servicio_domestico_media = tipo_servicio_padron.includes('media');
-            const servicio_domestico_popular = tipo_servicio_padron.includes('popular');
-            const servicio_domestico_habitacional = tipo_servicio_padron.includes('habitacional');
-
-            if (fecha_captura_registro > fecha_captura_max_domestico && (servicio_domestico_media || servicio_domestico_popular || servicio_domestico_habitacional)) {
-                return registro_carta_invitacion;
-            }
-        });
-        
-
-        let id_domestico = max_data_table_domestico[0][0].max_id;
-
-        for (const registro of carta_invitacion_domestico) {
-            const fecha_corte_format = registro.fecha_corte ? moment(registro.fecha_corte).add(1, 'day').format('YYYY-MM-DD 00:00:00') : registro.fecha_corte;
-            const value_insert = `(${id_domestico}, '${registro.cuenta}', '${registro.persona_atiende}', '${registro.tipo_servicio_padron}','${registro.tipo_servicio}', '${registro.giro}', ${registro.numero_niveles}, '${registro.color_fachada}','${registro.color_puerta}', '${registro.referencia}', '${registro.tipo_predio}', '${registro.entre_calle1}', '${registro.entre_calle2}', '${registro.observaciones}', '${registro.lecturaMedidor}', '${registro.gestor}', '${registro.fechaCaptura}', '${registro.servicio}', '${registro.estatus_predio}', ${registro.saldo_actual}, '${fecha_corte_format}', ${registro.latitud}, ${registro.longitud}, '${registro.Foto1}', '${registro.Foto2}', '${registro.Foto3}', '${registro.Foto4}', '${registro.Foto5}')`;
-            values_to_insert_domestico = [...values_to_insert_domestico, value_insert];
-            id_domestico ++;
-        }        
-        
-        // const carta_invitacion_comercial 
-        const carta_invitacion_comercial = registros_carta_invitacion.filter(registro_carta_invitacion => {
-            const fecha_captura_registro = Date.parse(registro_carta_invitacion.fechaCaptura);
-
-            const tipo_servicio_padron = registro_carta_invitacion.tipo_servicio_padron.toLowerCase();
-            const servicio_comercial = tipo_servicio_padron.includes('comercial');
-
-            if (fecha_captura_registro > fecha_captura_max_comercial  && servicio_comercial) {
-                return registro_carta_invitacion;
-            }
-        });
-
-        let id_comercial = max_data_table_comercial[0][0].max_id;
-        for (const registro of carta_invitacion_comercial) {
-            const fecha_corte_format = registro.fecha_corte ? moment(registro.fecha_corte).add(1, 'day').format('YYYY-MM-DD 00:00:00') : registro.fecha_corte;
-            const value_insert = `(${id_domestico}, '${registro.cuenta}', '${registro.persona_atiende}', '${registro.tipo_servicio_padron}','${registro.tipo_servicio}', '${registro.giro}', ${registro.numero_niveles}, '${registro.color_fachada}','${registro.color_puerta}', '${registro.referencia}', '${registro.tipo_predio}', '${registro.entre_calle1}', '${registro.entre_calle2}', '${registro.observaciones}', '${registro.lecturaMedidor}', '${registro.gestor}', '${registro.fechaCaptura}', '${registro.servicio}', '${registro.estatus_predio}', ${registro.saldo_actual}, '${fecha_corte_format}', ${registro.latitud}, ${registro.longitud}, '${registro.Foto1}', '${registro.Foto2}', '${registro.Foto3}', '${registro.Foto4}', '${registro.Foto5}')`;
-            values_to_insert_comercial = [...values_to_insert_comercial, value_insert];
-            id_comercial ++;
-        } 
-
-        if (table_name_industrial) {
-            // const carta_invitacion_industrial
-            const carta_invitacion_industrial = registros_carta_invitacion.filter(registro_carta_invitacion => {
-                const fecha_captura_registro = Date.parse(registro_carta_invitacion.fechaCaptura);
-    
-                const tipo_servicio_padron = registro_carta_invitacion.tipo_servicio_padron.toLowerCase();
-                const servicio_industrial = tipo_servicio_padron.includes('industrial');
-    
-                if (fecha_captura_registro > fecha_captura_max_industrial && servicio_industrial) {
-                    return registro_carta_invitacion;
-                }
-            });
-    
-            let id_industrial = max_data_table_industrial[0][0].max_id;
-            for (const registro of carta_invitacion_industrial) {
-                const fecha_corte_format = registro.fecha_corte ? moment(registro.fecha_corte).add(1, 'day').format('YYYY-MM-DD 00:00:00') : registro.fecha_corte;
-                const value_insert = `(${id_domestico}, '${registro.cuenta}', '${registro.persona_atiende}', '${registro.tipo_servicio_padron}','${registro.tipo_servicio}', '${registro.giro}', ${registro.numero_niveles}, '${registro.color_fachada}','${registro.color_puerta}', '${registro.referencia}', '${registro.tipo_predio}', '${registro.entre_calle1}', '${registro.entre_calle2}', '${registro.observaciones}', '${registro.lecturaMedidor}', '${registro.gestor}', '${registro.fechaCaptura}', '${registro.servicio}', '${registro.estatus_predio}', ${registro.saldo_actual}, '${fecha_corte_format}', ${registro.latitud}, ${registro.longitud}, '${registro.Foto1}', '${registro.Foto2}', '${registro.Foto3}', '${registro.Foto4}', '${registro.Foto5}')`;
-                values_to_insert_industrial = [...values_to_insert_industrial, value_insert];
-                id_industrial ++;
-            }
-            
-            await connection_postgresQL.query(`
-                INSERT INTO ${table_name_industrial} (id, cuenta, persona_atiende, tipo_servicio_padron, tipo_servicio, giro, numero_niveles, color_fachada, color_puerta, referencia, tipo_predio, entre_calle1, entre_calle2, observaciones, "lecturaMedidor", gestor, "fechaCaptura", servicio, estatus_predio, saldo_actual, fecha_corte, latitud, longitud, "Foto1", "Foto2", "Foto3", "Foto4", "Foto5")
-                VALUES ${values_to_insert_industrial.join(',')}
-            `);
-
-            if (values_to_insert_industrial.length > 0) {
-                await connection_postgresQL.query(`update ${table_name_industrial} set geom = ST_SetSRID(ST_MakePoint(longitud, latitud), 4326) where latitud > 0`);                
-            }
-
+        let columns_name_structure_table_domestico = [],
+            columns_name_structure_table_comercial = [];
+        // Obtiene los nombres de los campos de la tabla domestico de manera dinámica
+        for (const field  of fields_table_domestico) {
+            if (field.ordinal_position == 29) continue;
+            columns_name_structure_table_domestico.push(`"${field.column_name}"`);
         }
 
-        // Insert valores en las tablas
-        if (values_to_insert_domestico.length > 0) {
-            await connection_postgresQL.query(`
-                INSERT INTO ${table_name_domestica} (id, cuenta, persona_atiende, tipo_servicio_padron, tipo_servicio, giro, numero_niveles, color_fachada, color_puerta, referencia, tipo_predio, entre_calle1, entre_calle2, observaciones, "lecturaMedidor", gestor, "fechaCaptura", servicio, estatus_predio, saldo_actual, fecha_corte, latitud, longitud, "Foto1", "Foto2", "Foto3", "Foto4", "Foto5")
-                VALUES ${values_to_insert_domestico.join(',')}
-            `);
+        // Obtiene los nombres de los campos de la tabla comercial de manera dinámica        
+        for (const field  of fields_table_comercial) {
+            if (field.ordinal_position == 29) continue;
+            columns_name_structure_table_comercial.push(`"${field.column_name}"`);
         }
 
-        if (values_to_insert_comercial.length > 0) {
-            await connection_postgresQL.query(`
-                INSERT INTO ${table_name_comercial} (id, cuenta, persona_atiende, tipo_servicio_padron, tipo_servicio, giro, numero_niveles, color_fachada, color_puerta, referencia, tipo_predio, entre_calle1, entre_calle2, observaciones, "lecturaMedidor", gestor, "fechaCaptura", servicio, estatus_predio, saldo_actual, fecha_corte, latitud, longitud, "Foto1", "Foto2", "Foto3", "Foto4", "Foto5")
-                VALUES ${values_to_insert_comercial.join(',')}
-            `);
-        }
+        await connection_postgresQL.query(`
+            INSERT INTO ${table_name_domestico} (${columns_name_structure_table_domestico.join(',')})
+            VALUES ${values_to_insert_domestico.join(',')}
+        `);
 
-        await connection_postgresQL.query(`update ${table_name_domestica} set geom = ST_SetSRID(ST_MakePoint(longitud, latitud), 4326) where latitud > 0`);
+        await connection_postgresQL.query(`
+            INSERT INTO ${table_name_comercial} (${columns_name_structure_table_comercial.join(',')})
+            VALUES ${values_to_insert_comercial.join(',')}
+        `);
+
+        // Agregar el campo geom a los datos previamente insertados en postgresql
+        await connection_postgresQL.query(`update ${table_name_domestico} set geom = ST_SetSRID(ST_MakePoint(longitud, latitud), 4326) where latitud > 0`);
         await connection_postgresQL.query(`update ${table_name_comercial} set geom = ST_SetSRID(ST_MakePoint(longitud, latitud), 4326) where latitud > 0`);
+        
 
         // Cerrar conexiones a baases de datos
         await connection_msql.close();
         await connection_postgresQL.close();
 
-        return { msg: '¡Datos actualizados!' }; */
+        return { msg: '¡Datos actualizados!' };
     } catch (error) {
         console.log(error);
+        return error;
     }
 }
 
 export const actualizar_carta_invitacion = async (req, res, next) => {
     try {
         const { body } = req;
-        console.log(body);
 
         let result = '';
         if (body.plaza_id == 2) {
@@ -577,7 +581,7 @@ export const actualizar_carta_invitacion = async (req, res, next) => {
             result = await actualizar_carta_invitacion_naucalpan(body);
         }
 
-        // res.status(200).send(result);
+        res.status(200).send(result);
     } catch (error) {
         console.log(error);
         res.status(400).send(error);
