@@ -295,7 +295,7 @@ const modal_carta_invitacion = () => {
                                 18H4v-8l8 5l8-5v8m-8-5L4 8l8-5l8 5l-8 5Z"
                             />
                         </svg>
-                        <h5 class="modal-title ms-2" id="modal-carta-invitacion-label">Cata Invitación</h5>
+                        <h5 class="modal-title ms-2" id="modal-carta-invitacion-label">Carta Invitación</h5>
                         <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body bg-blue-sys">
