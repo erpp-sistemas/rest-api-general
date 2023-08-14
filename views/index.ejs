@@ -1,501 +1,581 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <%- include('templates/head', { title: 'Inicio' }) %>
-    <script src="<%= base_url %>assets/js/color-modes.js"></script>
-    <link
-      rel="canonical"
-      href="https://getbootstrap.com/docs/5.3/examples/carousel/"
-    />
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/@docsearch/css@3"
-    />
-    <style>
-        .bd-placeholder-img {
-          font-size: 1.125rem;
-          text-anchor: middle;
-          -webkit-user-select: none;
-          -moz-user-select: none;
-          user-select: none;
-        }
-  
-        @media (min-width: 768px) {
-          .bd-placeholder-img-lg {
-            font-size: 3.5rem;
-          }
-        }
-  
-        .b-example-divider {
-          width: 100%;
-          height: 3rem;
-          background-color: rgba(0, 0, 0, 0.1);
-          border: solid rgba(0, 0, 0, 0.15);
-          border-width: 1px 0;
-          box-shadow: inset 0 0.5em 1.5em rgba(0, 0, 0, 0.1),
-            inset 0 0.125em 0.5em rgba(0, 0, 0, 0.15);
-        }
-  
-        .b-example-vr {
-          flex-shrink: 0;
-          width: 1.5rem;
-          height: 100vh;
-        }
-  
-        .bi {
-          vertical-align: -0.125em;
-          fill: currentColor;
-        }
-  
-        .nav-scroller {
-          position: relative;
-          z-index: 2;
-          height: 2.75rem;
-          overflow-y: hidden;
-        }
-  
-        .nav-scroller .nav {
-          display: flex;
-          flex-wrap: nowrap;
-          padding-bottom: 1rem;
-          margin-top: -1px;
-          overflow-x: auto;
-          text-align: center;
-          white-space: nowrap;
-          -webkit-overflow-scrolling: touch;
-        }
-  
-        .btn-bd-primary {
-          --bd-violet-bg: #712cf9;
-          --bd-violet-rgb: 112.520718, 44.062154, 249.437846;
-  
-          --bs-btn-font-weight: 600;
-          --bs-btn-color: var(--bs-white);
-          --bs-btn-bg: var(--bd-violet-bg);
-          --bs-btn-border-color: var(--bd-violet-bg);
-          --bs-btn-hover-color: var(--bs-white);
-          --bs-btn-hover-bg: #6528e0;
-          --bs-btn-hover-border-color: #6528e0;
-          --bs-btn-focus-shadow-rgb: var(--bd-violet-rgb);
-          --bs-btn-active-color: var(--bs-btn-hover-color);
-          --bs-btn-active-bg: #5a23c8;
-          --bs-btn-active-border-color: #5a23c8;
-        }
-        .bd-mode-toggle {
-          z-index: 1500;
-        }
-    </style>
-    <link href="<%= base_url %>css/carousel.css" rel="stylesheet" />
-</head>
-<body>
-    <%- include('templates/header') %>
-    <%- include('templates/sidebar_principal') %>
-    
-    <svg xmlns="http://www.w3.org/2000/svg" class="d-none">
-        <symbol id="check2" viewBox="0 0 16 16">
-          <path
-            d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"
-          />
-        </symbol>
-        <symbol id="circle-half" viewBox="0 0 16 16">
-          <path d="M8 15A7 7 0 1 0 8 1v14zm0 1A8 8 0 1 1 8 0a8 8 0 0 1 0 16z" />
-        </symbol>
-        <symbol id="moon-stars-fill" viewBox="0 0 16 16">
-          <path
-            d="M6 .278a.768.768 0 0 1 .08.858 7.208 7.208 0 0 0-.878 3.46c0 4.021 3.278 7.277 7.318 7.277.527 0 1.04-.055 1.533-.16a.787.787 0 0 1 .81.316.733.733 0 0 1-.031.893A8.349 8.349 0 0 1 8.344 16C3.734 16 0 12.286 0 7.71 0 4.266 2.114 1.312 5.124.06A.752.752 0 0 1 6 .278z"
-          />
-          <path
-            d="M10.794 3.148a.217.217 0 0 1 .412 0l.387 1.162c.173.518.579.924 1.097 1.097l1.162.387a.217.217 0 0 1 0 .412l-1.162.387a1.734 1.734 0 0 0-1.097 1.097l-.387 1.162a.217.217 0 0 1-.412 0l-.387-1.162A1.734 1.734 0 0 0 9.31 6.593l-1.162-.387a.217.217 0 0 1 0-.412l1.162-.387a1.734 1.734 0 0 0 1.097-1.097l.387-1.162zM13.863.099a.145.145 0 0 1 .274 0l.258.774c.115.346.386.617.732.732l.774.258a.145.145 0 0 1 0 .274l-.774.258a1.156 1.156 0 0 0-.732.732l-.258.774a.145.145 0 0 1-.274 0l-.258-.774a1.156 1.156 0 0 0-.732-.732l-.774-.258a.145.145 0 0 1 0-.274l.774-.258c.346-.115.617-.386.732-.732L13.863.1z"
-          />
-        </symbol>
-        <symbol id="sun-fill" viewBox="0 0 16 16">
-          <path
-            d="M8 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM8 0a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 0zm0 13a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 13zm8-5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2a.5.5 0 0 1 .5.5zM3 8a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2A.5.5 0 0 1 3 8zm10.657-5.657a.5.5 0 0 1 0 .707l-1.414 1.415a.5.5 0 1 1-.707-.708l1.414-1.414a.5.5 0 0 1 .707 0zm-9.193 9.193a.5.5 0 0 1 0 .707L3.05 13.657a.5.5 0 0 1-.707-.707l1.414-1.414a.5.5 0 0 1 .707 0zm9.193 2.121a.5.5 0 0 1-.707 0l-1.414-1.414a.5.5 0 0 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .707zM4.464 4.465a.5.5 0 0 1-.707 0L2.343 3.05a.5.5 0 1 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .708z"
-          />
-        </symbol>
-    </svg>
+    <head>
+        <%- include('templates/head', { title: 'Inicio' }) %>
+        <script src="<%= base_url %>assets/js/color-modes.js"></script>
+        <link
+          rel="canonical"
+          href="https://getbootstrap.com/docs/5.3/examples/carousel/"
+        />
+        <link
+          rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/@docsearch/css@3"
+        />
+        <style>
+            .bd-placeholder-img {
+              font-size: 1.125rem;
+              text-anchor: middle;
+              -webkit-user-select: none;
+              -moz-user-select: none;
+              user-select: none;
+            }
 
-    <div
-        class="dropdown position-fixed bottom-0 end-0 mb-3 me-3 bd-mode-toggle"
-    >
-        <button
-        class="btn btn-bd-primary py-2 dropdown-toggle d-flex align-items-center"
-        id="bd-theme"
-        type="button"
-        aria-expanded="false"
-        data-bs-toggle="dropdown"
-        aria-label="Toggle theme (auto)"
-        >
-        <svg class="bi my-1 theme-icon-active" width="1em" height="1em">
-            <use href="#circle-half"></use>
+            @media (min-width: 768px) {
+              .bd-placeholder-img-lg {
+                font-size: 3.5rem;
+              }
+            }
+
+            .b-example-divider {
+              width: 100%;
+              height: 3rem;
+              background-color: rgba(0, 0, 0, 0.1);
+              border: solid rgba(0, 0, 0, 0.15);
+              border-width: 1px 0;
+              box-shadow: inset 0 0.5em 1.5em rgba(0, 0, 0, 0.1),
+                inset 0 0.125em 0.5em rgba(0, 0, 0, 0.15);
+            }
+
+            .b-example-vr {
+              flex-shrink: 0;
+              width: 1.5rem;
+              height: 100vh;
+            }
+
+            .bi {
+              vertical-align: -0.125em;
+              fill: currentColor;
+            }
+
+            .nav-scroller {
+              position: relative;
+              z-index: 2;
+              height: 2.75rem;
+              overflow-y: hidden;
+            }
+
+            .nav-scroller .nav {
+              display: flex;
+              flex-wrap: nowrap;
+              padding-bottom: 1rem;
+              margin-top: -1px;
+              overflow-x: auto;
+              text-align: center;
+              white-space: nowrap;
+              -webkit-overflow-scrolling: touch;
+            }
+
+            .btn-bd-primary {
+              --bd-violet-bg: #712cf9;
+              --bd-violet-rgb: 112.520718, 44.062154, 249.437846;
+
+              --bs-btn-font-weight: 600;
+              --bs-btn-color: var(--bs-white);
+              --bs-btn-bg: var(--bd-violet-bg);
+              --bs-btn-border-color: var(--bd-violet-bg);
+              --bs-btn-hover-color: var(--bs-white);
+              --bs-btn-hover-bg: #6528e0;
+              --bs-btn-hover-border-color: #6528e0;
+              --bs-btn-focus-shadow-rgb: var(--bd-violet-rgb);
+              --bs-btn-active-color: var(--bs-btn-hover-color);
+              --bs-btn-active-bg: #5a23c8;
+              --bs-btn-active-border-color: #5a23c8;
+            }
+            .bd-mode-toggle {
+              z-index: 1500;
+            }
+        </style>
+      <link href="<%= base_url %>css/carousel.css" rel="stylesheet" />
+    </head>
+    <body>
+        <%- include('templates/header') %> <%-
+        include('templates/sidebar_principal') %>
+
+        <svg xmlns="http://www.w3.org/2000/svg" class="d-none">
+            <symbol id="check2" viewBox="0 0 16 16">
+                <path
+                  d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5
+                  10.293l6.646-6.647a.5.5 0 0 1 .708 0z"
+                />
+            </symbol>
+            <symbol id="circle-half" viewBox="0 0 16 16">
+                <path d="M8 15A7 7 0 1 0 8 1v14zm0 1A8 8 0 1 1 8 0a8 8 0 0 1 0 16z" />
+            </symbol>
+            <symbol id="moon-stars-fill" viewBox="0 0 16 16">
+                <path
+                  d="M6 .278a.768.768 0 0 1 .08.858 7.208 7.208 0 0 0-.878 3.46c0 4.021 3.278 7.277 7.318 7.277.527 0
+                  1.04-.055 1.533-.16a.787.787 0 0 1 .81.316.733.733 0 0 1-.031.893A8.349 8.349 0 0 1 8.344 16C3.734 16
+                  0 12.286 0 7.71 0 4.266 2.114 1.312 5.124.06A.752.752 0 0 1 6 .278z"
+                />
+                <path
+                  d="M10.794 3.148a.217.217 0 0 1 .412 0l.387 1.162c.173.518.579.924 1.097 1.097l1.162.387a.217.217 0 0 1 0
+                  .412l-1.162.387a1.734 1.734 0 0 0-1.097 1.097l-.387 1.162a.217.217 0 0 1-.412 0l-.387-1.162A1.734 1.734 0
+                  0 0 9.31 6.593l-1.162-.387a.217.217 0 0 1 0-.412l1.162-.387a1.734 1.734 0 0 0 1.097-1.097l.387-1.162zM13.863.099a.145.145
+                  0 0 1 .274 0l.258.774c.115.346.386.617.732.732l.774.258a.145.145 0 0 1 0 .274l-.774.258a1.156 1.156 0 0
+                  0-.732.732l-.258.774a.145.145 0 0 1-.274 0l-.258-.774a1.156 1.156 0 0 0-.732-.732l-.774-.258a.145.145 0 0 1
+                  0-.274l.774-.258c.346-.115.617-.386.732-.732L13.863.1z"
+                />
+            </symbol>
+            <symbol id="sun-fill" viewBox="0 0 16 16">
+                <path
+                  d="M8 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM8 0a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 0zm0 13a.5.5 0
+                  0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 13zm8-5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2a.5.5 0 0 1 .5.5zM3
+                  8a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2A.5.5 0 0 1 3 8zm10.657-5.657a.5.5 0 0 1 0 .707l-1.414 1.415a.5.5 0
+                  1 1-.707-.708l1.414-1.414a.5.5 0 0 1 .707 0zm-9.193 9.193a.5.5 0 0 1 0 .707L3.05 13.657a.5.5 0 0
+                  1-.707-.707l1.414-1.414a.5.5 0 0 1 .707 0zm9.193 2.121a.5.5 0 0 1-.707 0l-1.414-1.414a.5.5 0 0 1
+                  .707-.707l1.414 1.414a.5.5 0 0 1 0 .707zM4.464 4.465a.5.5 0 0 1-.707 0L2.343 3.05a.5.5 0 1 1 .707-.707l1.414 1.414a.5.5
+                  0 0 1 0 .708z"
+                />
+            </symbol>
         </svg>
-        <span class="visually-hidden" id="bd-theme-text">Toggle theme</span>
-        </button>
-        <ul
-        class="dropdown-menu dropdown-menu-end shadow"
-        aria-labelledby="bd-theme-text"
-        >
-        <li>
+
+        <div class="dropdown position-fixed bottom-0 end-0 mb-3 me-3 bd-mode-toggle">
             <button
-            type="button"
-            class="dropdown-item d-flex align-items-center"
-            data-bs-theme-value="light"
-            aria-pressed="false"
+              class="btn btn-bd-primary py-2 dropdown-toggle d-flex align-items-center"
+              id="bd-theme"
+              type="button"
+              aria-expanded="false"
+              data-bs-toggle="dropdown"
+              aria-label="Toggle theme (auto)"
             >
-            <svg class="bi me-2 opacity-50 theme-icon" width="1em" height="1em">
-                <use href="#sun-fill"></use>
-            </svg>
-            Light
-            <svg class="bi ms-auto d-none" width="1em" height="1em">
-                <use href="#check2"></use>
-            </svg>
+                <svg class="bi my-1 theme-icon-active" width="1em" height="1em">
+                    <use href="#circle-half"></use>
+                </svg>
+                <span class="visually-hidden" id="bd-theme-text">Toggle theme</span>
             </button>
-        </li>
-        <li>
-            <button
-            type="button"
-            class="dropdown-item d-flex align-items-center"
-            data-bs-theme-value="dark"
-            aria-pressed="false"
+            <ul
+              class="dropdown-menu dropdown-menu-end shadow"
+              aria-labelledby="bd-theme-text"
             >
-            <svg class="bi me-2 opacity-50 theme-icon" width="1em" height="1em">
-                <use href="#moon-stars-fill"></use>
-            </svg>
-            Dark
-            <svg class="bi ms-auto d-none" width="1em" height="1em">
-                <use href="#check2"></use>
-            </svg>
-            </button>
-        </li>
-        <li>
-            <button
-            type="button"
-            class="dropdown-item d-flex align-items-center active"
-            data-bs-theme-value="auto"
-            aria-pressed="true"
-            >
-            <svg class="bi me-2 opacity-50 theme-icon" width="1em" height="1em">
-                <use href="#circle-half"></use>
-            </svg>
-            Auto
-            <svg class="bi ms-auto d-none" width="1em" height="1em">
-                <use href="#check2"></use>
-            </svg>
-            </button>
-        </li>
-        </ul>
-    </div>
-    
-    <section class="home-section pb-5">
-        <%- include('templates/navbar', { home_content_name: 'Inicio' }) %>
-        
-        <div id="myCarousel" class="carousel slide mb-6" data-bs-ride="carousel">
-            <div class="carousel-indicators">
-              <button
-                type="button"
-                data-bs-target="#myCarousel"
-                data-bs-slide-to="0"
-                class="active"
-                aria-current="true"
-                aria-label="Slide 1"
-              ></button>
-              <button
-                type="button"
-                data-bs-target="#myCarousel"
-                data-bs-slide-to="1"
-                aria-label="Slide 2"
-              ></button>
-              <button
-                type="button"
-                data-bs-target="#myCarousel"
-                data-bs-slide-to="2"
-                aria-label="Slide 3"
-              ></button>
-            </div>
-            <div
-                class="carousel-inner"
-                style="
+                <li>
+                    <button
+                      type="button"
+                      class="dropdown-item d-flex align-items-center"
+                      data-bs-theme-value="light"
+                      aria-pressed="false"
+                    >
+                        <svg class="bi me-2 opacity-50 theme-icon" width="1em" height="1em">
+                          <use href="#sun-fill"></use>
+                        </svg>
+                        Light
+                        <svg class="bi ms-auto d-none" width="1em" height="1em">
+                          <use href="#check2"></use>
+                        </svg>
+                    </button>
+                </li>
+                <li>
+                    <button
+                      type="button"
+                      class="dropdown-item d-flex align-items-center"
+                      data-bs-theme-value="dark"
+                      aria-pressed="false"
+                    >
+                        <svg class="bi me-2 opacity-50 theme-icon" width="1em" height="1em">
+                          <use href="#moon-stars-fill"></use>
+                        </svg>
+                        Dark
+                        <svg class="bi ms-auto d-none" width="1em" height="1em">
+                          <use href="#check2"></use>
+                        </svg>
+                    </button>
+                </li>
+                <li>
+                    <button
+                      type="button"
+                      class="dropdown-item d-flex align-items-center active"
+                      data-bs-theme-value="auto"
+                      aria-pressed="true"
+                    >
+                        <svg class="bi me-2 opacity-50 theme-icon" width="1em" height="1em">
+                          <use href="#circle-half"></use>
+                        </svg>
+                        Auto
+                        <svg class="bi ms-auto d-none" width="1em" height="1em">
+                          <use href="#check2"></use>
+                        </svg>
+                    </button>
+                </li>
+            </ul>
+        </div>
+
+        <section class="home-section pb-5">
+            <%- include('templates/navbar', { home_content_name: 'Inicio' }) %>
+
+            <div id="myCarousel" class="carousel slide mb-6" data-bs-ride="carousel">
+                <div class="carousel-indicators">
+                    <button
+                      type="button"
+                      data-bs-target="#myCarousel"
+                      data-bs-slide-to="0"
+                      class="active"
+                      aria-current="true"
+                      aria-label="Slide 1"
+                    ></button>
+                    <button
+                      type="button"
+                      data-bs-target="#myCarousel"
+                      data-bs-slide-to="1"
+                      aria-label="Slide 2"
+                    ></button>
+                    <button
+                      type="button"
+                      data-bs-target="#myCarousel"
+                      data-bs-slide-to="2"
+                      aria-label="Slide 3"
+                    ></button>
+                </div>
+                <div
+                  class="carousel-inner"
+                  style="
                     background-image: url(img/fondo_login.jpeg);
                     background-position: center;
                     background-repeat: no-repeat;
                     background-size: cover;
-                "
-            >
-              <div class="carousel-item active">
-                <svg
-                  class="bd-placeholder-img"
-                  width="100%"
-                  height="100%"
-                  xmlns="http://www.w3.org/2000/svg"
-                  aria-hidden="true"
-                  preserveAspectRatio="xMidYMid slice"
-                  focusable="false"
+                  "
                 >
-                  <rect
-                    width="100%"
-                    height="100%"
-                    fill="rgba(33, 37, 41, 0.48)"
-                  />
-                </svg>
-                <div class="container">
-                  <div class="carousel-caption text-center">
-                    <img
-                      src="<%= base_url %>img/logo_cronos_fondo_oscuro.png"
-                      alt="logo_cronos"
-                      width="350"
-                      class="mb-4"
-                      style="margin: 0 auto;"
+                  <div class="carousel-item active">
+                    <svg
+                      class="bd-placeholder-img"
+                      width="100%"
+                      height="100%"
+                      xmlns="http://www.w3.org/2000/svg"
+                      aria-hidden="true"
+                      preserveAspectRatio="xMidYMid slice"
+                      focusable="false"
                     >
-                    <p class="opacity-75">
-                        Un sistema para actualizar y sincronizar datos a una base Geoespacial.
-                    </p>
-                    <p>
-                        <a class="btn button-principal" href="#" style="font-weight: 500;">Saber más</a>
-                    </p>
+                      <rect width="100%" height="100%" fill="rgba(33, 37, 41, 0.48)" />
+                    </svg>
+                    <div class="container">
+                      <div class="carousel-caption text-center" style="bottom: 5rem;">
+                        <img
+                          src="<%= base_url %>img/logo_cronos_fondo_oscuro.png"
+                          alt="logo_cronos"
+                          width="350"
+                          class="mb-4"
+                          style="margin: 0 auto"
+                        />
+                        <p class="opacity-75">
+                          Sistema para actualizar y sincronizar datos a una base
+                          Geoespacial.
+                        </p>
+                        <!-- <p>
+                          <a
+                            class="btn button-principal"
+                            href="#"
+                            style="font-weight: 500"
+                            >Saber más</a
+                          >
+                        </p> -->
+                      </div>
+                    </div>
+                  </div>
+                  <div
+                    class="carousel-item"
+                    style="
+                      background-image: url(img/computer.jpg);
+                      background-position: center;
+                      background-repeat: no-repeat;
+                      background-size: cover;
+                    "
+                  >
+                    <svg
+                      class="bd-placeholder-img"
+                      width="100%"
+                      height="100%"
+                      xmlns="http://www.w3.org/2000/svg"
+                      aria-hidden="true"
+                      preserveAspectRatio="xMidYMid slice"
+                      focusable="false"
+                    >
+                      <rect width="100%" height="100%" fill="rgba(33, 37, 41, 0.48)" />
+                    </svg>
+                    <div class="container">
+                      <div class="carousel-caption" style="bottom: 11rem">
+                        <h1>¡Conectividad con otras aplicaciones!</h1>
+                        <p>
+                          Conecta y actualiza layers de
+                          <a
+                            href="https://ser0.space/"
+                            target="_blank"
+                            style="color: #17e85d"
+                            >ser0.space</a
+                          >.
+                        </p>
+                        <!-- <p>
+                          <a
+                            class="btn button-principal"
+                            href="#"
+                            style="font-weight: 500"
+                            >Saber más</a
+                          >
+                        </p> -->
+                      </div>
+                    </div>
+                  </div>
+                  <div
+                    class="carousel-item"
+                    style="
+                      background-image: url(img/finance.jpg);
+                      background-position: center;
+                      background-repeat: no-repeat;
+                      background-size: cover;
+                    "
+                  >
+                    <svg
+                      class="bd-placeholder-img"
+                      width="100%"
+                      height="100%"
+                      xmlns="http://www.w3.org/2000/svg"
+                      aria-hidden="true"
+                      preserveAspectRatio="xMidYMid slice"
+                      focusable="false"
+                    >
+                      <rect width="100%" height="100%" fill="rgba(33, 37, 41, 0.48)" />
+                    </svg>
+                    <div class="container">
+                      <div class="carousel-caption text-center" style="bottom: 11rem">
+                        <h1>¡Aplicación de propósito general!</h1>
+                        <p>
+                          Cronos está diseñado para optimizar el tiempo de realización de tareas de una organización.
+                        </p>
+                        <!-- <p>
+                          <a
+                            class="btn button-principal"
+                            href="#"
+                            style="font-weight: 500"
+                            >Saber más</a
+                          >
+                        </p> -->
+                      </div>
+                    </div>
                   </div>
                 </div>
-              </div>
-              <div
-                class="carousel-item"
-                style="
-                background-image: url(img/finance.jpg);
-                background-position: center;
-                background-repeat: no-repeat;
-                background-size: cover;
-            "
+                <button
+                  class="carousel-control-prev"
+                  type="button"
+                  data-bs-target="#myCarousel"
+                  data-bs-slide="prev"
                 >
-                <svg
-                  class="bd-placeholder-img"
-                  width="100%"
-                  height="100%"
-                  xmlns="http://www.w3.org/2000/svg"
-                  aria-hidden="true"
-                  preserveAspectRatio="xMidYMid slice"
-                  focusable="false"
+                  <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                  <span class="visually-hidden">Lorem.</span>
+                </button>
+                <button
+                  class="carousel-control-next"
+                  type="button"
+                  data-bs-target="#myCarousel"
+                  data-bs-slide="next"
                 >
-                  <rect
-                    width="100%"
-                    height="100%"
-                    fill="rgba(33, 37, 41, 0.48)"
-                  />
-                </svg>
-                <div class="container">
-                  <div class="carousel-caption" style="bottom: 11rem;">
-                    <h1>¡Herramienta fácil de usar!</h1>
-                    <p>
-                        Actualiza layers de <a href="https://ser0.space/" target="_blank" style="color: #17e85d;">ser0.space</a>,
-                        con una interfaz de usuario sencilla.
-                    </p>
-                  </div>
-                </div>
-              </div>
-              <div
-                class="carousel-item"
-                style="
-                background-image: url(img/computer.jpg);
-                background-position: center;
-                background-repeat: no-repeat;
-                background-size: cover;"
-            >
-                <svg
-                  class="bd-placeholder-img"
-                  width="100%"
-                  height="100%"
-                  xmlns="http://www.w3.org/2000/svg"
-                  aria-hidden="true"
-                  preserveAspectRatio="xMidYMid slice"
-                  focusable="false"
-                >
-                  <rect
-                    width="100%"
-                    height="100%"
-                    fill="rgba(33, 37, 41, 0.48)"
-                  />
-                </svg>
-                <div class="container">
-                  <div class="carousel-caption text-center" style="bottom: 7.3rem;">
-                    <h1>¡Qué esperas!</h1>
-                    <p>
-                        Comienza a utilizar la aplicación.
-                    </p>
-                    <p>
-                      <a class="btn button-principal" href="#" style="font-weight: 500;">Ver galería</a>
-                    </p>
-                  </div>
-                </div>
-              </div>
+                  <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                  <span class="visually-hidden">Lorem.</span>
+                </button>
             </div>
-            <button
-              class="carousel-control-prev"
-              type="button"
-              data-bs-target="#myCarousel"
-              data-bs-slide="prev"
-            >
-              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-              <span class="visually-hidden">Lorem.</span>
-            </button>
-            <button
-              class="carousel-control-next"
-              type="button"
-              data-bs-target="#myCarousel"
-              data-bs-slide="next"
-            >
-              <span class="carousel-control-next-icon" aria-hidden="true"></span>
-              <span class="visually-hidden">Lorem.</span>
-            </button>
-        </div>
-        
-        <div class="container marketing">
-            <div class="row">
-              <div class="col-lg-4">
-                <div class="border border-success rounded-circle border-3 mb-3" style="max-width: min-content; padding: 1rem; margin: 0 auto;">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="102" height="102" viewBox="0 0 32 32"><path fill="#254061" d="M28 17v5H4V6h10V4H4a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h8v4H8v2h16v-2h-4v-4h8a2 2 0 0 0 2-2v-5ZM18 28h-4v-4h4Z"/><path fill="#254061" d="M30 10V8h-2.101a4.968 4.968 0 0 0-.732-1.753l1.49-1.49l-1.414-1.414l-1.49 1.49A4.968 4.968 0 0 0 24 4.101V2h-2v2.101a4.968 4.968 0 0 0-1.753.732l-1.49-1.49l-1.414 1.414l1.49 1.49A4.968 4.968 0 0 0 18.101 8H16v2h2.101a4.968 4.968 0 0 0 .732 1.753l-1.49 1.49l1.414 1.414l1.49-1.49a4.968 4.968 0 0 0 1.753.732V16h2v-2.101a4.968 4.968 0 0 0 1.753-.732l1.49 1.49l1.414-1.414l-1.49-1.49A4.968 4.968 0 0 0 27.899 10Zm-7 2a3 3 0 1 1 3-3a3.003 3.003 0 0 1-3 3Z"/></svg>
-                </div>
-                <h2 class="fw-normal">Administra</h2>
-                <p>
-                  Usuarios, grupos de usuarios, acciones de los usuarios y funciones como: Adeudo rezago, Cartas invitaciones, pagos válidos, etc.
-                </p>
-                <!-- <p>
-                  <a class="btn button-principal" href="#">Lorem, ipsum. &raquo;</a>
-                </p> -->
-              </div>
-              <div class="col-lg-4">
-                <div class="border border-success rounded-circle border-3 mb-3" style="max-width: min-content; padding: 1rem; margin: 0 auto;">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="102" height="102" viewBox="0 0 14 14"><g fill="none" stroke="#254061" stroke-linecap="round" stroke-linejoin="round"><path d="M10.5 2H13a.5.5 0 0 1 .5.5v8a.5.5 0 0 1-.5.5H1a.5.5 0 0 1-.5-.5v-8A.5.5 0 0 1 1 2h2.5M6 11l-1 2.5M8 11l1 2.5m-5 0h6"/><path d="M5 5.5h4v3H5zm.5 0v-1a1.5 1.5 0 0 1 3 0v1"/></g></svg>                </div>
-                <h2 class="fw-normal">Accesos y Permisos</h2>
-                <p>
-                  Para tener control y administrar los permisos a vistas del sistema y acciones del usuario.
-                </p>
-              </div>
-              <!-- /.col-lg-4 -->
-              <div class="col-lg-4">
-                <div class="border border-success rounded-circle border-3 mb-3" style="max-width: min-content; padding: 1rem; margin: 0 auto;">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="102" height="102" viewBox="0 0 24 24"><path fill="none" stroke="#254061" stroke-width="2" d="M2.998 7V1H17.5L21 4.5V23h-6m1-22v5h5M8 23A7 7 0 1 0 8 9a7 7 0 0 0 0 14Zm-3.5-6.5L8 13l3.5 3.5m-3.5-3V20"/></svg>
-                </div>
-                <h2 class="fw-normal">Actualiza y Sincroniza</h2>
-                <p>
-                  Datos de págos validados, adeudos rezago, etc. Para los layers de 
-                  <a href="https://ser0.space/" target="_blank" class="text-success">ser0.space</a>. Por medio de formularios simples de llenar.
-                </p>
-              </div>
-              <!-- /.col-lg-4 -->
-            </div>
-            <!-- /.row -->
-    
-            <!-- START THE FEATURETTES -->
-    
-            <hr class="featurette-divider" />
-    
-            <div class="row featurette">
-              <div class="col-md-7">
-                <h2 class="featurette-heading fw-normal lh-1">
-                  Sistema ágil y eficiente
-                  <span class="text-body-secondary">basado en Node.js</span>
-                </h2>
-                <p class="lead">
-                  
-                </p>
-              </div>
-              <div class="col-md-5">
-                <svg
-                  class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto"
-                  width="500"
-                  height="500"
-                  xmlns="http://www.w3.org/2000/svg"
-                  role="img"
-                  aria-label="Placeholder: 500x500"
-                  preserveAspectRatio="xMidYMid slice"
-                  focusable="false"
-                >
-                  <title>Lorem.</title>
-                  <rect width="100%" height="100%" fill="var(--bs-secondary-bg)" />
-                  <text x="50%" y="50%" fill="var(--bs-secondary-color)" dy=".3em">
-                    Lorem, ipsum.
-                  </text>
-                </svg>
-              </div>
-            </div>
-    
-            <hr class="featurette-divider" />
-    
-            <div class="row featurette">
-              <div class="col-md-7 order-md-2">
-                <h2 class="featurette-heading fw-normal lh-1">
-                  Seguridad en el sistema
-                  <span class="text-body-secondary">con autenticación de tokens y validaciones.</span>
-                </h2>
-                <p class="lead">
 
-                </p>
+            <div class="container marketing">
+              <div class="row">
+                <div class="col-lg-4">
+                  <div
+                    class="rounded-circle mb-3"
+                    style="max-width: min-content; padding: 1.5rem; margin: 0 auto; border: 3px solid #269355 !important"
+                  >
+                  <svg xmlns="http://www.w3.org/2000/svg" width="102" height="102" viewBox="0 0 14 14">
+                    <g fill="none" stroke="#269355" stroke-linecap="round" stroke-linejoin="round">
+                      <path
+                        d="M10.5 2H13a.5.5 0 0 1 .5.5v8a.5.5 0 0 1-.5.5H1a.5.5 0 0 1-.5-.5v-8A.5.5 0 0 1 1
+                        2h2.5M6 11l-1 2.5M8 11l1 2.5m-5 0h6"
+                      />
+                      <path d="M5 5.5h4v3H5zm.5 0v-1a1.5 1.5 0 0 1 3 0v1"/>
+                    </g>
+                  </svg>
+                  </div>
+                  <h2 class="fw-normal">Accesos y Permisos</h2>
+                  <p>
+                    Administra y controla permisos a vistas del sistema
+                    y acciones del usuario (crear, editar, eliminar, etc.).
+                  </p>
+                </div>
+                <div class="col-lg-4">
+                  <div
+                    class="rounded-circle mb-3"
+                    style="max-width: min-content; padding: 1.5rem; margin: 0 auto; border: 3px solid #269355 !important"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="102"
+                      height="102"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        fill="none"
+                        stroke="#269355"
+                        stroke-width="2"
+                        d="M2.998 7V1H17.5L21 4.5V23h-6m1-22v5h5M8 23A7 7 0 1 0 8 9a7 7 0 0 0 0 14Zm-3.5-6.5L8 13l3.5 3.5m-3.5-3V20"
+                      />
+                    </svg>
+                  </div>
+                  <h2 class="fw-normal">Actualiza y Sincroniza</h2>
+                  <p>
+                    Datos de pagos validados, adeudos rezago, etc. Para los layers de
+                    <a
+                      href="https://ser0.space/"
+                      class="fw-bold"
+                      target="_blank"
+                      style="color: #269355"
+                      >ser0.space</a
+                    >. Por medio de formularios rápidoz y sencillos.
+                  </p>
+                </div>
+                <div class="col-lg-4">
+                  <div
+                    class="rounded-circle mb-3"
+                    style="max-width: min-content; padding: 1.5rem; margin: 0 auto; border: 3px solid #269355 !important"
+                  >
+                  <svg xmlns="http://www.w3.org/2000/svg" width="102" height="102" viewBox="0 0 512 512"><path fill="#269355" d="M421.415 309.528c-7.209 0-14.186.938-20.909 2.54l-.636-1.005l-83.542-131.894c18.528-16.698 30.257-40.888 30.257-67.894c0-50.366-40.556-91.197-90.585-91.197c-50.028 0-90.585 40.83-90.585 91.197c0 27.006 11.728 51.196 30.257 67.894L112.13 311.063l-.636 1.005c-6.723-1.602-13.7-2.54-20.91-2.54C40.557 309.528 0 350.358 0 400.725s40.556 91.197 90.585 91.197c50.028 0 90.584-40.83 90.584-91.197c0-34.507-19.045-64.525-47.122-80.016l81.138-128.098c12.276 6.257 26.114 9.86 40.815 9.86c14.701 0 28.54-3.603 40.816-9.86l81.137 128.098c-28.077 15.49-47.122 45.509-47.122 80.016c0 50.366 40.556 91.197 90.584 91.197c50.029 0 90.585-40.83 90.585-91.197s-40.556-91.197-90.585-91.197zM90.353 443.791c-23.319 0-42.223-18.903-42.223-42.222s18.904-42.223 42.223-42.223s42.222 18.904 42.222 42.223s-18.903 42.222-42.222 42.222z"/></svg>
+                  </div>
+                  <h2 class="fw-normal">Conectividad de API</h2>
+                  <p>
+                    Obten información útil para el cliente en formatos JSON, de la base de datos Geoespacial, mediante el consumo de una API. 
+                  <!-- <p>
+                        <a class="btn button-principal" href="#">Lorem, ipsum. &raquo;</a>
+                      </p> -->
+                </div>
               </div>
-              <div class="col-md-5 order-md-1">
-                <svg
-                  class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto"
-                  width="500"
-                  height="500"
-                  xmlns="http://www.w3.org/2000/svg"
-                  role="img"
-                  aria-label="Placeholder: 500x500"
-                  preserveAspectRatio="xMidYMid slice"
-                  focusable="false"
-                >
-                  <title>Lorem.</title>
-                  <rect width="100%" height="100%" fill="var(--bs-secondary-bg)" />
-                  <text x="50%" y="50%" fill="var(--bs-secondary-color)" dy=".3em">
-                    Lorem.
-                  </text>
-                </svg>
-              </div>
-            </div>
-    
-            <hr class="featurette-divider" />
-    
-            <div class="row featurette">
-              <div class="col-md-7">
-                <h2 class="featurette-heading fw-normal lh-1">
-                  Sistema para la sincronización de datos
-                  <span class="text-body-secondary">con ser0.space</span>
-                </h2>
-                <p class="lead">
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Amet, consectetur. Autem quibusdam qui fuga ullam totam, animi libero ad quod accusantium neque voluptatem eos veniam consequuntur iure voluptate dolore similique.
-                </p>
-              </div>
-              <div class="col-md-5">
-                <svg
-                  class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto"
-                  width="500"
-                  height="500"
-                  xmlns="http://www.w3.org/2000/svg"
-                  role="img"
-                  aria-label="Placeholder: 500x500"
-                  preserveAspectRatio="xMidYMid slice"
-                  focusable="false"
-                >
-                  <title>Lorem.</title>
-                  <rect width="100%" height="100%" fill="var(--bs-secondary-bg)" />
-                  <text x="50%" y="50%" fill="var(--bs-secondary-color)" dy=".3em">
-                    Lorem, ipsum dolor.
-                  </text>
-                </svg>
-              </div>
-            </div>
-    
-            <hr class="featurette-divider" />
-    
-            <!-- /END THE FEATURETTES -->
-        </div>
+              <!-- /.row -->
 
-        <footer class="container">
-            <p class="float-end"><a href="#">Lorem, ipsum.</a></p>
-            <p>
+              <!-- START THE FEATURETTES -->
+
+              <hr class="featurette-divider" />
+
+              <div class="row featurette">
+                <div class="col-md-7">
+                  <h2 class="featurette-heading fw-normal lh-1">
+                    Sistema ágil y eficiente
+                    <span class="text-body-secondary">basado en Node.js</span>
+                  </h2>
+                  <p class="lead" style="text-align: justify;">
+                    Node.js permite agilizar los procesos que se ejecutan en CRONOS,
+                    manejando un grán número de conexiones simultaneas con alto
+                    rendimiento, permitiendo que el sistema sea de alta escalabilidad.
+                  </p>
+                </div>
+                <div class="col-md-5">
+                  <img
+                    src="<%= base_url %>img/node-js-logo.png"
+                    alt=""
+                    style="position: relative; top: 3rem; left: 3rem"
+                    class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto"
+                  />
+                </div>
+              </div>
+
+              <hr class="featurette-divider" />
+
+              <div class="row featurette">
+                <div class="col-md-7 order-md-2">
+                  <h2 class="featurette-heading fw-normal lh-1">
+                    Seguridad en el sistema
+                    <span class="text-body-secondary"
+                      >con autenticación de tokens</span
+                    >
+                  </h2>
+                  <p class="lead" style="text-align: justify;">
+                    Cronos utiliza tokens, los cuales caducan y
+                    se regeneran automáticamente cada hora, y se firman de manera
+                    virtual con una llave privada que genera Cronos y cuando el
+                    usuario se autentifica. De esta manera se valida la autenticación del
+                    token, para que el usuario pueda ejecutar satisfactoriamente
+                    procesos en Cronos.
+                  </p>
+                </div>
+                <div class="col-md-5 order-md-1">
+                  <img
+                    src="<%= base_url %>img/key-security.jpg"
+                    style="border-radius: 9px;"
+                    width="350"
+                    alt=""
+                  />
+                </div>
+              </div>
+
+              <hr class="featurette-divider" />
+
+              <div class="row featurette">
+                <div class="col-md-7">
+                  <h2 class="featurette-heading fw-normal lh-1">
+                    Sistema para la actualización y sincronización de layers de
+                    <span class="text-body-secondary">ser0.space</span>
+                  </h2>
+                  <p class="lead" style="text-align: justify;">
+                    Actualiza layers de ser0.space, en la sección de
+                    <span style="color: #269355;" class="fw-bold">funciones/interno</span> del menú.
+                    El sistema en automático muestra los campos a llenar por el usuario y
+                    notificaciones, para validar la correcta actualización de los datos.
+                  </p>
+                </div>
+                <div class="col-md-5">
+                  <img
+                    src="<%= base_url %>img/sidebar-fn-interno.png"
+                    style="position: relative; top: -1rem; left: 3rem; border-radius: 9px;"
+                    alt=""
+                  />
+                  <img
+                    src="<%= base_url %>img/captura_fn_adeudo_rezago.png"
+                    style="position: relative; top: 1rem; left: 3rem; border-radius: 9px;"
+                    alt=""
+                  />
+                </div>
+              </div>
+
+              <!-- <hr class="featurette-divider" /> -->
+              <!-- <div class="row featurette">
+                <div class="col-md-7 order-md-2">
+                  <h2 class="featurette-heading fw-normal lh-1">
+                    Obten información útil para el cliente en
+                    <span class="text-body-secondary">formatos JSON</span>
+                  </h2>
+                  <p class="lead" style="text-align: justify;">
+                    En la sección de <span style="color: #269355;" class="fw-bold">funciones/externo</span>, ejecuta procesos para obtener
+                    información transformada, de la base de datos geoespacial en formatos JSON. La cual es útil para
+                    ser procesada y analizada en hojas de cálculo y/o otro software.
+                  </p>
+                </div>
+                <div class="col-md-5 order-md-1">
+                  <svg
+                    class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto"
+                    width="500"
+                    height="500"
+                    xmlns="http://www.w3.org/2000/svg"
+                    role="img"
+                    aria-label="Placeholder: 500x500"
+                    preserveAspectRatio="xMidYMid slice"
+                    focusable="false"
+                  >
+                    <title>Lorem.</title>
+                    <rect width="100%" height="100%" fill="var(--bs-secondary-bg)" />
+                    <text x="50%" y="50%" fill="var(--bs-secondary-color)" dy=".3em">
+                      Lorem.
+                    </text>
+                  </svg>
+                </div>
+              </div> -->
+              <hr class="featurette-divider" />
+              <!-- /END THE FEATURETTES -->
+            </div>
+
+            <footer class="container">
+              <a href="#" class="btn button-principal-blue py-2  d-flex align-items-center float-end">
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14">
+                  <g fill="none" stroke="white" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M.5 7.54L6.65 1.4a.48.48 0 0 1 .7 0l6.15 6.14"/><path d="M.5 12.75L6.65 6.6a.5.5 0 0 1 .7 0l6.15 6.15"/>
+                  </g>
+                </svg>  
+              </a>             
+              <p>
                 Copyright &copy; 2023 ERPP - CRONOS &middot;
                 <a href="#">Privacidad</a> &middot; <a href="#">Términos</a>
-            </p>
-        </footer>
-    </section>
+              </p>
+            </footer>
+        </section>
 
-    <%- include('templates/fotter') %>
-    <%- include('templates/fotter_2') %>
-    <!-- <script src="<%= base_url %>assets/dist/js/bootstrap.bundle.min.js"></script> -->
-</body>
+      <%- include('templates/fotter') %> <%- include('templates/fotter_2') %>
+    </body>
 </html>
