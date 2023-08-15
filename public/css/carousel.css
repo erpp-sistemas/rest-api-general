@@ -1,3 +1,7 @@
+:root {
+  --animate-delay: 0.1s;
+}
+
 /* GLOBAL STYLES
 -------------------------------------------------- */
 /* Padding below the footer and lighter body text */
