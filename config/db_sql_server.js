@@ -6,7 +6,7 @@ export const connection_sql_server = data => {
         host: process.env.SQL_SERVER_IP,
         dialect: 'mssql',
         dialectOptions: {
-            requestTimeout: 30000
+            requestTimeout: 10000000
         },
         pool: {
             max: 5,
@@ -17,7 +17,8 @@ export const connection_sql_server = data => {
         options: {
             instanceName: 'SQLEXPRESS',
             encrypt: false,
-            trustServerCertificate: true
+            trustServerCertificate: true,
+            requestTimeout: 10000000
         }
     });
 

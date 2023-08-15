@@ -31,3 +31,34 @@ export const max_data_about_table = async data => {
         console.log(error);
     }
 }
+
+export const delete_rows_from_table = async data => {
+    try {
+        const { connection_postgresQL, table_name, nombre_campo_fecha_pago, fecha_actual } = data;
+
+        await connection_postgresQL.query(`
+            DELETE FROM ${table_name}
+            WHERE "${nombre_campo_fecha_pago}" = '${fecha_actual}';
+        `);
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+export const dates_about_table = async data => {
+    try {
+        const { connection_postgresQL, table_name, nombre_campo_fecha_pago } = data;
+
+        const [dates, metadata] =  await connection_postgresQL.query(`
+            SELECT 
+                DISTINCT("${nombre_campo_fecha_pago}")
+            FROM ${table_name}
+            GROUP BY "${nombre_campo_fecha_pago}"
+            ORDER BY "${nombre_campo_fecha_pago}";
+        `);
+
+        return dates;
+    } catch (error) {
+        console.log(error);
+    }
+}
