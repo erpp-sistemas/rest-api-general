@@ -21,9 +21,9 @@ export const connection_postgresql = data => {
     const connection = new Sequelize(data.db_name_postgresql, process.env.POSTGRESQL_USER, process.env.POSTGRESQL_PASSWORD, {
         host: process.env.POSTGRESQL_IP,
         dialect: 'postgres',
-        /* dialectOptions: {
+        dialectOptions: {
             requestTimeout: 30000
-        }, */
+        },
         pool: {
             max: 5,
             min: 0,

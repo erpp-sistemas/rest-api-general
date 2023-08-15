@@ -356,7 +356,7 @@
                   data-bs-target="#myCarousel"
                   data-bs-slide="prev"
                 >
-                  <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                  <span class="carousel-control-prev-icon" aria-hidden="true" style="filter: none;"></span>
                   <span class="visually-hidden">Lorem.</span>
                 </button>
                 <button
@@ -365,13 +365,13 @@
                   data-bs-target="#myCarousel"
                   data-bs-slide="next"
                 >
-                  <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                  <span class="carousel-control-next-icon" aria-hidden="true" style="filter: none;"></span>
                   <span class="visually-hidden">Lorem.</span>
                 </button>
             </div>
 
-            <div class="container marketing">
-              <div class="row characteristics-system">
+            <div class="container marketing characteristics-system">
+              <div class="row">
                 <div class="col-lg-4 animate__animated animate__fadeInUp animate__delay-2s">
                   <div
                     class="rounded-circle mb-3"
@@ -461,7 +461,7 @@
                   <img
                     src="<%= base_url %>img/node-js-logo.png"
                     alt=""
-                    style="position: relative; top: 3rem;"
+                    style="position: relative; top: 1rem; padding-left: 3rem;"
                     class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto"
                   />
                 </div>
@@ -514,7 +514,7 @@
                 <div class="col-md-5">
                   <img
                     src="<%= base_url %>img/sidebar-fn-interno2.png"
-                    style="position: relative; top: 7rem; border-radius: 9px;"
+                    style="position: relative; top: 4rem; border-radius: 9px; padding-left: 3rem;"
                     alt=""
                   />
                 </div>
@@ -571,6 +571,6 @@
             </footer>
         </section>
 
-      <%- include('templates/fotter') %> <%- include('templates/fotter_2') %>
+        <%- include('templates/fotter') %> <%- include('templates/fotter_2') %>
     </body>
 </html>

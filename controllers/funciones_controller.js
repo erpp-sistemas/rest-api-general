@@ -903,14 +903,14 @@ const actualizar_pagos_validos_izcalli = async body => {
         /**
          * Insertar datos en la db PSQL
         */
-        if (values_to_insert_domestico) {
+        if (values_to_insert_domestico.length < 0) {
             await connection_postgresQL.query(`
                 INSERT INTO ${table_name_domestico} (${columns_name_structure_table_domestico.join(',')})
                 VALUES ${values_to_insert_domestico.join(',')}
             `);
         }
 
-        if (values_to_insert_comercial) {
+        if (values_to_insert_comercial.length < 0) {
             await connection_postgresQL.query(`
                 INSERT INTO ${table_name_comercial} (${columns_name_structure_table_comercial.join(',')})
                 VALUES ${values_to_insert_comercial.join(',')}
