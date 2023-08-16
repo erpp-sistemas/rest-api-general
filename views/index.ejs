@@ -514,7 +514,15 @@
                 <div class="col-md-5">
                   <img
                     src="<%= base_url %>img/sidebar-fn-interno2.png"
-                    style="position: relative; top: 4rem; border-radius: 9px; padding-left: 3rem;"
+                    style="
+                      position: relative;
+                      top: 4rem;
+                      border-radius: 9px;
+                      padding-left: 3rem;
+                    "
+                    data-bs-toggle="modal"
+                    data-bs-target="#modal-fn-interno"
+                    class="cr-pointer img-to-open-video"
                     alt=""
                   />
                 </div>
@@ -571,6 +579,8 @@
             </footer>
         </section>
 
+        <%- include('templates/modals_description_system') %>
+        <%- include('templates/fotter_2') %>
         <%- include('templates/fotter') %> <%- include('templates/fotter_2') %>
     </body>
 </html>
