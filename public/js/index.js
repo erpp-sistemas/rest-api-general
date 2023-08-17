@@ -1,10 +1,11 @@
+import { active_tooltips } from "./functions/tooltip.js";
+
 const sidebar = document.querySelector(".sidebar");
 const flecha_desplegar_menu = document.querySelector('.arrow-profile');
 const logout = document.querySelector('#logout');
 
-/* Activar todos los tooltip del sistema usando Bootstrap */
-const tooltip_trigger_list = document.querySelectorAll('[data-toggle="tooltip"]');
-const tooltip_list = [...tooltip_trigger_list].map(tooltip_trigger_el => new bootstrap.Tooltip(tooltip_trigger_el));
+
+active_tooltips();
 
 const construir_sidebar = secciones_sidebar => {
   const tags_li_modulo_html = secciones_sidebar.map(modulo => {

@@ -1,4 +1,5 @@
 import { mensaje_advertencia, mensaje_exito } from "./functions/mensajes.js";
+import { active_tooltips } from "./functions/tooltip.js";
 import { evento_cerrar_modal_formulario } from "./functions/ventana_modal.js";
 
 const btn_guardar_usuario = document.querySelector('#btn-guardar-usuario');
@@ -254,6 +255,7 @@ const mostrar_registros_usuarios = async data => {
 
         tbody_usuarios.innerHTML = tags_tr_usuarios.join('');
         construir_paginacion(result);
+        active_tooltips();
     } catch (error) {
         console.log(error);
     }

@@ -132,7 +132,7 @@ const modal_adeudo_rezago = () => {
                 <div class="modal-content">
                     <div class="modal-header bg-blue-sys text-white" style="border-bottom: none !important;">
                         <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24">
-                            <g fill="white">
+                            <g fill="#269355">
                                 <path
                                     d="M11.25 7.847c-.936.256-1.5.975-1.5 1.653s.564 1.397 1.5 1.652V7.848Zm1.5 5.001v3.304c.936-.255
                                     1.5-.974 1.5-1.652c0-.678-.564-1.397-1.5-1.652Z"
@@ -154,15 +154,15 @@ const modal_adeudo_rezago = () => {
                         <div class="row">
                             <div class="col-6">
                                 <div class="input-group">
-                                    <div class="btn btn-light btn-outline-light" style="cursor: initial; border-right: 1px solid #e0e0e0;">
+                                    <label class="input-group-text" for="input-plaza">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24">
                                             <path
-                                                fill="#254061"
+                                                fill="#269355"
                                                 d="M12 11.5A2.5 2.5 0 0 1 9.5 9A2.5 2.5 0 0 1 12 6.5A2.5 2.5 0 0 1 14.5 9a2.5 2.5 0 0 1-2.5 2.5M12 2a7 7
                                                 0 0 0-7 7c0 5.25 7 13 7 13s7-7.75 7-13a7 7 0 0 0-7-7Z"
                                             />
                                         </svg>
-                                    </div>
+                                    </label>
                                     <select class="form-select cr-pointer input-validar" name="plaza_id">
                                         <option value="" selected="" disabled="">Seleccione una plaza</option>
                                         ${tag_options_plazas.join('')}
@@ -172,17 +172,17 @@ const modal_adeudo_rezago = () => {
                             </div>
                             <div class="col-6">
                                 <div class="input-group">
-                                    <div class="btn btn-light btn-outline-light" style="cursor: initial; border-right: 1px solid #e0e0e0;">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24">
-                                        <path
-                                            fill="#254061"
-                                            d="M9.335 11.502h2.17a4.5 4.5 0 0 1 4.5 4.5H9.004v1h8v-1a5.578 5.578 0 0 0-.885-3h2.886a5 5
-                                            0 0 1 4.516 2.852c-2.365 3.121-6.194 5.149-10.516 5.149c-2.761 0-5.1-.59-7-1.625v-9.304a6.966
-                                            6.966 0 0 1 3.33 1.428Zm-4.33 7.5a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1v-9a1 1 0 0 1 1-1h2a1 1 0 0 1
-                                            1 1v9Zm13-14a3 3 0 1 1 0 6.001a3 3 0 0 1 0-6Zm-7-3a3 3 0 1 1 0 6.001a3 3 0 0 1 0-6Z"
-                                        />
-                                    </svg>
-                                    </div>
+                                    <label class="input-group-text" for="input-servicio">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24">
+                                            <path
+                                                fill="#269355"
+                                                d="M9.335 11.502h2.17a4.5 4.5 0 0 1 4.5 4.5H9.004v1h8v-1a5.578 5.578 0 0 0-.885-3h2.886a5 5
+                                                0 0 1 4.516 2.852c-2.365 3.121-6.194 5.149-10.516 5.149c-2.761 0-5.1-.59-7-1.625v-9.304a6.966
+                                                6.966 0 0 1 3.33 1.428Zm-4.33 7.5a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1v-9a1 1 0 0 1 1-1h2a1 1 0 0 1
+                                                1 1v9Zm13-14a3 3 0 1 1 0 6.001a3 3 0 0 1 0-6Zm-7-3a3 3 0 1 1 0 6.001a3 3 0 0 1 0-6Z"
+                                            />
+                                        </svg>
+                                    </label>
                                     <select class="form-select cr-pointer input-validar" name="servicio_id">
                                         <option value="" selected="" disabled="">Seleccione un servicio</option>
                                         ${tag_options_servicios.join('')}
@@ -341,7 +341,7 @@ const modal_carta_invitacion = () => {
                     <div class="modal-header bg-blue-sys text-white" style="border-bottom: none !important;">
                         <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24">
                             <path
-                                fill="white"
+                                fill="#269355"
                                 d="M21.03 6.29L12 .64L2.97 6.29C2.39 6.64 2 7.27 2 8v10c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-.73-.39-1.36-.97-1.71M20
                                 18H4v-8l8 5l8-5v8m-8-5L4 8l8-5l8 5l-8 5Z"
                             />
@@ -363,15 +363,15 @@ const modal_carta_invitacion = () => {
                             </div>
                             <div class="col-6">
                                 <div class="input-group">
-                                    <div class="btn btn-light btn-outline-light" style="cursor: initial; border-right: 1px solid #e0e0e0;">
+                                    <label class="input-group-text" for="input-plaza">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24">
                                             <path
-                                                fill="#254061"
+                                                fill="#269355"
                                                 d="M12 11.5A2.5 2.5 0 0 1 9.5 9A2.5 2.5 0 0 1 12 6.5A2.5 2.5 0 0 1 14.5 9a2.5 2.5 0 0 1-2.5 2.5M12 2a7 7
                                                 0 0 0-7 7c0 5.25 7 13 7 13s7-7.75 7-13a7 7 0 0 0-7-7Z"
                                             />
                                         </svg>
-                                    </div>
+                                    </label>
                                     <select class="form-select cr-pointer input-validar" name="plaza_id">
                                         <option value="" selected="" disabled="">Seleccione una plaza</option>
                                         ${tag_options_plazas.join('')}
@@ -381,17 +381,17 @@ const modal_carta_invitacion = () => {
                             </div>
                             <div class="col-6">
                                 <div class="input-group">
-                                    <div class="btn btn-light btn-outline-light" style="cursor: initial; border-right: 1px solid #e0e0e0;">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24">
-                                        <path
-                                            fill="#254061"
-                                            d="M9.335 11.502h2.17a4.5 4.5 0 0 1 4.5 4.5H9.004v1h8v-1a5.578 5.578 0 0 0-.885-3h2.886a5 5
-                                            0 0 1 4.516 2.852c-2.365 3.121-6.194 5.149-10.516 5.149c-2.761 0-5.1-.59-7-1.625v-9.304a6.966
-                                            6.966 0 0 1 3.33 1.428Zm-4.33 7.5a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1v-9a1 1 0 0 1 1-1h2a1 1 0 0 1
-                                            1 1v9Zm13-14a3 3 0 1 1 0 6.001a3 3 0 0 1 0-6Zm-7-3a3 3 0 1 1 0 6.001a3 3 0 0 1 0-6Z"
-                                        />
-                                    </svg>
-                                    </div>
+                                    <label class="input-group-text" for="input-plaza">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24">
+                                            <path
+                                                fill="#269355"
+                                                d="M9.335 11.502h2.17a4.5 4.5 0 0 1 4.5 4.5H9.004v1h8v-1a5.578 5.578 0 0 0-.885-3h2.886a5 5
+                                                0 0 1 4.516 2.852c-2.365 3.121-6.194 5.149-10.516 5.149c-2.761 0-5.1-.59-7-1.625v-9.304a6.966
+                                                6.966 0 0 1 3.33 1.428Zm-4.33 7.5a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1v-9a1 1 0 0 1 1-1h2a1 1 0 0 1
+                                                1 1v9Zm13-14a3 3 0 1 1 0 6.001a3 3 0 0 1 0-6Zm-7-3a3 3 0 1 1 0 6.001a3 3 0 0 1 0-6Z"
+                                            />
+                                        </svg>
+                                    </label>
                                     <select class="form-select cr-pointer input-validar" name="servicio_id">
                                         <option value="" selected="" disabled="">Seleccione un servicio</option>
                                         ${tag_options_servicios.join('')}
@@ -452,7 +452,7 @@ const modal_pagos_validos = () => {
                     <div class="modal-content">
                         <div class="modal-header bg-blue-sys text-white" style="border-bottom: none !important;">
                             <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 14 14">
-                                <g fill="none" stroke="white" stroke-linecap="round" stroke-linejoin="round">
+                                <g fill="none" stroke="#269355" stroke-linecap="round" stroke-linejoin="round">
                                     <path
                                         d="M8.62 1.59L3.6.51a.49.49 0 0 0-.6.37L1.64 7.29L.63 12a.49.49 0 0 0 .37.58l1.2.26a.49.49
                                         0 0 0 .58-.38l1-4.68l3.44.74a3.52 3.52 0 0 0 4.26-3.43a3.59 3.59 0 0 0-2.86-3.5ZM7.26 6.25l-3-.65l.55-2.6l3
@@ -477,15 +477,15 @@ const modal_pagos_validos = () => {
                                 </div>
                                 <div class="col-6">
                                     <div class="input-group">
-                                        <div class="btn btn-light btn-outline-light" style="cursor: initial; border-right: 1px solid #e0e0e0;">
+                                        <label class="input-group-text" for="input-group">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24">
                                                 <path
-                                                    fill="#254061"
+                                                    fill="#269355"
                                                     d="M12 11.5A2.5 2.5 0 0 1 9.5 9A2.5 2.5 0 0 1 12 6.5A2.5 2.5 0 0 1 14.5 9a2.5 2.5 0 0 1-2.5 2.5M12 2a7 7
                                                     0 0 0-7 7c0 5.25 7 13 7 13s7-7.75 7-13a7 7 0 0 0-7-7Z"
                                                 />
                                             </svg>
-                                        </div>
+                                        </label>
                                         <select class="form-select cr-pointer input-validar" name="plaza_id">
                                             <option value="" selected="" disabled="">Seleccione una plaza</option>
                                             ${tag_options_plazas.join('')}
@@ -495,17 +495,17 @@ const modal_pagos_validos = () => {
                                 </div>
                                 <div class="col-6">
                                     <div class="input-group">
-                                        <div class="btn btn-light btn-outline-light" style="cursor: initial; border-right: 1px solid #e0e0e0;">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24">
-                                            <path
-                                                fill="#254061"
-                                                d="M9.335 11.502h2.17a4.5 4.5 0 0 1 4.5 4.5H9.004v1h8v-1a5.578 5.578 0 0 0-.885-3h2.886a5 5
-                                                0 0 1 4.516 2.852c-2.365 3.121-6.194 5.149-10.516 5.149c-2.761 0-5.1-.59-7-1.625v-9.304a6.966
-                                                6.966 0 0 1 3.33 1.428Zm-4.33 7.5a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1v-9a1 1 0 0 1 1-1h2a1 1 0 0 1
-                                                1 1v9Zm13-14a3 3 0 1 1 0 6.001a3 3 0 0 1 0-6Zm-7-3a3 3 0 1 1 0 6.001a3 3 0 0 1 0-6Z"
-                                            />
-                                        </svg>
-                                        </div>
+                                        <label class="input-group-text" for="input-group">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24">
+                                                <path
+                                                    fill="#269355"
+                                                    d="M9.335 11.502h2.17a4.5 4.5 0 0 1 4.5 4.5H9.004v1h8v-1a5.578 5.578 0 0 0-.885-3h2.886a5 5
+                                                    0 0 1 4.516 2.852c-2.365 3.121-6.194 5.149-10.516 5.149c-2.761 0-5.1-.59-7-1.625v-9.304a6.966
+                                                    6.966 0 0 1 3.33 1.428Zm-4.33 7.5a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1v-9a1 1 0 0 1 1-1h2a1 1 0 0 1
+                                                    1 1v9Zm13-14a3 3 0 1 1 0 6.001a3 3 0 0 1 0-6Zm-7-3a3 3 0 1 1 0 6.001a3 3 0 0 1 0-6Z"
+                                                />
+                                            </svg>
+                                        </label>
                                         <select class="form-select cr-pointer input-validar" name="servicio_id">
                                             <option value="" selected="" disabled="">Seleccione un servicio</option>
                                             ${tag_options_servicios.join('')}

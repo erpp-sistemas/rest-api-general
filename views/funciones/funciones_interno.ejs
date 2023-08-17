@@ -2,11 +2,13 @@
 <html lang="en">
 <head>
     <%- include('../templates/head', { title: 'Funciones' }) %>
+    <link href="<%= base_url %>css/button_change_theme.css" rel="stylesheet" />
     <link rel="stylesheet" href="<%= base_url %>css/loading.css">
 </head>
 <body>
     <%- include('../templates/header') %>
     <%- include('../templates/sidebar_principal') %>
+    <%- include('../templates/button_change_theme') %>
 
     <section class="home-section" style="top: 4rem;">
         <%- include('../templates/navbar', { home_content_name: 'Funciones' }) %>
@@ -14,13 +16,7 @@
         <div class="container mt-3 mb-3">
             <div class="accordion accordion-flush">
                 <div class="accordion-item d-flex justify-content-between">
-                    <h2 class="accordion-header">
-                        <a
-                            href="#!"
-                            class="accordion-button collapsed seccion-acoordion cr-auto text-decoration-none text-blue-sys"
-                            type="button"
-                        >Adeudo Rezago</a>
-                    </h2>
+                    <h2 class="accordion-header fs-6 p-3">Adeudo Rezago</h2>
                     <div class="me-4" style="margin: auto 0px;">
                         <a
                             href="#"
@@ -40,13 +36,14 @@
                     </div>
                 </div>
                 <div class="accordion-item d-flex justify-content-between">
-                    <h2 class="accordion-header">
+                    <h2 class="accordion-header fs-6 p-3">Carta Invitación</h2>
+                    <!-- <h2 class="accordion-header">
                         <a
                             href="#!"
-                            class="accordion-button collapsed seccion-acoordion cr-auto text-decoration-none text-blue-sys"
+                            class="accordion-button collapsed seccion-acoordion cr-auto text-decoration-none"
                             type="button"
                         >Carta Invitación</a>
-                    </h2>
+                    </h2> -->
                     <div class="me-4" style="margin: auto 0px;">
                         <a
                             href="#"
@@ -66,13 +63,14 @@
                     </div>
                 </div>
                 <div class="accordion-item d-flex justify-content-between">
-                    <h2 class="accordion-header">
+                    <h2 class="accordion-header fs-6 p-3">Pagos Válidos</h2>
+                    <!-- <h2 class="accordion-header">
                         <a
                             href="#!"
-                            class="accordion-button collapsed seccion-acoordion cr-auto text-decoration-none text-blue-sys"
+                            class="accordion-button collapsed seccion-acoordion cr-auto text-decoration-none"
                             type="button"
                         >Pagos Válidos</a>
-                    </h2>
+                    </h2> -->
                     <div class="me-4" style="margin: auto 0px;">
                         <a
                             href="#"
