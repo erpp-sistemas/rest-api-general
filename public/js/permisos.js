@@ -73,7 +73,7 @@ const mostrar_permisos_vistas = data => {
                                 <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24">
                                     <path
                                         fill="none"
-                                        stroke="#254061"
+                                        stroke="#269355"
                                         stroke-linecap="round"
                                         stroke-linejoin="round"
                                         stroke-width="2"

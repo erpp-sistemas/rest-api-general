@@ -2,10 +2,13 @@
 <html lang="en">
 <head>
     <%- include('../templates/head', { title: 'Grupo de usuarios' }) %>
+    <link href="<%= base_url %>css/button_change_theme.css" rel="stylesheet" />
 </head>
 <body>
     <%- include('../templates/header') %>
     <%- include('../templates/sidebar_principal') %>
+    <%- include('../templates/button_change_theme') %>
+
     <section class="home-section" style="top: 3rem;">
         <%- include('../templates/navbar', { home_content_name: 'Grupos de usuario' }) %>
 
@@ -34,9 +37,9 @@
 
                     <thead class="table-light">
                         <tr>
-                            <th scope="col">Grupo de usuario</th>
-                            <th scope="col">Total usuarios</th>
-                            <th scope="col">Acciones</th>
+                            <th scope="col" class="th-table-trd">Grupo de usuario</th>
+                            <th scope="col" class="th-table-trd">Total usuarios</th>
+                            <th scope="col" class="th-table-trd">Acciones</th>
                         </tr>
                     </thead>
 
@@ -69,7 +72,7 @@
                                             viewBox="0 0 24 24"
                                         >
                                             <path
-                                                fill="currentColor"
+                                                fill="#269355"
                                                 d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84
                                                 1.83l3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25Z"
                                             />
@@ -94,7 +97,7 @@
                                             viewBox="0 0 24 24"
                                         >
                                             <path
-                                                fill="currentColor"
+                                                fill="#269355"
                                                 d="M12 4c-4.419 0-8 3.582-8 8s3.581 8 8 8s8-3.582 8-8s-3.581-8-8-8zm3.707
                                                 10.293a.999.999 0 1 1-1.414 1.414L12 13.414l-2.293 2.293a.997.997 0 0 1-1.414
                                                 0a.999.999 0 0 1 0-1.414L10.586 12L8.293 9.707a.999.999 0 1 1 1.414-1.414L12
@@ -119,7 +122,7 @@
                     <div class="modal-header bg-blue-sys text-white" style="border-bottom: none !important;">
                         <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 256 256">
                             <path
-                                fill="white"
+                                fill="#269355"
                                 d="M164.38 181.1a52 52 0 1 0-72.76 0a75.89 75.89 0 0 0-30 28.89a12 12 0 0 0 20.78 12a53 53 0 0 1
                                 91.22 0a12 12 0 1 0 20.78-12a75.89 75.89 0 0 0-30.02-28.89ZM100 144a28 28 0 1 1 28 28a28 28 0 0
                                 1-28-28Zm147.21 9.59a12 12 0 0 1-16.81-2.39c-8.33-11.09-19.85-19.59-29.33-21.64a12 12 0 0
@@ -138,7 +141,7 @@
                             <span class="input-group-text" id="grupo-usuario-nombre">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 256 256">
                                     <path
-                                        fill="#254061"
+                                        fill="#269355"
                                         d="M164.38 181.1a52 52 0 1 0-72.76 0a75.89 75.89 0 0 0-30 28.89a12 12 0 0 0 20.78 12a53 53 0 0 1 91.22
                                         0a12 12 0 1 0 20.78-12a75.89 75.89 0 0 0-30.02-28.89ZM100 144a28 28 0 1 1 28 28a28 28 0 0 1-28-28Zm147.21
                                         9.59a12 12 0 0 1-16.81-2.39c-8.33-11.09-19.85-19.59-29.33-21.64a12 12 0 0 1-1.82-22.91a20 20 0 1 0-24.78-28.3a12

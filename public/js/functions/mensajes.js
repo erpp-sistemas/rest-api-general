@@ -2,7 +2,7 @@ export const mensaje_exito = data => {
     const { msg, url } = data;
     Swal.fire({
         icon: 'success',
-        iconColor: '#2fd968',
+        iconColor: '#269355',
         title: msg,
         color: '#fff',
         background: '#254061',
@@ -37,7 +37,7 @@ export const mensaje_advertencia = data => {
                 <div class="modal-header bg-blue-sys text-white" style="border-bottom: none !important;">
                     <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 24 24">
                         <path
-                            fill="white"
+                            fill="#269355"
                             d="M11 15h2v2h-2v-2m0-8h2v6h-2V7m1-5C6.47 2 2 6.5 2 12a10 10 0 0 0 10 10a10 10 0 0 0 10-10A10 10 0 0 0 12 2m0
                             18a8 8 0 0 1-8-8a8 8 0 0 1 8-8a8 8 0 0 1 8 8a8 8 0 0 1-8 8Z"
                         />

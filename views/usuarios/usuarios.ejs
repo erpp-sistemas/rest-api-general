@@ -2,10 +2,13 @@
 <html lang="en">
 <head>
     <%- include('../templates/head', { title: 'Usuarios' }) %>
+    <link href="<%= base_url %>css/button_change_theme.css" rel="stylesheet" />
 </head>
 <body>
     <%- include('../templates/header') %>
     <%- include('../templates/sidebar_principal') %>
+    <%- include('../templates/button_change_theme') %>
+
     <section class="home-section" style="top: 3rem;">
         <%- include('../templates/navbar', { home_content_name: 'Usuarios' }) %>
         <div class="container mt-3 mb-3">
@@ -33,13 +36,13 @@
 
                     <thead class="table-light">
                         <tr>
-                            <th scope="col">Usuario</th>
-                            <th scope="col">Nombre</th>
-                            <th scope="col">Cargo</th>
-                            <th scope="col">E-mail</th>
-                            <th scope="col">Dirección</th>
-                            <th scope="col">Grupo usuario</th>
-                            <th scope="col">Acciones</th>
+                            <th scope="col" class="th-table-trd">Usuario</th>
+                            <th scope="col" class="th-table-trd">Nombre</th>
+                            <th scope="col" class="th-table-trd">Cargo</th>
+                            <th scope="col" class="th-table-trd">E-mail</th>
+                            <th scope="col" class="th-table-trd">Dirección</th>
+                            <th scope="col" class="th-table-trd">Grupo usuario</th>
+                            <th scope="col" class="th-table-trd">Acciones</th>
                         </tr>
                     </thead>
 

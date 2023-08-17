@@ -1,23 +1,17 @@
-<!-- Full screen modal -->
-<div class="modal-dialog modal-fullscreen-sm-down">
-    ...
-  </div>
-
-  <!-- Modal -->
-  <div class="modal fade" id="modal-fn-interno" tabindex="-1" aria-labelledby="modal-fn-interno" aria-hidden="true">
-    <div class="modal-dialog modal-fullscreen-sm-down">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h1 class="modal-title fs-5" id="modal-fn-interno-label">Modal title</h1>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          ...
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary">Save changes</button>
-        </div>
+<div class="modal fade" id="modal-fn-interno" tabindex="-1" aria-labelledby="modal-fn-interno" aria-hidden="true" style="z-index: 1500;">
+  <div class="modal-dialog modal-fullscreen">
+    <div class="modal-content">
+      <div class="modal-header bg-blue-sys text-white" style="border-bottom: none !important;">
+        <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 24 24"><path fill="white" d="M3 3.993C3 3.445 3.445 3 3.993 3h16.014c.548 0 .993.445.993.993v16.014a.994.994 0 0 1-.993.993H3.993A.993.993 0 0 1 3 20.007V3.993Zm7.622 4.422a.4.4 0 0 0-.622.332v6.506a.4.4 0 0 0 .622.332l4.879-3.252a.401.401 0 0 0 0-.666l-4.88-3.252Z"/></svg>
+        <h1 class="modal-title fs-5 ms-2" id="modal-fn-interno-label">Cómo actualizar layers de ser0.space</h1>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
-    </div>
+      <div class="modal-body d-flex justify-content-center bg-blue-sys">
+        <video id="video-fn-interno" width="auto" height="-webkit-fill-available" controls>
+          <source src="<%= base_url %>videos/fn-interno.mp4" type="video/mp4">
+          Your browser does not support the video tag.
+        </video>
+      </div>
+    </div>    
   </div>
+</div>

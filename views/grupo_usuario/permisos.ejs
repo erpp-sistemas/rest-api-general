@@ -2,10 +2,12 @@
 <html lang="en">
 <head>
     <%- include('../templates/head', { title: 'Permisos' }) %>
+    <link href="<%= base_url %>css/button_change_theme.css" rel="stylesheet" />
 </head>
 <body>
     <%- include('../templates/header') %>
     <%- include('../templates/sidebar_principal') %>
+    <%- include('../templates/button_change_theme') %>
 
     <section class="home-section" style="top: 4rem;">
         <%- include('../templates/navbar', { home_content_name: 'Permisos' }) %>
@@ -17,7 +19,7 @@
                     <div class="input-group mb-3">
                         <label class="input-group-text">
                             <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 256 256">
-                                <path fill="#254061" d="M164.38 181.1a52 52 0 1 0-72.76 0a75.89 75.89 0 0 0-30 28.89a12 12 0 0 0 20.78 12a53
+                                <path fill="#269355" d="M164.38 181.1a52 52 0 1 0-72.76 0a75.89 75.89 0 0 0-30 28.89a12 12 0 0 0 20.78 12a53
                                     53 0 0 1 91.22 0a12 12 0 1 0 20.78-12a75.89 75.89 0 0 0-30.02-28.89ZM100 144a28 28 0 1 1
                                     28 28a28 28 0 0 1-28-28Zm147.21 9.59a12 12 0 0 1-16.81-2.39c-8.33-11.09-19.85-19.59-29.33-21.64a12
                                     12 0 0 1-1.82-22.91a20 20 0 1 0-24.78-28.3a12 12 0 1 1-21-11.6a44 44 0 1 1 73.28 48.35a92.18 92.18
