@@ -428,27 +428,19 @@ const modal_carta_invitacion = () => {
 const tag_opciones_procesos = () => {
     const procesos = JSON.parse(local_storage.getItem('procesos'));
 
-    /* const tag_opciones_procesos = procesos.map(proceso => {
-        return `
-                <option>
-                    <div class="input-group mb-3">
-                        <div class="input-group-text">
-                            <input class="form-check-input mt-0" type="checkbox" value="${proceso.id_proceso}" aria-label="id-proceso">
-                        </div>
-                        ${proceso.nombre}
-                    </div>
-                </option>
-            `;
-    }); */
-   
     const tag_opciones_procesos = procesos.map(proceso => {
         return `
-                <option>
-                    ${proceso.nombre}
-                </option>
-            `;
+            <li>
+                <a class="dropdown-item" href="#">
+                    <input class="form-check-input" type="checkbox" value="${proceso.id_proceso}">
+                    <label class="form-check-label" for="proceso-${proceso.id_proceso}">
+                        ${proceso.nombre}
+                    </label>
+                </a>
+            </li>    
+        `;
     });
-    console.log(tag_opciones_procesos);
+
     return tag_opciones_procesos;
 }
 
@@ -505,7 +497,7 @@ const modal_pagos_validos = () => {
                                     <input class="form-control date-fn input-validar" type="date" aria-label="fecha-fin" name="fecha_fin">
                                     <div class="invalid-feedback"></div>
                                 </div>
-                                <div class="col-6">
+                                <div class="col-6 mb-4">
                                     <div class="input-group">
                                         <label class="input-group-text" for="input-group">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24">
@@ -523,7 +515,7 @@ const modal_pagos_validos = () => {
                                         <div class="invalid-feedback"></div>
                                     </div>
                                 </div>
-                                <div class="col-6">
+                                <div class="col-6 mb-4">
                                     <div class="input-group">
                                         <label class="input-group-text" for="input-group">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24">
@@ -544,16 +536,32 @@ const modal_pagos_validos = () => {
                                     </div>
                                 </div>
                                 <div class="col-6">
-                                    <div class="input-group">
-                                        <label class="input-group-text" for="input-group">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 2048 2048"><path fill="#269355" d="M1930 630q0 22-2 43t-8 43l123 51l-49 118l-124-51q-46 74-120 120l51 125l-118 49l-52-124q-21 5-42 7t-43 3q-22 0-43-2t-43-8l-23 56l-111-67l16-39q-74-46-120-120l-125 51l-49-118l124-51q-5-21-7-42t-3-44q0-22 2-43t8-42l-124-52l49-118l125 52q23-37 53-67t67-54l-51-124l118-49l51 123q21-5 42-7t44-3q22 0 43 2t42 8l52-123l118 49l-51 124q74 46 120 120l124-51l49 118l-123 52q5 21 7 42t3 43zm-384 256q53 0 99-20t82-55t55-81t20-100q0-53-20-99t-55-82t-81-55t-100-20q-53 0-99 20t-82 55t-55 81t-20 100q0 53 20 99t55 82t81 55t100 20zm-577 220l139-58l44 106v15l-133 55q7 27 11 54t4 56q0 28-4 55t-11 55l133 55v15l-44 106l-139-58q-29 48-68 87t-87 69l58 139l-119 49l-57-139q-27 7-54 11t-56 4q-28 0-55-4t-55-11l-58 139l-118-49l58-140q-97-58-155-155l-140 58l-48-118l138-58q-7-27-11-54t-4-56q0-28 4-55t11-55l-138-57l48-119l140 58q58-97 155-155l-58-139l118-49l58 138q27-7 54-11t56-4q28 0 55 4t55 11l57-138l119 49l-58 139q97 58 155 155zm-383 548q66 0 124-25t101-68t69-102t26-125q0-66-25-124t-69-101t-102-69t-124-26q-66 0-124 25t-102 69t-69 102t-25 124q0 66 25 124t68 102t102 69t125 25zm694 394v-896l747 448l-747 448zm128-670v444l370-222l-370-222z"/></svg>
-                                        </label>
-                                        <select class="form-select cr-pointer input-validar" name="ids_proceso">
-                                            
-                                        </select>
-                                        
-                                        <div class="invalid-feedback"></div>
+                                    <div class="btn-group">
+                                        <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
+                                            Seleccione un proceso
+                                        </button>
+                                        <ul class="dropdown-menu">
+                                            <li>
+                                                <a class="dropdown-item" href="#">
+                                                    <input class="form-check-input" type="checkbox" value="todos-procesos">
+                                                    <label class="form-check-label" for="todos-procesos">
+                                                        Seleccionar todos
+                                                    </label>
+                                                </a>
+                                            </li>
+                                            ${procesos.join('')}                                            
+                                        </ul>
                                     </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="input-group">
+                                        <span class="input-group-text">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 20 20"><g fill="#269355"><path d="M5.25 12a.75.75 0 0 1 .75-.75h.01a.75.75 0 0 1 .75.75v.01a.75.75 0 0 1-.75.75H6a.75.75 0 0 1-.75-.75V12ZM6 13.25a.75.75 0 0 0-.75.75v.01c0 .414.336.75.75.75h.01a.75.75 0 0 0 .75-.75V14a.75.75 0 0 0-.75-.75H6ZM7.25 12a.75.75 0 0 1 .75-.75h.01a.75.75 0 0 1 .75.75v.01a.75.75 0 0 1-.75.75H8a.75.75 0 0 1-.75-.75V12ZM8 13.25a.75.75 0 0 0-.75.75v.01c0 .414.336.75.75.75h.01a.75.75 0 0 0 .75-.75V14a.75.75 0 0 0-.75-.75H8ZM9.25 10a.75.75 0 0 1 .75-.75h.01a.75.75 0 0 1 .75.75v.01a.75.75 0 0 1-.75.75H10a.75.75 0 0 1-.75-.75V10Zm.75 1.25a.75.75 0 0 0-.75.75v.01c0 .414.336.75.75.75h.01a.75.75 0 0 0 .75-.75V12a.75.75 0 0 0-.75-.75H10ZM9.25 14a.75.75 0 0 1 .75-.75h.01a.75.75 0 0 1 .75.75v.01a.75.75 0 0 1-.75.75H10a.75.75 0 0 1-.75-.75V14ZM12 9.25a.75.75 0 0 0-.75.75v.01c0 .414.336.75.75.75h.01a.75.75 0 0 0 .75-.75V10a.75.75 0 0 0-.75-.75H12ZM11.25 12a.75.75 0 0 1 .75-.75h.01a.75.75 0 0 1 .75.75v.01a.75.75 0 0 1-.75.75H12a.75.75 0 0 1-.75-.75V12Zm.75 1.25a.75.75 0 0 0-.75.75v.01c0 .414.336.75.75.75h.01a.75.75 0 0 0 .75-.75V14a.75.75 0 0 0-.75-.75H12ZM13.25 10a.75.75 0 0 1 .75-.75h.01a.75.75 0 0 1 .75.75v.01a.75.75 0 0 1-.75.75H14a.75.75 0 0 1-.75-.75V10Zm.75 1.25a.75.75 0 0 0-.75.75v.01c0 .414.336.75.75.75h.01a.75.75 0 0 0 .75-.75V12a.75.75 0 0 0-.75-.75H14Z"/><path fill-rule="evenodd" d="M5.75 2a.75.75 0 0 1 .75.75V4h7V2.75a.75.75 0 0 1 1.5 0V4h.25A2.75 2.75 0 0 1 18 6.75v8.5A2.75 2.75 0 0 1 15.25 18H4.75A2.75 2.75 0 0 1 2 15.25v-8.5A2.75 2.75 0 0 1 4.75 4H5V2.75A.75.75 0 0 1 5.75 2Zm-1 5.5c-.69 0-1.25.56-1.25 1.25v6.5c0 .69.56 1.25 1.25 1.25h10.5c.69 0 1.25-.56 1.25-1.25v-6.5c0-.69-.56-1.25-1.25-1.25H4.75Z" clip-rule="evenodd"/></g></svg>
+                                        </span>
+                                        <input class="form-control input-validar" type="number" aria-label="dias" name="dias" value="120" min="0">
+                                        <span class="input-group-text">dias</span>
+                                    </div>
+                                        <div class="invalid-feedback"></div>
                                 </div>
                             </div>
                         </div>
