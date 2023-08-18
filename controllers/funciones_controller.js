@@ -62,10 +62,18 @@ export const get_catalogos = async (req, res, next) => {
                 )
             ORDER BY servicio.nombre;
         `);
+        
+        // Obtener catalogo de procesos
+        const [procesos, ] = await connection.query(`
+            SELECT * FROM proceso
+            WHERE proceso.activo = 1 
+            ORDER BY proceso.nombre;
+        `);
 
         const data = {
             plazas: plazas,
-            servicios: servicios
+            servicios: servicios,
+            procesos: procesos
         };
 
         res.status(200).send(data);
