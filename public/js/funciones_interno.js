@@ -1,3 +1,4 @@
+import { validar_inputs_numero_es_entero } from "./functions/inputs.js";
 import { loading_hope } from "./functions/loading.js";
 import { mensaje_exito } from "./functions/mensajes.js";
 
@@ -267,15 +268,49 @@ const actualizar_carta_invitacion = () => {
     }
 }
 
+const evento_cb_maestro_todos_procesos = () => {
+    const cb_maestro_todos_procesos = document.querySelector('.cb-procesos input[value="todos-procesos"]');
+    const cb_hijos = document.querySelectorAll('.cb-hijo-proceso');
+
+    cb_maestro_todos_procesos.onclick = () => {
+        if (cb_maestro_todos_procesos.checked) {
+            // Seleccionar todos los cb hijos
+            for (const cb_hijo of cb_hijos) {
+                cb_hijo.checked = true;            
+            }
+            return;
+        }
+        
+        if (!cb_maestro_todos_procesos.checked) {
+            for (const cb_hijo of cb_hijos) {
+                cb_hijo.checked = false;            
+            }
+        }
+    }
+
+}
+
+const validar_cb_hijos_proceso = () => {
+    // Convierte un listNode en array para poder ser iterado
+    const cbs_hijos_procesos = [...document.querySelectorAll('.cb-hijo-proceso')];
+    const algun_cb_hijo_checked = cbs_hijos_procesos.some(cb => cb.checked);
+    return algun_cb_hijo_checked;
+}
+
 const actualizar_pagos_validos = () => {
+    validar_inputs_numero_es_entero();
+    evento_cb_maestro_todos_procesos();
     document.querySelector('#btn-actualizar-pagos-validos').onclick = async () => {
         try {
             const inputs_validar = document.querySelectorAll('.input-validar');
+
             const data = {
                 fecha_inicio: '',
                 fecha_fin: '',
                 plaza_id: '',
-                servicio_id: ''
+                servicio_id: '',
+                ids_procesos: '',
+                dias: ''
             };
 
             for (const input of inputs_validar) {
@@ -289,6 +324,28 @@ const actualizar_pagos_validos = () => {
                 input_msg_alert.style.display = 'block';
                 return;
             }
+
+            // Validar los cb de ids_proceso
+            const algun_cb_hijo_proceso_verdadero = validar_cb_hijos_proceso();
+            const msg_alerta_ids_procesos = document.querySelector('.msg-alerta-ids-proceso');
+
+            if (!algun_cb_hijo_proceso_verdadero) {
+                msg_alerta_ids_procesos.textContent = 'Debe seleccionar por lo menos un proceso'
+                msg_alerta_ids_procesos.style.display = 'block';
+                return;
+            }
+
+            msg_alerta_ids_procesos.style.display = 'none';
+
+            const cb_hijos_proceso = [...document.querySelectorAll('.cb-hijo-proceso')].filter(cb => {
+                if(cb.checked) {
+                   return cb;
+                }
+            });
+            
+            const ids_procesos_checked = cb_hijos_proceso.map(cb => cb.value);
+            data['ids_procesos'] = ids_procesos_checked.join(',');
+            
             // Open loading
             const loading = document.querySelector('.content-loading');
             loading.classList.remove('d-none');
@@ -432,7 +489,7 @@ const tag_opciones_procesos = () => {
         return `
             <li>
                 <a class="dropdown-item" href="#">
-                    <input class="form-check-input" type="checkbox" value="${proceso.id_proceso}">
+                    <input class="form-check-input cb-hijo-proceso" type="checkbox" value="${proceso.id_proceso}">
                     <label class="form-check-label" for="proceso-${proceso.id_proceso}">
                         ${proceso.nombre}
                     </label>
@@ -503,8 +560,8 @@ const modal_pagos_validos = () => {
                                             <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24">
                                                 <path
                                                     fill="#269355"
-                                                    d="M12 11.5A2.5 2.5 0 0 1 9.5 9A2.5 2.5 0 0 1 12 6.5A2.5 2.5 0 0 1 14.5 9a2.5 2.5 0 0 1-2.5 2.5M12 2a7 7
-                                                    0 0 0-7 7c0 5.25 7 13 7 13s7-7.75 7-13a7 7 0 0 0-7-7Z"
+                                                    d="M12 11.5A2.5 2.5 0 0 1 9.5 9A2.5 2.5 0 0 1 12 6.5A2.5 2.5 0 0 1 14.5 9a2.5 2.5 0 0 1-2.5
+                                                    2.5M12 2a7 7 0 0 0-7 7c0 5.25 7 13 7 13s7-7.75 7-13a7 7 0 0 0-7-7Z"
                                                 />
                                             </svg>
                                         </label>
@@ -536,32 +593,88 @@ const modal_pagos_validos = () => {
                                     </div>
                                 </div>
                                 <div class="col-6">
-                                    <div class="btn-group">
-                                        <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
-                                            Seleccione un proceso
-                                        </button>
-                                        <ul class="dropdown-menu">
-                                            <li>
-                                                <a class="dropdown-item" href="#">
-                                                    <input class="form-check-input" type="checkbox" value="todos-procesos">
-                                                    <label class="form-check-label" for="todos-procesos">
-                                                        Seleccionar todos
-                                                    </label>
-                                                </a>
-                                            </li>
-                                            ${procesos.join('')}                                            
-                                        </ul>
+                                    <div class="input-group">
+                                        <label class="input-group-text" for="input-group">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 2048 2048">
+                                                <path
+                                                    fill="#269355"
+                                                    d="M837 844q-23 37-53 67t-68 54l51 124l-118 48l-51-123q-40 10-86 10t-86-10l-51
+                                                    123l-118-48l51-124q-37-23-67-53t-54-68L63 895L15 777l123-51q-10-40-10-86t10-86L15
+                                                    503l48-118l124 51q46-75 121-121l-51-124l118-48l51 123q40-10 86-10t86 10l51-123l118
+                                                    48l-51 124q75 46 121 121l124-51l48 118l-123 51q10 40 10 86t-10 86l123 51l-48
+                                                    118l-124-51zm-325 52q53 0 99-20t82-55t55-81t20-100q0-53-20-99t-55-82t-81-55t-100-20q-53
+                                                    0-99 20t-82 55t-55 81t-20 100q0 53 20 99t55 82t81 55t100 20zm1408 448q0 55-14 111l137 56l-48
+                                                    119l-138-57q-59 98-156 156l57 137l-119 49l-56-137q-56 14-111 14t-111-14l-56
+                                                    137l-119-49l57-137q-98-58-156-156l-138 57l-48-119l137-56q-14-56-14-111t14-111l-137-56l48-119l138
+                                                    57q58-97 156-156l-57-138l119-48l56 137q56-14 111-14t111 14l56-137l119 48l-57 138q97 59 156
+                                                    156l138-57l48 119l-137 56q14 56 14 111zm-448 320q66 0
+                                                    124-25t101-68t69-102t26-125q0-66-25-124t-69-101t-102-69t-124-26q-66 0-124 25t-102 69t-69 102t-25
+                                                    124q0 66 25 124t68 102t102 69t125 25z"
+                                                />
+                                            </svg>
+                                        </label>
+                                        <div class="dropdown">
+                                            <button
+                                                class="dropdown-toggle procesos-select input-group-text"
+                                                style="border-top-left-radius: 0px; border-bottom-left-radius: 0px;"
+                                                type="button"
+                                                data-bs-auto-close="outside"
+                                                data-bs-toggle="dropdown"
+                                                aria-expanded="false"
+                                            >
+                                                Seleccione un proceso
+                                            </button>
+                                            <ul class="dropdown-menu cb-procesos">
+                                                <li>
+                                                    <a class="dropdown-item" href="#">
+                                                        <input class="form-check-input" type="checkbox" value="todos-procesos">
+                                                        <label class="form-check-label" for="todos-procesos">
+                                                            Seleccionar todos
+                                                        </label>
+                                                    </a>
+                                                </li>
+                                                ${procesos.join('')}
+                                            </ul>
+                                        </div>
                                     </div>
+                                    <div class="invalid-feedback msg-alerta-ids-proceso"></div>
                                 </div>
                                 <div class="col-6">
                                     <div class="input-group">
                                         <span class="input-group-text">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 20 20"><g fill="#269355"><path d="M5.25 12a.75.75 0 0 1 .75-.75h.01a.75.75 0 0 1 .75.75v.01a.75.75 0 0 1-.75.75H6a.75.75 0 0 1-.75-.75V12ZM6 13.25a.75.75 0 0 0-.75.75v.01c0 .414.336.75.75.75h.01a.75.75 0 0 0 .75-.75V14a.75.75 0 0 0-.75-.75H6ZM7.25 12a.75.75 0 0 1 .75-.75h.01a.75.75 0 0 1 .75.75v.01a.75.75 0 0 1-.75.75H8a.75.75 0 0 1-.75-.75V12ZM8 13.25a.75.75 0 0 0-.75.75v.01c0 .414.336.75.75.75h.01a.75.75 0 0 0 .75-.75V14a.75.75 0 0 0-.75-.75H8ZM9.25 10a.75.75 0 0 1 .75-.75h.01a.75.75 0 0 1 .75.75v.01a.75.75 0 0 1-.75.75H10a.75.75 0 0 1-.75-.75V10Zm.75 1.25a.75.75 0 0 0-.75.75v.01c0 .414.336.75.75.75h.01a.75.75 0 0 0 .75-.75V12a.75.75 0 0 0-.75-.75H10ZM9.25 14a.75.75 0 0 1 .75-.75h.01a.75.75 0 0 1 .75.75v.01a.75.75 0 0 1-.75.75H10a.75.75 0 0 1-.75-.75V14ZM12 9.25a.75.75 0 0 0-.75.75v.01c0 .414.336.75.75.75h.01a.75.75 0 0 0 .75-.75V10a.75.75 0 0 0-.75-.75H12ZM11.25 12a.75.75 0 0 1 .75-.75h.01a.75.75 0 0 1 .75.75v.01a.75.75 0 0 1-.75.75H12a.75.75 0 0 1-.75-.75V12Zm.75 1.25a.75.75 0 0 0-.75.75v.01c0 .414.336.75.75.75h.01a.75.75 0 0 0 .75-.75V14a.75.75 0 0 0-.75-.75H12ZM13.25 10a.75.75 0 0 1 .75-.75h.01a.75.75 0 0 1 .75.75v.01a.75.75 0 0 1-.75.75H14a.75.75 0 0 1-.75-.75V10Zm.75 1.25a.75.75 0 0 0-.75.75v.01c0 .414.336.75.75.75h.01a.75.75 0 0 0 .75-.75V12a.75.75 0 0 0-.75-.75H14Z"/><path fill-rule="evenodd" d="M5.75 2a.75.75 0 0 1 .75.75V4h7V2.75a.75.75 0 0 1 1.5 0V4h.25A2.75 2.75 0 0 1 18 6.75v8.5A2.75 2.75 0 0 1 15.25 18H4.75A2.75 2.75 0 0 1 2 15.25v-8.5A2.75 2.75 0 0 1 4.75 4H5V2.75A.75.75 0 0 1 5.75 2Zm-1 5.5c-.69 0-1.25.56-1.25 1.25v6.5c0 .69.56 1.25 1.25 1.25h10.5c.69 0 1.25-.56 1.25-1.25v-6.5c0-.69-.56-1.25-1.25-1.25H4.75Z" clip-rule="evenodd"/></g></svg>
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 20 20">
+                                                <g fill="#269355">
+                                                    <path
+                                                        d="M5.25 12a.75.75 0 0 1 .75-.75h.01a.75.75 0 0 1 .75.75v.01a.75.75
+                                                        0 0 1-.75.75H6a.75.75 0 0 1-.75-.75V12ZM6 13.25a.75.75 0 0 0-.75.75v.01c0
+                                                        .414.336.75.75.75h.01a.75.75 0 0 0 .75-.75V14a.75.75 0 0 0-.75-.75H6ZM7.25
+                                                        12a.75.75 0 0 1 .75-.75h.01a.75.75 0 0 1 .75.75v.01a.75.75 0 0 1-.75.75H8a.75.75
+                                                        0 0 1-.75-.75V12ZM8 13.25a.75.75 0 0 0-.75.75v.01c0 .414.336.75.75.75h.01a.75.75
+                                                        0 0 0 .75-.75V14a.75.75 0 0 0-.75-.75H8ZM9.25 10a.75.75 0 0 1 .75-.75h.01a.75.75
+                                                        0 0 1 .75.75v.01a.75.75 0 0 1-.75.75H10a.75.75 0 0 1-.75-.75V10Zm.75 1.25a.75.75
+                                                        0 0 0-.75.75v.01c0 .414.336.75.75.75h.01a.75.75 0 0 0 .75-.75V12a.75.75 0 0 0-.75-.75H10ZM9.25
+                                                        14a.75.75 0 0 1 .75-.75h.01a.75.75 0 0 1 .75.75v.01a.75.75 0 0 1-.75.75H10a.75.75 0 0 1-.75-.75V14ZM12
+                                                        9.25a.75.75 0 0 0-.75.75v.01c0 .414.336.75.75.75h.01a.75.75 0 0 0 .75-.75V10a.75.75 0 0 0-.75-.75H12ZM11.25
+                                                        12a.75.75 0 0 1 .75-.75h.01a.75.75 0 0 1 .75.75v.01a.75.75 0 0 1-.75.75H12a.75.75 0 0
+                                                        1-.75-.75V12Zm.75 1.25a.75.75 0 0 0-.75.75v.01c0 .414.336.75.75.75h.01a.75.75 0 0 0
+                                                        .75-.75V14a.75.75 0 0 0-.75-.75H12ZM13.25 10a.75.75 0 0 1 .75-.75h.01a.75.75 0 0 1
+                                                        .75.75v.01a.75.75 0 0 1-.75.75H14a.75.75 0 0 1-.75-.75V10Zm.75 1.25a.75.75 0 0 0-.75.75v.01c0
+                                                        .414.336.75.75.75h.01a.75.75 0 0 0 .75-.75V12a.75.75 0 0 0-.75-.75H14Z"
+                                                    />
+                                                    <path
+                                                        fill-rule="evenodd"
+                                                        d="M5.75 2a.75.75 0 0 1 .75.75V4h7V2.75a.75.75 0 0 1 1.5 0V4h.25A2.75 2.75 0 0 1
+                                                        18 6.75v8.5A2.75 2.75 0 0 1 15.25 18H4.75A2.75 2.75 0 0 1 2 15.25v-8.5A2.75 2.75
+                                                        0 0 1 4.75 4H5V2.75A.75.75 0 0 1 5.75 2Zm-1 5.5c-.69 0-1.25.56-1.25 1.25v6.5c0
+                                                        .69.56 1.25 1.25 1.25h10.5c.69 0 1.25-.56 1.25-1.25v-6.5c0-.69-.56-1.25-1.25-1.25H4.75Z"
+                                                        clip-rule="evenodd"
+                                                    />
+                                                </g>
+                                            </svg>
                                         </span>
-                                        <input class="form-control input-validar" type="number" aria-label="dias" name="dias" value="120" min="0">
+                                        <input class="form-control input-validar" type="number" aria-label="dias" name="dias" value="120">
                                         <span class="input-group-text">dias</span>
                                     </div>
-                                        <div class="invalid-feedback"></div>
                                 </div>
                             </div>
                         </div>
@@ -570,9 +683,10 @@ const modal_pagos_validos = () => {
                                 <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 20 20">
                                     <path
                                         fill="white"
-                                        d="M10.2 3.28c3.53 0 6.43 2.61 6.92 6h2.08l-3.5 4l-3.5-4h2.32a4.439 4.439 0 0 0-4.32-3.45c-1.45 0-2.73.71-3.54 1.78L4.95
-                                        5.66a6.965 6.965 0 0 1 5.25-2.38zm-.4 13.44c-3.52 0-6.43-2.61-6.92-6H.8l3.5-4c1.17 1.33 2.33 2.67 3.5 4H5.48a4.439 4.439
-                                        0 0 0 4.32 3.45c1.45 0 2.73-.71 3.54-1.78l1.71 1.95a6.95 6.95 0 0 1-5.25 2.38z">
+                                        d="M10.2 3.28c3.53 0 6.43 2.61 6.92 6h2.08l-3.5 4l-3.5-4h2.32a4.439 4.439 0 0 0-4.32-3.45c-1.45
+                                        0-2.73.71-3.54 1.78L4.95 5.66a6.965 6.965 0 0 1 5.25-2.38zm-.4 13.44c-3.52 0-6.43-2.61-6.92-6H.8l3.5-4c1.17
+                                        1.33 2.33 2.67 3.5 4H5.48a4.439 4.439 0 0 0 4.32 3.45c1.45 0 2.73-.71 3.54-1.78l1.71 1.95a6.95 6.95 0 0 1-5.25 2.38z"
+                                    >
                                     </path>
                                 </svg>
                                 Actualizar datos
