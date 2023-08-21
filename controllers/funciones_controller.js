@@ -649,11 +649,7 @@ const actualizar_datos_fecha_actual = async data => {
 
 const actualizar_pagos_validos_izcalli = async body => {
     try {
-        console.log("body ------------------------------->", body);
-        const servicio_id = parseInt(body.servicio_id);
-        const plaza_id = parseInt(body.plaza_id);
-        const dias = parseInt(body.dias);
-
+        // console.log("body ------------------------------->", body);
         /**
          * Se instancia el objecto de coneccion a restAPI desde la clase @Mssql_db_restAPI
         */
@@ -670,15 +666,17 @@ const actualizar_pagos_validos_izcalli = async body => {
         });        
         await coneccion_psql_cuautitlan_izcalli_obj.authenticate();
 
-        const data_resAPI = {
-            conecciondb: coneccion_restAPI_obj,
-            servicio_id: servicio_id,
-            plaza_id: plaza_id,
-            dias: dias,
-            ids_procesos:
-            fecha_inicio:
-            fecha_fin: 
+
+        const data= {
+            coneccion_db: coneccion_restAPI_obj,
+            servicio_id: parseInt(body.servicio_id),
+            plaza_id: parseInt(body.plaza_id),
+            dias: parseInt(body.dias),
+            ids_procesos: body.ids_procesos,
+            fecha_inicio: body.fecha_inicio,
+            fecha_fin: body.fecha_fin
         };
+
         // Obtener pagos validos
         const pagos_validos = parseInt(body.servicio_id) === 1 ? get_pagos_validos_by_idPlaza_idServicio_agua() : '' 
 
