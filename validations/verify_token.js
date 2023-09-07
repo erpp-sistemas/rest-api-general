@@ -8,6 +8,7 @@ export const verify_token = (req, res, next) => {
         req.user = verified;
         next();
     } catch (error) {
-        res.status(400).json({ error: 'token no es válido' });
+        req.session.destroy();
+        res.status(400).json({ error: 'token no es valido' });
     }
 }

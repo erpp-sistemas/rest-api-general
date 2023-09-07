@@ -1,3 +1,4 @@
+import { cerrar_sesion_token_expiro } from "./functions/cerrar_sesion.js";
 import { mensaje_advertencia, mensaje_exito } from "./functions/mensajes.js";
 import { evento_cerrar_modal_formulario } from "./functions/ventana_modal.js";
 
@@ -40,6 +41,10 @@ const guardar_nuevo_grupo_usuario = async () => {
         const result = await response.json();
         const { msg, error } = result;
         
+        if (error === 'token no es valido') {
+            cerrar_sesion_token_expiro();
+        }
+
         if (error) {
             msg_alert_input_grupo_usuario.style.display = "block";
             msg_alert_input_grupo_usuario.textContent = error;
@@ -70,6 +75,10 @@ const editar_grupo_usuario = async () => {
         });
         const result = await response.json();
         const { msg, error } = result;
+
+        if (error === 'token no es valido') {
+            cerrar_sesion_token_expiro();
+        }
 
         if (error) {
             msg_alert_input_grupo_usuario.style.display = "block";
@@ -158,6 +167,9 @@ const alerta_eliminar_grupo_usuario = e => {
                         grupo_usuario_id: td_grupo_usuario.getAttribute('grupo-usuario-id')
                     };
                     let result = await eliminar_grupo_usuario(data);
+                    if (result.error === 'token no es valido') {
+                        cerrar_sesion_token_expiro();
+                    }
                     if (result.error) return;
                     result = { ...result, url: '/grupo_usuario' };
                     msg_alerta.style.display = "none";

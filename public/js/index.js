@@ -1,3 +1,4 @@
+import { cerrar_sesion_token_expiro } from "./functions/cerrar_sesion.js";
 import { active_tooltips } from "./functions/tooltip.js";
 
 const sidebar = document.querySelector(".sidebar");
@@ -67,8 +68,10 @@ const obtener_datos_usuario = async () => {
       body: new URLSearchParams(data)
     });
     const result = await response.json();
-    const { usuario, secciones_sidebar } = result;
-
+    const { usuario, secciones_sidebar, error } = result;
+    if (error === 'token no es valido') {
+      cerrar_sesion_token_expiro();
+    }
     // Mostrar los datos del usuario
     document.querySelector('.profile_name').textContent = usuario[0].usuario_nombre_usuario; 
     document.querySelector('.usuario-cargo').textContent = usuario[0].usuario_cargo;
@@ -97,6 +100,7 @@ const sidebar_fn = async () => {
 
 const cerrar_sesion = async () => {
   try {
+    console.log("CERRAR SESION");
     const data = {
       usuario_id: local_storage.getItem('usuario_id'),
       grupo_usuario_id: local_storage.getItem('grupo_usuario_id')

@@ -1,3 +1,4 @@
+import { cerrar_sesion_token_expiro } from "./functions/cerrar_sesion.js";
 import { mensaje_advertencia, mensaje_exito } from "./functions/mensajes.js";
 import { active_tooltips } from "./functions/tooltip.js";
 import { evento_cerrar_modal_formulario } from "./functions/ventana_modal.js";
@@ -53,7 +54,10 @@ const modal_editar_usuario = async e => {
         const data_usuario = { usuario_id: input_usuario_id.value };
         const result = await get_datos_usuario(data_usuario);
         
-        const { usuario } = result;
+        const { usuario, error } = result;
+        if (error === 'token no es valido') {
+            cerrar_sesion_token_expiro();
+        }
         // Insertar los datos del usuario a editar en el formulario
         for (const [llave, valor] of Object.entries(usuario[0])) {
             if (llave === 'grupo_usuario_id') {
@@ -119,6 +123,9 @@ const alerta_eliminar_usuario = e => {
                         usuario_id: td_usuario.getAttribute('usuario-id')
                     };
                     let result = await eliminar_usuario(data);
+                    if (result.error === 'token no es valido') {
+                        cerrar_sesion_token_expiro();
+                    }
                     result = { ...result, url: '/usuarios' };
                     msg_alerta.style.display = "none";
                     mensaje_exito(result);
@@ -191,8 +198,10 @@ const mostrar_registros_usuarios = async data => {
             body: new URLSearchParams(data)
         });
         const result = await response.json();
-        const { usuarios, permisos_acciones } = result;       
-
+        const { usuarios, permisos_acciones, error } = result;       
+        if (error === 'token no es valido') {
+            cerrar_sesion_token_expiro();
+        }
         const tags_tr_usuarios = usuarios.map(usuario => {
             const tr_table_html = `
                 <tr>
@@ -409,7 +418,9 @@ const guardar_nuevo_usuario = async () => {
         });
         const result = await response.json();
         const { msg, error } = result;
-
+        if (error === 'token no es valido') {
+            cerrar_sesion_token_expiro();
+        }
         if (error) {
             const input_nombre_usuario = document.querySelector('input[name="usuario_nombre_usuario"]');
             input_nombre_usuario.nextElementSibling.style.display = "block";
@@ -447,6 +458,9 @@ const editar_usuario = async () => {
         const result = await response.json();
 
         const { msg, error } = result;
+        if (error === 'token no es valido') {
+            cerrar_sesion_token_expiro();
+        }
         if (error) {
             const input_nombre_usuario = document.querySelector('input[name="usuario_nombre_usuario"]');
             input_nombre_usuario.nextElementSibling.style.display = "block";

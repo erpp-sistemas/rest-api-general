@@ -1,3 +1,4 @@
+import { cerrar_sesion_token_expiro } from "./functions/cerrar_sesion.js";
 import { validar_inputs_numero_es_entero } from "./functions/inputs.js";
 import { loading_hope } from "./functions/loading.js";
 import { mensaje_exito } from "./functions/mensajes.js";
@@ -22,7 +23,11 @@ const get_catalogos = async () => {
             }
         });
         const result = await response.json();
-        const { plazas, servicios, procesos } = result;
+        const { plazas, servicios, procesos, error } = result;
+        
+        if (error === 'token no es valido') {
+            cerrar_sesion_token_expiro();
+        }
 
         // Almacenar datos en el localStorage
         local_storage.setItem('plazas', JSON.stringify(plazas));
@@ -71,6 +76,11 @@ const actualizar_adeudo_rezago = () => {
             });
 
             const result = await response.json();
+
+            if (result.error === 'token no es valido') {
+                cerrar_sesion_token_expiro();
+            }
+
             // Mataer el setTimeout del loading de espera
             clearInterval(loagin_dynamic);
             loading.classList.add('d-none');
@@ -255,6 +265,9 @@ const actualizar_carta_invitacion = () => {
             });
 
             const result = await response.json();
+            if (result.error === 'token no es valido') {
+                cerrar_sesion_token_expiro();
+            }
             // Mataer el setTimeout del loading de espera
             clearInterval(loagin_dynamic);
             loading.classList.add('d-none');
@@ -303,6 +316,8 @@ const actualizar_pagos_validos = () => {
     document.querySelector('#btn-actualizar-pagos-validos').onclick = async () => {
         try {
             const inputs_validar = document.querySelectorAll('.input-validar');
+            const input_fecha_inicio = document.querySelector('input[name="fecha_inicio"]');
+            const input_fecha_fin = document.querySelector('input[name="fecha_fin"]');
 
             const data = {
                 fecha_inicio: '',
@@ -312,6 +327,13 @@ const actualizar_pagos_validos = () => {
                 ids_procesos: '',
                 dias: ''
             };
+
+            if (input_fecha_inicio.value > input_fecha_fin.value) {
+                console.log("fecha inicio mayor");
+                input_fecha_inicio.nextElementSibling.textContent = "La fecha de inicio no pude ser mayor a la fecha fin";
+                input_fecha_inicio.nextElementSibling.style.display = 'block';
+                return;
+            }
 
             for (const input of inputs_validar) {
                 const input_msg_alert = input.nextElementSibling;
@@ -362,6 +384,9 @@ const actualizar_pagos_validos = () => {
             });
 
             const result = await response.json();
+            if (error === 'token no es valido') {
+                cerrar_sesion_token_expiro();
+            }
             // Mataer el setTimeout del loading de espera
             clearInterval(loagin_dynamic);
             loading.classList.add('d-none');

@@ -1,4 +1,5 @@
 import { eventos_acordion } from "./functions/acordion.js";
+import { cerrar_sesion_token_expiro } from "./functions/cerrar_sesion.js";
 import { mensaje_exito } from "./functions/mensajes.js";
 
 const select_grupo_usuario = document.querySelector('#grupo-usuario');
@@ -175,8 +176,10 @@ const mostrar_permisos_grupo_usuario = async data => {
             body: new URLSearchParams(data)
         });
         const result = await response.json();
-        const { cat_grupo_usuario, grupo_usuario_id } = result;
-
+        const { cat_grupo_usuario, grupo_usuario_id, error } = result;
+        if (error === 'token no es valido') {
+            cerrar_sesion_token_expiro();
+        }
         // Resetear selector de grupo usuario
         while (select_grupo_usuario.lastElementChild.value != '') {
             select_grupo_usuario.removeChild(select_grupo_usuario.lastElementChild);
@@ -238,6 +241,9 @@ const guardar_permisos_vistas = async () => {
             body: new URLSearchParams(data)
         });
         const result = await response.json();
+        if (result.error === 'token no es valido') {
+            cerrar_sesion_token_expiro();
+        }
         const data_mensaje = { msg: result.msg, url: '/grupo_usuario/permisos' };
         mensaje_exito(data_mensaje);
     } catch (error) {
@@ -279,6 +285,9 @@ const guardar_permisos_acciones = async () => {
         });
         
         const result = await response.json();
+        if (result.error === 'token no es valido') {
+            cerrar_sesion_token_expiro();
+        }
         const data_mensaje = { msg: result.msg, url: '/grupo_usuario/permisos' };
         mensaje_exito(data_mensaje);
     } catch (error) {

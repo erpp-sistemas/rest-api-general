@@ -306,7 +306,7 @@ img {
 }
 
 .profile-details {
-    position: absolute;
+    /* position: absolute; */
     right: 1.5rem;
     display: flex;
     align-items: center;
@@ -318,7 +318,17 @@ img {
     align-items: center;
 }
 
-.home-content .profile-details img {
+/* This solution is not current - Delete when will be necesary */
+/* .home-content .profile-details img {
+    height: 52px;
+    width: 52px;
+    object-fit: cover;
+    border-radius: 2rem;
+    margin: 0 14px 0 12px;
+    background: #e8e7f5;
+} */
+
+.profile-details img {
     height: 52px;
     width: 52px;
     object-fit: cover;

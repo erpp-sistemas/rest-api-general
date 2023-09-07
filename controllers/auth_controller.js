@@ -18,14 +18,14 @@ export const login = async (req, res, next) => {
         const { body } = req;
         const usuario = await Usuario.findOne({ where: { usuario_nombre_usuario: body.usuario_nombre, usuario_status: 'A'} });
         // Generar JWT
-        // El token expira en 1 día
+        // El token expira en 15min
         const jsonwebtoken = jwt.sign(
             {
                 id: usuario.usuario_id,
                 name: usuario.usuario_nombre_usuario
             },
             process.env.TOKEN_SECRET,
-            { expiresIn: '86400s' }
+            { expiresIn: '900s' }
         );
         // Iniciar sesión de usuario
         req.session.logged = true;

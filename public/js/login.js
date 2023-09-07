@@ -1,3 +1,5 @@
+import { cerrar_sesion_token_expiro } from "./functions/cerrar_sesion.js";
+
 const inputs_formulario = document.querySelectorAll('.input-form');
 const btn_login = document.querySelector('#btn-login');
 
@@ -78,6 +80,9 @@ const login = async () => {
         });
 
         const result = await response.json();
+        if (result.error === 'token no es valido') {
+            cerrar_sesion_token_expiro();
+        }
         insertar_datos_localStorage(result);
     } catch (error) {
         console.log(error);
