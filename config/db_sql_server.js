@@ -7,7 +7,8 @@ export const connection_sql_server = data => {
         dialect: 'mssql',
         dialectOptions: {
             options: {
-                requestTimeout: 0
+                requestTimeout: 0,
+                encrypt: false
             }
         }
     });

@@ -54,7 +54,7 @@ export const get_catalogos = async (req, res, next) => {
             SELECT * FROM plaza
             WHERE
                 plaza.activo = 1 AND
-                plaza.nombre != 'Demo'
+                plaza.id_plaza NOT IN (3,5)
             ORDER BY plaza.nombre
         `);
 
@@ -356,7 +356,6 @@ const actualizar_carta_invitacion_izcalli = async body => {
     }
 }
 
-
 const actualiza_carta_invitacion_naucalpan = async body => {
     try {
         /**
@@ -570,7 +569,6 @@ const actualizar_datos_fecha_actual = async data => {
 
 const actualizar_pagos_validos_izcalli = async body => {
     try {
-        // console.log("body ------------------------------->", body);
         /**
          * almacena los datos traidos del body, con el tipo de dato correspondiente,
          * ya q desde el fetch se pude alterar el tipo de dato
