@@ -16,6 +16,22 @@
         
         <section class="home-section pb-5">
             <%- include('templates/navbar', { home_content_name: 'Inicio' }) %>
+            <div class="row" style="margin-top: 8rem;">
+              <div class="col">
+                <img src="<%= base_url %>img/logo_cronos_fondo_oscuro.png" alt="logo_cronos" class="logo-sys-login">
+              </div>
+              <div class="col">
+                <lottie-player
+                    autoplay
+                    loop
+                    mode="normal"
+                    src="<%= base_url %>lotties/dashboard.json"
+                    style="width: 550px; margin: 0 auto;"
+                  >
+                  </lottie-player>
+              </div>
+            </div>
+
 
             <div id="myCarousel" class="carousel slide mb-6" data-bs-ride="carousel">
                 <div class="carousel-indicators">

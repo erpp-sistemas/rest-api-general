@@ -17,6 +17,7 @@
   "author": "David Demetrio López Paz",
   "license": "ISC",
   "dependencies": {
+    "@lottiefiles/lottie-player": "^2.0.2",
     "bcrypt": "^5.0.1",
     "bootstrap": "^5.3.1",
     "cors": "^2.8.5",
