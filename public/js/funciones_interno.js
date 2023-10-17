@@ -2,6 +2,7 @@ import { cerrar_sesion_token_expiro } from "./functions/cerrar_sesion.js";
 import { validar_inputs_numero_es_entero } from "./functions/inputs.js";
 import { loading_hope } from "./functions/loading.js";
 import { mensaje_exito } from "./functions/mensajes.js";
+import { modal_embargo_precautorio } from "./fn_embargo_precautorio.js";
 
 const btns_abrir_modales = document.querySelectorAll('.btn-open-modal');
 
@@ -329,7 +330,6 @@ const actualizar_pagos_validos = () => {
             };
 
             if (input_fecha_inicio.value > input_fecha_fin.value) {
-                console.log("fecha inicio mayor");
                 input_fecha_inicio.nextElementSibling.textContent = "La fecha de inicio no pude ser mayor a la fecha fin";
                 input_fecha_inicio.nextElementSibling.style.display = 'block';
                 return;
@@ -734,6 +734,7 @@ const ventanas_modales = {
     modal_adeudo_rezago,
     modal_carta_invitacion,
     modal_pagos_validos,
+    modal_embargo_precautorio
 };
 
 btns_abrir_modales.forEach(btn_abrir_modal => {

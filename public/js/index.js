@@ -92,6 +92,22 @@ const obtener_datos_usuario = async () => {
 
 const sidebar_fn = async () => {
   try {
+    // Iniciar video de bienvenida Cronos Center
+    const video_wellcomo_cronos_center = document.querySelector('#wellcome-cronos-center-video')
+
+    if(video_wellcomo_cronos_center) {
+      const reinicir_video_wellcome_cronos = () => {
+        // Volver al principio del video
+        video_wellcomo_cronos_center.currentTime = 0;
+        video_wellcomo_cronos_center.muted = true;
+        video_wellcomo_cronos_center.play();
+      }
+      
+      video_wellcomo_cronos_center.addEventListener('ended', reinicir_video_wellcome_cronos)
+      video_wellcomo_cronos_center.play();
+    }
+    
+    
     await obtener_datos_usuario();
   } catch (error) {
     console.log(error);
@@ -100,7 +116,6 @@ const sidebar_fn = async () => {
 
 const cerrar_sesion = async () => {
   try {
-    console.log("CERRAR SESION");
     const data = {
       usuario_id: local_storage.getItem('usuario_id'),
       grupo_usuario_id: local_storage.getItem('grupo_usuario_id')

@@ -7,7 +7,8 @@ const sequelize = new Sequelize(process.env.DB_NAME, process.env.DB_USER, proces
     dialect: 'mssql',
     dialectOptions: {
         options: {
-            requestTimeout: 0
+            requestTimeout: 0,
+            encrypt: false
         }
     }
 });

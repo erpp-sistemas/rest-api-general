@@ -1,6 +1,7 @@
 // import {} from "dotenv/config";
 import {
     coneccion_db_mssql,
+    obtener_cat_tareas,
     pagos_validos_from_cizcalli,
     pagos_validos_from_restAPI
 } from "./methods_dbs_objects/methods_dbs_objects_mssql.js";
@@ -62,5 +63,14 @@ export const Mssql_db_naucalpan = data => {
 */
 export const Mssql_db_zinacantepec = data => {
     const { nombre_db, obj_conexion_db } = data;
+}
 
+export const Mssql_sero_central = data => {
+    data = {...data, nombre_db: process.env.SQL_SERVER_DB_SC};
+    
+    return Object.assign(
+        data,
+        coneccion_db_mssql(data),
+        obtener_cat_tareas(data)
+    );
 }

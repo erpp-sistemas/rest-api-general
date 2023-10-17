@@ -66,6 +66,21 @@ export const get_estructura_tabla_comercial = info => ({
     }
 });
 
+export const get_estructura_tabla_embargo_precautorio = info => ({
+    async estructura_tabla_embargo_precautorio() {
+        try {
+            const data = {
+                coneccion_db: info.coneccion_db,
+                nombre_tabla: info.tabla_embargo_precautorio
+            };
+            const estructura_tabla = await get_schema_tabla(data);
+            return estructura_tabla;
+        } catch (error) {
+            console.log(error);
+        }
+    }
+});
+
 export const get_insert_into_col_domestico = () => ({
     insert_into_columnas_nombre_domestico(estructura_tabla_domestico) {
         let columns_name_structure_table_domestico = [];
@@ -348,6 +363,177 @@ export const actualiza_registros_carta_invitacion_comercial = info => ({
                 VALUES ${values_to_insert_comercial.join(',')}
             `);
             await coneccion_db.query(`update ${info.nombre_tabla_comercial} set geom = ST_SetSRID(ST_MakePoint(longitud, latitud), 4326) where latitud > 0`);
+        } catch (error) {
+            console.log(error);
+        }
+    }
+});
+
+export const get_insert_into_col_table_embargoPrecautorio = () => ({
+    insert_into_columnas_table_embargoPrecautorio(estructura_tabla) {
+        let columns_name_structure_table = [];
+        for (const field  of estructura_tabla) {
+            if (field.ordinal_position == 2) continue;
+            columns_name_structure_table.push(`"${field.column_name}"`);
+        }
+
+        return columns_name_structure_table;
+    }
+});
+
+/**
+ * @author David Demetrio Lopez Paz
+ * @date_creation 07 de Septiembre del 2023
+ * @description Solo elimna los datos correspondientes a la fecha actual
+*/
+export const elimina_datos_fecha_actual_embargoPrecautorio = info => ({
+    async eliminar_datos_fecha_actual_embargoPrecautorio({ fecha_actual, nombre_columna }) {
+        try {
+            const data = {
+                coneccion_db: info.coneccion_db,
+                nombre_tabla: info.tabla_embargo_precautorio,
+                nombre_columna: nombre_columna,
+                fecha_actual: fecha_actual
+            };
+
+            await info.coneccion_db.query(`
+            DELETE FROM "${data.nombre_tabla}"
+            WHERE "${data.nombre_columna}" >= '${data.fecha_actual}'
+        `);
+        } catch (error) {
+            console.log(error);
+        }
+    }
+});
+
+export const valores_max_min_embargoPrecautorio = info => ({
+    async get_valores_max_min_embargoPrecautorio(data) {
+        try {
+            const data_embargoPrecautorio = {
+                coneccion_db: info.coneccion_db,
+                fecha_c: data.nombre_columna_embargoPrecautorio_f,
+                nombre_tabla: info.tabla_embargo_precautorio,
+                id_nombre: data.nombre_columna_idPk
+            };
+
+            const [fecha_max_embargoPrecautorio] = await info.coneccion_db.query(`
+                SELECT
+                    MAX("${data_embargoPrecautorio.fecha_c}") AS max_fecha
+                FROM "${data_embargoPrecautorio.nombre_tabla}";
+            `);
+            // Sino se encuentra una fecha_max ingresada por default toma 2022-01-01
+            let fecha_max = fecha_max_embargoPrecautorio[0].max_fecha || '2022-01-01';
+            const fecha_parseada = moment(fecha_max, 'YYYY-MM-DD');
+            const fecha_agregar_un_dia_mas = fecha_parseada.add(1, 'days');
+            fecha_max = fecha_agregar_un_dia_mas.format('YYYY-MM-DD');
+
+            // Obtener el id max de la tabla
+            const [id_max] = await info.coneccion_db.query(`
+                SELECT
+                    MAX("${data_embargoPrecautorio.id_nombre}") AS max_id
+                FROM "${data_embargoPrecautorio.nombre_tabla}";
+            `);
+            let max_id = id_max[0].max_id || 1;
+
+            return {
+                last_date: fecha_max,
+                max_id: max_id
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    }
+});
+
+export const actualiza_registros_embargoPrecautorio = info => ({
+    async actualizar_registros_embargoPrecautorio(data_values) {
+        try {
+            const { coneccion_db } = info;
+            let {
+                cartas_invitaciones,
+                fecha_max,
+                estructura_tabla,
+                max_id,
+                columns_name_structure,
+                column_name_fecha_captura,
+                cat_tareas
+            } = data_values;
+
+            let values_to_insert = [];
+
+            // Obtener la columna de la estructura de la tabla que representa el campo "cuenta"
+            const [column_cuenta] = estructura_tabla.filter(columna => columna.ordinal_position == 3);
+            // Obtener las lat y long de tabla Predios Valdios 2023
+            const get_cuentas_predios_valdios = cartas_invitaciones.map(registro => `'${registro[column_cuenta.column_name]}'`);
+            // Obtener el nombre de la tarea 23
+            const [tarea] = cat_tareas.filter(cat_tarea => cat_tarea.id_tarea == 23);
+
+            const [cuentas_predios_valdios, metadata] = await coneccion_db.query(`
+                SELECT
+                    *
+                FROM "${info.tabla_predios_valdios}"
+                WHERE cuenta IN (${get_cuentas_predios_valdios.join(',')});
+            `);
+            
+            for (const registro of cartas_invitaciones) {
+                let row = [];
+    
+                for (const field of estructura_tabla) {
+                    if (field.ordinal_position == 1) {
+                        row = [...row, max_id++];
+                        continue;
+                    }
+    
+                    if (field.ordinal_position == 2) continue;
+                    
+                    // Lat
+                    if (field.ordinal_position == 23) {
+                        const [predio_valdio] = cuentas_predios_valdios.filter(cuenta => cuenta.cuenta == registro[column_cuenta.column_name]);
+                        row = [...row, predio_valdio.latitud];
+                        continue;
+                    };
+                    
+                    // Long
+                    if (field.ordinal_position == 24) {
+                        const [predio_valdio] = cuentas_predios_valdios.filter(cuenta => cuenta.cuenta == registro[column_cuenta.column_name]);
+                        row = [...row, predio_valdio.longitud];
+                        continue;
+                    };
+                   
+                    // IdTarea
+                    if (field.ordinal_position == 31) {
+                        row = [...row, `'${tarea.nombre}'`];
+                        continue;
+                    };
+
+                    if (!registro[field.column_name]) {
+                        row = [...row, `' '`];
+                        continue;
+                    }
+    
+                    if (field.ordinal_position == 22) {
+                        const fecha_corte_format = moment(registro[field.column_name]).add(1, 'day').format('YYYY-MM-DD 00:00:00');
+                        row = [...row, `'${fecha_corte_format}'`];
+                        continue;
+                    }
+    
+                    if (typeof registro[field.column_name] === 'string') {
+                        row = [...row, `'${registro[field.column_name]}'`];
+                        continue;
+                    }
+    
+                    row = [...row, registro[field.column_name]];
+                }
+    
+                values_to_insert = [...values_to_insert, `(${row.join(',')})`];
+            }
+
+            await coneccion_db.query(`
+                INSERT INTO "${info.tabla_embargo_precautorio}" (${columns_name_structure.join(',')})
+                VALUES ${values_to_insert.join(',')}
+            `);
+
+            await coneccion_db.query(`update "${info.tabla_embargo_precautorio}" set geom = ST_SetSRID(ST_MakePoint(longitud, latitud), 4326) where latitud > 0`);
         } catch (error) {
             console.log(error);
         }

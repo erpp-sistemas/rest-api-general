@@ -1,6 +1,7 @@
 import { Sequelize } from "sequelize";
 import { get_pagos_validos_restAPI } from "../../schemas/queries_restAPI_mssql.js";
 import { get_pagos_validos_cizcalli } from "../../schemas/queries_cizcalli_mssql.js";
+import { get_all_records } from "../../schemas/queries_global.js";
 
 /**
  * ================================================================================================================================
@@ -63,6 +64,21 @@ export const pagos_validos_from_cizcalli = info => ({
         try {
             const pagos_validos = await get_pagos_validos_cizcalli(info);
             return pagos_validos;
+        } catch (error) {
+            console.log(error);
+        }
+    }
+});
+
+export const obtener_cat_tareas = info => ({
+    async get_cat_tareas() {
+        try {
+            const data = {
+                connection_db: info.coneccion_db,
+                table_name: info.tabla_cat_tarea
+            };
+            const get_cat_tareas = await get_all_records(data);
+            return get_cat_tareas;
         } catch (error) {
             console.log(error);
         }
