@@ -15,11 +15,6 @@
     <link rel="stylesheet" href="<%= base_url %>css/login.css">
 </head>
 <body style="
-    background-image: url(img/fondo_login.jpeg);
-    background-repeat: no-repeat;
-    background-position: center;
-    background-attachment: fixed;
-    background-size: cover;
     height: 100%;
     overflow: auto;"
 >
@@ -36,22 +31,32 @@
         left: 0;
         z-index: 1;
         height: 4rem;"
-    ></div> 
+    ></div>
 
-    <div class="container" style="position: relative; top: 50%; transform: translateY(-50%); z-index: 2;">
-        <div class="row">
-            <div class="col-sm-12 col-md-6 sg-login">
-                <div class="position-relative text-center text-white animate__animated animate__bounceInDown">
-                    <img src="<%= base_url %>img/logo_blanco_erpp.png" alt="logo_erpp" class="logo-erpp mb-2">
-                    <h1 class="fw-bold">Bienvenido a CRONOS</h1>
-                    <p class="fs-5">
-                        Aplicación de uso administrativo para sincronización y actualización de datos de
-                        <a href="https://ser0.space/" target="_blank" class="fw-bold" style="color: #17e85d;">ser0.space</a>.
-                    </p>
+    <div
+        class="bg-cronos-center-middle"
+        style="background-image: url(img/bg-cronos-center.png);"
+    >    
+        <div class="container" style="position: relative; top: 50%; transform: translateY(-50%); z-index: 2;">
+            <div class="row">
+                <div class="col-sm-12 col-md-12 sg-login">
+                    <div class="position-relative text-center text-white animate__animated animate__bounceInDown">
+                        <img src="<%= base_url %>img/logo_blanco_erpp.png" alt="logo_erpp" class="logo-erpp mb-2">
+                        <h1 class="fw-bold">Bienvenido a CRONOS CENTER</h1>
+                        <p class="fs-5">
+                            Aplicación administrativa donde confluye la información esencial para la toma de decisiones.
+                        </p>
+                    </div>
                 </div>
+                
             </div>
-            <div class="col-sm-12 col-md-6 card-login">
-                <div class="card shadow-lg animate__animated animate__bounceInRight" style="max-width: 470.4px; margin: 0 auto;">
+        </div>
+    </div>
+
+    <div style="width: 50%; height: 100vh; float: right; background-color: #0000; background-image: url(img/bg-black.jpg); background-size: cover; background-position: center;">
+        <div class="container" style="position: relative; top: 50%; transform: translateY(-50%); z-index: 2;">
+            <div class="col-sm-12 col-md-12 card-login">
+                <div class="card shadow-lg animate__animated animate__bounceInRight" style="max-width: 470.4px; margin: 0 auto; border-radius: 40px;">
                     <div class="card-body">
                         <img src="<%= base_url %>img/logo_cronos_fondoclaro.png" alt="logo_cronos" class="logo-sys-login">
                         <form id="form">
@@ -106,21 +111,21 @@
                 </div>
             </div>
         </div>
+
     </div>
 
     <div
-        class="bar-design-login"
-        style="
-            background-color: rgb(37 64 97);
-            position: fixed;
-            right: 0;
-            bottom: 0;
-            left: 0;
-            z-index: 1;
-            height: 4rem;
-        "
+            class="bar-design-login"
+            style="
+                background-color: rgb(37 64 97);
+                position: fixed;
+                right: 0;
+                bottom: 0;
+                left: 0;
+                z-index: 1;
+                height: 4rem;
+            "
     ></div>
-
     <%- include('templates/fotter') %>
     <script src="<%= base_url %>js/login.js" type="module"></script>
 </body>

@@ -30,6 +30,14 @@ body::before {
     background-color: rgba(0,0,0,0.3);
 }
 
+.bg-cronos-center-middle {
+    width: 50%;
+    height: 100vh;
+    background-size: contain;
+    background-position: center;
+    float: left;
+}
+
 img {
     display: block;
     max-width: 100%;
